@@ -1,0 +1,4 @@
+- Symptoms of complication
+  - **Change amplifications**: a simple change requires code modifications in many different places
+  - **Cognitive Load**: How much a developer need to know to complete a task
+  - **Unknowns unknowns**: When it's not clear which piece of code need to update to complete a task
