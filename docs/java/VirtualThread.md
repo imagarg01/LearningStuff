@@ -57,38 +57,81 @@ public Mono<ABC> abc(int id)
                         c-> new ABC(a,b,c)));
 ```
 
-There are chellenges with asynchrounous style of code, which make it not so friendly for developers.
-Most of java developers mind are wired with thread per request model only also java ecosystem (bedugger etc.)
-are not supporting asynchrounous style natively. 
+There are challenges with asynchronous style of code, which make it not so friendly for developers.
+Most of java developers mind are wired with thread per request model only also java ecosystem (debugger etc.)
+are not supporting asynchronous style natively. 
 - Each stage of a request might run on a different thread.
-- Every thread run stages belongs to differnt request.
+- Every thread run stages belongs to different request.
 - Stack traces do not provide usual context
 - Debuggers cannot step through request-handling logic
 
 ## Let's understand virtual thread
 
-Virtualthread created to efficiently use hardware aware at our disposal. As we are taking more and more
+Virtual thread created to efficiently use hardware aware at our disposal. As we are taking more and more
 application taking on cloud, every infra resource are charged. 
 
 Language designer realized that this problem can be addressed at language level only as OS thread 
-supposed to take care n-number of use-cases (multiple languages, somone want to play music/video, others
-wants to editting/designing etc.)
+supposed to take care n-number of use-cases (multiple languages, someone want to play music/video, others
+wants to editing/designing etc.)
 
-Both Virtualthread and Platform Thread(our old friend thread) are instance of java.lang.Thread only
-- A Virtualthread is not tied to particular OS thread.
+Both Virtual thread and Platform Thread(our old friend thread) are instance of java.lang.Thread only
+- A Virtual thread is not tied to particular OS thread.
 - A PlatformThread is our traditional thread only which is actually a wrapper of OD thread.
 
-Virtualthread preserve thread-per-request style, that is harmonious with java platform and optimize
+Virtual thread preserve thread-per-request style, that is harmonious with java platform and optimize
 the hardware usage as well.
 
-Virtualthreads are a lightweight implementation of threads that is provided by JDK rather than OS.Virtual
+Virtual thread are a lightweight implementation of threads that is provided by JDK rather than OS.Virtual
 threads employ M:N scheduling, where a larger number (M) of virtual threads is scheduled to run on 
 a smaller number(N) of OS threads.
 
-![Depeiction](./images/VirtualThreadOnPlatformThread.png)
+<table>
+  <tr>
+   <td>Parameter
+   </td>
+   <td>Platform threads
+   </td>
+   <td>Virtual threads
+   </td>
+  </tr>
+  <tr>
+   <td>stack size
+   </td>
+   <td>1 MB
+   </td>
+   <td>resizable
+   </td>
+  </tr>
+  <tr>
+   <td>startup time
+   </td>
+   <td>> 1000 µs
+   </td>
+   <td>1-10 µs
+   </td>
+  </tr>
+  <tr>
+   <td>context switching time
+   </td>
+   <td>1-10 µs
+   </td>
+   <td>~ 0.2 µs
+   </td>
+  </tr>
+  <tr>
+   <td>number
+   </td>
+   <td>&lt; 5000
+   </td>
+   <td>millions
+   </td>
+  </tr>
+</table>
+
+![Depiction](./images/VirtualThreadOnPlatformThread.png)
 
 ### Scheduling
-For platform thread JDK relies on scheduler available in OS but virual thread are scheduled by jdk only.
+For platform thread JDK relies on scheduler available in OS but virtual thread are scheduled by jdk only.
 JDK scheduler assigns virtual threads to platform threads. The platform threads are then scheduled by
 the OS as usual.
 
@@ -162,7 +205,7 @@ Thread vt =Thread.startVirtualThread(() -> System.out.println("Hello"));
 
 ## Strengths of virtual thread
 
-- Virtualthread can run any code that a platform thread can run. It support thread-local variables
+- Virtual thread can run any code that a platform thread can run. It supports thread-local variables
 and thread interruption just like platform thread.
 
 ## Pitfalls of virtual thread
@@ -183,8 +226,8 @@ stackoverflow error might be thrown.
 
 
 ## Important Points/Facts
-- Virtualthread are cheap and plentiful, and thus should nevel be pooled. 
-- Virtualthread are not faster threads- they do not run code any faster than PlatformThread.
+- Virtual thread are cheap and plentiful, and thus should never be pooled. 
+- Virtual thread are not faster threads- they do not run code any faster than PlatformThread.
 - We earlier talks about littl's law, virtual thread exist to provide throughput not speed.
 Virtual threads can significantly improve application throughput when
     - The number of concurrent tasks in high (more than a few thousand) and
@@ -232,39 +275,39 @@ try (executorService) {
 
 ```
 
-**Precondition** - I am running all my test on a Macbook pro having 12 cores(8 performance + 4 efficieny) (M2 chipset), so I will
+**Precondition** - I am running all my test on a Macbook pro having 12 cores(8 performance + 4 efficiency) (M2 chipset), so I will
 safely assume 12 platform thread would be available to me without any hyper threading.
 
-1- Now let see the output of above code both for platform thread and virtual with 100 tasks (in aboove code limit=100)
+1- Now let see the output of above code both for platform thread and virtual with 100 tasks (in above code limit=100)
 
-> !!!! ExecutorService instance of fixedthreadpool(12)!!!!
+> !!!! ExecutorService instance of fixedThreadPool(12)!!!!
 - Time taken = 108 seconds 
-- CPU usage is almost nil, as most of time platform thread is just waiting.
+- CPU usage is almost nil, as most of time platform threads are just waiting.
 ![Platform Thread CPU Usage](./images/platformthread-cpu.png)
 
 >  !!!! ExecutorService instance of newVirtualThreadPerTaskExecutor()!!!!
 - TIme taken = 12 seconds
-- CPU usage is almost nil, as vitual thread are getting blocked for 12 seconds. Note we are still running
+- CPU usage is almost nil, as virtual thread are getting blocked for 12 seconds. Note we are still running
 100 tasks only
 ![Virtual Thread CPU Usage](./images/Virtualthread-cpu.png)
 
 2- Now let see the output of above code both for platform thread and virtual with 10000 tasks (in aboove code limit=100)
 
-> !!!! ExecutorService instance of fixedthreadpool(12)!!!!
+> !!!! ExecutorService instance of fixedThreadPool(12)!!!!
 - Time taken = 1008 seconds for 1000 tasks... i was not having patience to run 10000 tasks on platform thread 
 and wait...if I do a simple math 100 task took 108seconds and 1000 tasks took 1008seconds so i can safely
 assume 10000 tasks will take at least 10008seconds=166.8minutes=2.78hrs
-- CPU usage is almost nil, as most of time platform thread is just waiting.
+- CPU usage is almost nil, as most of time platform threads are just waiting.
 ![Platform Thread CPU Usage](./images/platformthread-cpu-10000.png)
 
 >  !!!! ExecutorService instance of newVirtualThreadPerTaskExecutor()!!!!
 - TIme taken = 12 seconds
-- CPU usage is almost nil, as vitual thread are getting blocked for 12 seconds. Note we are still running
+- CPU usage is almost nil, as virtual thread are getting blocked for 12 seconds. Note we are still running
   10000 tasks only
 ![Virtual Thread CPU Usage](./images/Virtualthread-cpu.png)
 
-3- let's see if there any difference come if I increase number of tasks to 1million
-> There is no point of running this for platform thread, my machine will definately take days to complete
+3- let's see if there is any difference come if I increase number of tasks to 1million
+> There is no point of running this for platform thread, my machine will definitely take days to complete
 and I am not having such patience
 
 > !!!! ExecutorService instance of newVirtualThreadPerTaskExecutor()!!!!
@@ -314,6 +357,22 @@ I simply copy pasted below code from internet to test
 You can see there is no benefit of using virtual thread for cpu intensive operation. In all cases here all core CPU was busy. One sample
 ![CPU Intensive Operation](./images/cpu-intensive.png)
 
+## Internal implementation details  
+
+Virtual thread works on Continuation programming technique. Continuation allows a program to pause on 
+a specific point and later resume execution from where it left off.
+
+Java has provided a Continuation API provides a way for program to capture its current state, including
+its call stack, its local variables and later restore them to resume the execution. 
+
+**Note**: Continuation API of java is not supposed to be used by application developers. For now, it only used by jdk
+to implement Virtual thread.
+
+In JDK "java.lang.VirtualThread" has a inner class named as VThreadContinuation, it extends Continuation
+and overrides relevant method. 
+- Whenever Continuation.yield() get called it preserve the current state in a instance of ContinuationScope.
+- Again when run method of Continuation get called it resume from the same state saved before.
+
 ## Few questions
 
 I will explain these in near future, for now lets treat them as food for thought.
@@ -324,7 +383,7 @@ Q- How to share expensive resources between virtual threads.
 
 ## Code Samples
 
-### Virtualthread Code 
+### Virtual thread Code 
 https://github.com/imagarg01/LearningStuff/blob/main/src/main/java/com/ashish/thread/PlayingWithVT.java
 
 ### Structured concurrency
