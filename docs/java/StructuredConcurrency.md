@@ -1,9 +1,5 @@
 ## Overview
 
-**As per JEP480**
-
-## Background
-
 - Structured concurrency helps to groups of related tasks running in different threads as a single 
 unit of work, this streamline error handling and cancellation, improve reliability, and enhancing 
 observability.
@@ -126,11 +122,11 @@ Workflow of code using StructuredTaskScope is:
    to execute the subtask, which is by default a virtual thread.
 3. At any point of time, any of subtasks or the the scope's owner, may call the scope's shutdown() method to
    cancel unfinished subtasks and prevent the forking of new subtasks.
-4. Scope's owner joing the scope, i.e., all of its subtasks, as a unit. The owner can call the scope's join()
-   method, to wait untill all subtasks have either completed (successfully or not) or been cancelled via shutdown().
-   Alternatively, it can call the scope's joinUntill(java.time.Instant) method, to wait up to a deadline.
-5. After joining, handle any erros in the subtasks and process their results.
-6. Close the scope, usually implicitly via try-with-resources. This shutsdown the scope, if its not already
+4. Scope's owner joining the scope, i.e., all of its subtasks, as a unit. The owner can call the scope's join()
+   method, to wait until all subtasks have either completed (successfully or not) or been cancelled via shutdown().
+   Alternatively, it can call the scope's join until (java.time.Instant) method, to wait up to a deadline.
+5. After joining, handle any errors in the subtasks and process their results.
+6. Close the scope, usually implicitly via try-with-resources. This shutdown the scope, if it's not already
    shutdown, and waits for any subtasks that have cancelled but not yet completed to complete.
 
 
