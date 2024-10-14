@@ -373,6 +373,77 @@ and overrides relevant method.
 - Whenever Continuation.yield() get called it preserve the current state in a instance of ContinuationScope.
 - Again when run method of Continuation get called it resume from the same state saved before.
 
+## Next Phase 
+
+- Fix the pinning issue
+- Improve servicability and trouble shooting
+- Structured Concurrentcy and Scoped Values
+
+### Let's understand Pinning Issue
+
+Virtual thread can be pinned because of multiple reason, let's first talk about most prominent reason
+which is usage of synchronized word.
+
+```java
+synchronized byte[] getData() {
+    byte[] buf = ...;
+    int nread = socket.getInputStream().read(buf);    // Can block here
+    ...
+}
+```
+Here getData is synchronized, the JVM pins the virtual thread that is running getData to its carrier.
+Pinning prevents the virtual thread from unmounting. Consequently, the read method blocks not only 
+the virtual thread but also its carrier, and hence the underlying OS thread.
+
+Pinning is not only raise scaling challenges it also introduce issues like 
+
+1- Starvation -  If all platform threads are pinned, virtual thread will not get a carrieri 
+2- Deadlock
+
+**Reason of Pinning(due to synchronized)**
+
+1- For a thread to run a synchronized instance method, the thread first acquires the monitor associated
+with the instance; when the method is finished, the thread releases the monitor.
+As virtual thread enters the synchronized method, it carrier thread acquired the monitor not the 
+virtual thread. In above example virtual thread and its associated platform thread both are blocked
+till data read operation not completed.
+
+2- If a virtual thread invokes a synchronized instance method and the monitor associated with the 
+instance is held by another thread, then the virtual thread must block since only one thread 
+at a time may hold the monitor. We would like the virtual thread to unmount from its carrier 
+and release that platform thread to the JDK scheduler. Unfortunately, if the monitor is already 
+held by another thread then the virtual thread blocks in the JVM until the carrier acquires the 
+monitor.
+
+3- Moreover, when a virtual thread is inside a synchronized instance method and it invokes 
+Object.wait() on the object, then the virtual thread blocks in the JVM until awakened with 
+Object.notify() and the carrier re-acquires the monitor. The virtual thread is pinned because it 
+is executing inside a synchronized method, and further pinned because its carrier is blocked in 
+the JVM.
+
+**Overcomming Pinning(due to synchronized)**
+
+1- To avoid avoid mentioned problems, we can modify our code to use java.util.concurrent locks — 
+which do not pin virtual threads — instead of synchronized methods and statements. However this might
+not be possible for everyone.
+
+2- JVM team is working towards change the implementation of the synchronized keyword so that virtual
+threads can acquire, hold, and release monitors, independently of their carriers. The mounting and 
+unmounting operations will do the bookkeeping necessary to allow a virtual thread to unmount and 
+re-mount when inside a synchronized method or statement, or when waiting on a monitor. 
+
+**How to know if your virtualthreads are pinned?**
+
+A ***jdk.VirtualThreadPinned*** event is recorded by JDK Flight Recorder (JFR) whenever a virtual 
+thread blocks inside a synchronized method. Use same to indentify pinning and change the code towards
+adopting java.uril.concurrent locks.
+
+As we talk earlier synchronized is not the only reason you can find the event in JDK Flight Recorder(JFR)
+if a virtual thread calls native code, either through a native method or the Foreign Function & 
+Memory API, and that native code calls back to Java code that performs a blocking operation or 
+blocks on a monitor, then the virtual thread will be pinned.
+
+
 ## Few questions
 
 I will explain these in near future, for now lets treat them as food for thought.
