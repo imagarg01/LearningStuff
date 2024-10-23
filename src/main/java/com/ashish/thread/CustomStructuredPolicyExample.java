@@ -1,6 +1,7 @@
 package com.ashish.thread;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -9,10 +10,13 @@ import java.util.function.Supplier;
 
 import org.apache.commons.lang3.RandomUtils;
 
-record FlightTicketPrice(String nameOfAirline){
+class FlightTicketPrice{
 
-    FlightTicketPrice(String nameOfAirline, float price){
-        this(nameOfAirline);
+    int mPrice;
+    String mNameOfAirline;
+    FlightTicketPrice(String nameOfAirline, int price){
+        this.mNameOfAirline = nameOfAirline;
+        this.mPrice = price;
     }
 }
 
@@ -27,7 +31,8 @@ public class CustomStructuredPolicyExample {
 
             scope.join();
 
-
+            float bestPrice = scope.result();
+            System.out.println("My best price is "+bestPrice);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -36,24 +41,24 @@ public class CustomStructuredPolicyExample {
     private static Callable<FlightTicketPrice> getPriceFromAirline1(String nameOfAirline){
         //Let assume we are calling a rest API here and getting some price from it
         return () -> {
-            Thread.sleep(RandomUtils.nextLong());
-            return new FlightTicketPrice(nameOfAirline,RandomUtils.nextFloat());
+            Thread.sleep(100);
+            return new FlightTicketPrice(nameOfAirline,RandomUtils.nextInt());
         };
     }
 
     private static Callable<FlightTicketPrice> getPriceFromAirline2(String nameOfAirline){
         //Let assume we are calling a rest API here and getting some price from it
         return () -> {
-            Thread.sleep(RandomUtils.nextLong());
-            return new FlightTicketPrice(nameOfAirline,RandomUtils.nextFloat());
+            Thread.sleep(100);
+            return new FlightTicketPrice(nameOfAirline,RandomUtils.nextInt());
         };
     }
 
     private static Callable<FlightTicketPrice> getPriceFromAirline3(String nameOfAirline){
         //Let assume we are calling a rest API here and getting some price from it
         return () -> {
-            Thread.sleep(RandomUtils.nextLong());
-            return new FlightTicketPrice(nameOfAirline,RandomUtils.nextFloat());
+            Thread.sleep(100);
+            return new FlightTicketPrice(nameOfAirline,RandomUtils.nextInt());
         };
     }
 
@@ -62,7 +67,8 @@ public class CustomStructuredPolicyExample {
 
 class LeastPriceScope<T> extends StructuredTaskScope<T> {
 
-    private T bestResult;
+    ArrayList<Integer> arrayOfPrices = new ArrayList<Integer>();
+    private int bestPrice;
     private final List<Throwable> exceptions =
             Collections.synchronizedList(new ArrayList<>());
 
@@ -76,22 +82,25 @@ class LeastPriceScope<T> extends StructuredTaskScope<T> {
                 // Ignore
             }
             case SUCCESS -> {
-                T result = subtask.get();
+                FlightTicketPrice result = (FlightTicketPrice) subtask.get();
+                 arrayOfPrices.add(result.mPrice);
                 synchronized (this) {
-                    if (bestResult == null || comparator.compare(result, bestResult) > 0) {
-                        bestResult = result;
-                    }
+                    bestPrice = Collections.min(arrayOfPrices);
                 }
             }
             case FAILED -> exceptions.add(subtask.exception());
         }
     }
 
-    public <X extends Throwable> T resultOrElseThrow(
+    public int result(){
+        return bestPrice;
+    }
+
+    public <X extends Throwable> float resultOrElseThrow(
             Supplier<? extends X> exceptionSupplier) throws X {
         ensureOwnerAndJoined();
-        if (bestResult != null) {
-            return bestResult;
+        if (bestPrice != 0) {
+            return bestPrice;
         } else {
             X exception = exceptionSupplier.get();
             exceptions.forEach(exception::addSuppressed);

@@ -151,3 +151,53 @@ its own, with a parent-child relationship between them.
 
 ## Writing your own policy
 
+If already provided policies are not useful for you, its very easy to create one as per your need.
+
+```java
+
+class LeastPriceScope<T> extends StructuredTaskScope<T> {
+
+    ArrayList<Integer> arrayOfPrices = new ArrayList<Integer>();
+    private int bestPrice;
+    private final List<Throwable> exceptions =
+            Collections.synchronizedList(new ArrayList<>());
+
+    public LeastPriceScope() {
+    }
+
+    @Override
+    protected void handleComplete(Subtask<? extends T> subtask) {
+        switch (subtask.state()) {
+            case UNAVAILABLE -> {
+                // Ignore
+            }
+            case SUCCESS -> {
+                FlightTicketPrice result = (FlightTicketPrice) subtask.get();
+                 arrayOfPrices.add(result.mPrice);
+                synchronized (this) {
+                    bestPrice = Collections.min(arrayOfPrices);
+                }
+            }
+            case FAILED -> exceptions.add(subtask.exception());
+        }
+    }
+
+    public int result(){
+        return bestPrice;
+    }
+
+    public <X extends Throwable> float resultOrElseThrow(
+            Supplier<? extends X> exceptionSupplier) throws X {
+        ensureOwnerAndJoined();
+        if (bestPrice != 0) {
+            return bestPrice;
+        } else {
+            X exception = exceptionSupplier.get();
+            exceptions.forEach(exception::addSuppressed);
+            throw exception;
+        }
+    }
+}
+
+```
+
