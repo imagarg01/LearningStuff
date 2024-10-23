@@ -1,5 +1,7 @@
 ## Overview
 
+**Note:** Structured Concurrency still a preview feature.
+
 - Structured concurrency helps to groups of related tasks running in different threads as a single 
 unit of work, this streamline error handling and cancellation, improve reliability, and enhancing 
 observability.
@@ -12,9 +14,12 @@ as ExecutorService and Future.
   2. If the subtasks are sufficiently independent of each other, and if there are sufficient hardware 
   resources, then the overall task can be made to run faster (i.e., with lower latency) by executing 
   the subtasks concurrently. For example, a task that composes the results of multiple I/O operations
-  will run faster if each I/O operation executes concurrently in its own thread.
+  will run faster if each I/O operation executes concurrently in its own thread. Let assume a case 
+  of restaurant where customer has ordered 3 different dishes, if each can be prepared independently and 
+  as all are ready you serve them to your customer in a single nice platter.
+ 
 
-### Concurrency with ExecutorService
+## Concurrency with ExecutorService
 
 The java.util.concurrent.ExecutorService API, introduced in Java 5, helps developers execute subtasks concurrently.
 The ExecutorService immediately returns a Future for each subtask, and executes the subtasks concurrently according to
@@ -26,30 +31,30 @@ threads can be surprisingly complicated when failure occurs: Let see same with a
 
 ```code
 Response handle() throws ExecutionException, InterruptedException {
-    Future<String>  user  = esvc.submit(() -> findUser());
-    Future<Integer> order = esvc.submit(() -> fetchOrder());
-    String theUser  = user.get();   // Join findUser
-    int    theOrder = order.get();  // Join fetchOrder
-    return new Response(theUser, theOrder);
+    Future<Dish>  starter  = esvc.submit(() -> prepareStarter());
+    Future<Dish> mainCourse = esvc.submit(() -> prepareStarter());
+    Dish theStarter  = starter.get();   
+    Dish theMainCourse = mainCourse.get();  
+    return new Response(theStarter, theMainCourse);
 }
 ```
 
-1. If findUser() throws an exception then handle() will throw an exception when calling user.get() but fetchOrder() will
-   continue to run in its own thread. This is a thread leak which, at best, wastes resources; at worst, the fetchOrder()
+1. If prepareStarter() throws an exception then handle() will throw an exception when calling starter.get() but prepareMainCourse() 
+   will continue to run in its own thread. This is a thread leak which, at best, wastes resources; at worst, the prepareMainCourse()
    thread will interfere with other tasks.
 2. If the thread executing handle() is interrupted, the interruption will not propagate to the subtasks. Both the
-   findUser() and fetchOrder() threads will leak, continuing to run even after handle() has failed.
-3. If findUser() takes a long time to execute, but fetchOrder() fails in the meantime, then handle() will wait
-   unnecessarily for findUser() by blocking on user.get() rather than cancelling it. Only after findUser() completes and
-   user.get() returns will order.get() throw an exception, causing handle() to fail.
+   prepareStarter() and prepareStarter() threads will leak, continuing to run even after handle() has failed.
+3. If prepareStarter() takes a long time to execute, but prepareStarter() fails in the meantime, then handle() will wait
+   unnecessarily for prepareStarter() by blocking on starter.get() rather than cancelling it. Only after prepareStarter() completes and
+   starter.get() returns will mainCourse.get() throw an exception, causing handle() to fail.
 
 In each case, the problem is that our program is logically structured with task-subtask relationships, but these
 relationships exist only in the developer's mind.
 
-Observability tools such as thread dumps, for example, will show handle(), findUser(), and fetchOrder() on the call
+Observability tools such as thread dumps, for example, will show handle(), prepareStarter(), and prepareStarter() on the call
 stacks of unrelated threads, with no hint of the task-subtask relationship.
 
-#### What we are doing right now to handle such concerns
+### What we are doing right now to handle such concerns (before structured concurrency)
 
 1. Wrapping tasks with try-finally and calling the cancel(boolean) methods of the futures of the other tasks in the
    catch block for the failing task.
@@ -58,8 +63,6 @@ stacks of unrelated threads, with no hint of the task-subtask relationship.
 But all this can be very tricky to get right, and it often makes the logical intent of the code harder to discern.
 Keeping track of the inter-task relationships, and manually adding back the required inter-task cancellation edges,
 is asking a lot of developers.
-
-//ToDo if you can work on sample example here to learn and explain it better
 
 Note:- The Java Platform already has an API for imposing structure on concurrent tasks, namely java.util.concurrent.ForkJoinPool,
 which is the execution engine behind parallel streams. However, that API is designed for compute-intensive tasks rather than tasks which involve I/O.
@@ -92,10 +95,10 @@ Response handle() throws ExecutionException, InterruptedException {
         Supplier<String>  user  = scope.fork(() -> findUser());
         Supplier<Integer> order = scope.fork(() -> fetchOrder());
 
-        scope.join()            // Join both subtasks
-             .throwIfFailed();  // ... and propagate errors
+        scope.join()            // here we are waiting for all task to finish
+             .throwIfFailed();  // propagate errors if any of task failed
 
-        // Here, both subtasks have succeeded, so compose their results
+        // Here, control comes after join over and both subtasks have succeeded, so compose their results
         return new Response(user.get(), order.get());
     }
 }
@@ -104,7 +107,8 @@ Response handle() throws ExecutionException, InterruptedException {
 The use of StructuredTaskScope ensures a number of valuable properties:
 
 1. Error handling with short-circuiting — If either the findUser() or fetchOrder() subtasks fail, the other is cancelled
-   if it has not yet completed. (This is managed by the shutdown policy implemented by ShutdownOnFailure; other policies are possible).
+   if it has not yet completed. (This is managed by the shutdown policy implemented by ShutdownOnFailure; for different 
+   policies outcome could be different).
 2. **Cancellation propagation** — If the thread running handle() is interrupted before or during the call to join(), both
    subtasks are cancelled automatically when the thread exits the scope.
 3. **Clarity** — The above code has a clear structure: Set up the subtasks, wait for them to either complete or be cancelled,
@@ -116,6 +120,8 @@ The use of StructuredTaskScope ensures a number of valuable properties:
 ### Workflow
 
 Workflow of code using StructuredTaskScope is:
+
+![Structured Concurrency Workflow](./images/structuredConcurrency.png)
 
 1. Create a scope. The thread which creates the scope is its owner.
 2. Use the fork(callable) method to fork subtasks in the scope. Each call to fork(..) starts a new thread
@@ -129,4 +135,69 @@ Workflow of code using StructuredTaskScope is:
 6. Close the scope, usually implicitly via try-with-resources. This shutdown the scope, if it's not already
    shutdown, and waits for any subtasks that have cancelled but not yet completed to complete.
 
+
+## Scope Policies
+
+There are two policies provided by jdk as subclass of StructuredTaskScope.
+
+1. **StructuredTaskScope.ShutdownOnSuccess**, captures the first successfully completed subtask result and shuts down the
+scope afterward. This will interrupt any unfinished threads and wake up the scope’s owner. Choose this policy if you 
+only need the result of a singular subtask.
+2. **StructuredTaskScope.ShutdownOnFailure**, shuts down the scope on the first failed subtask. This policy ensures that
+other subtasks get discarded if any of them fails.
+
+Scopes can be nested, which creates a tree-like relationship. A thread started in a scope can create a nested scope of 
+its own, with a parent-child relationship between them.
+
+## Writing your own policy
+
+If already provided policies are not useful for you, its very easy to create one as per your need.
+
+```java
+
+class LeastPriceScope<T> extends StructuredTaskScope<T> {
+
+    ArrayList<Integer> arrayOfPrices = new ArrayList<Integer>();
+    private int bestPrice;
+    private final List<Throwable> exceptions =
+            Collections.synchronizedList(new ArrayList<>());
+
+    public LeastPriceScope() {
+    }
+
+    @Override
+    protected void handleComplete(Subtask<? extends T> subtask) {
+        switch (subtask.state()) {
+            case UNAVAILABLE -> {
+                // Ignore
+            }
+            case SUCCESS -> {
+                FlightTicketPrice result = (FlightTicketPrice) subtask.get();
+                 arrayOfPrices.add(result.mPrice);
+                synchronized (this) {
+                    bestPrice = Collections.min(arrayOfPrices);
+                }
+            }
+            case FAILED -> exceptions.add(subtask.exception());
+        }
+    }
+
+    public int result(){
+        return bestPrice;
+    }
+
+    public <X extends Throwable> float resultOrElseThrow(
+            Supplier<? extends X> exceptionSupplier) throws X {
+        ensureOwnerAndJoined();
+        if (bestPrice != 0) {
+            return bestPrice;
+        } else {
+            X exception = exceptionSupplier.get();
+            exceptions.forEach(exception::addSuppressed);
+            throw exception;
+        }
+    }
+}
+
+```
 
