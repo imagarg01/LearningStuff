@@ -1,8 +1,14 @@
-## Journey in different JEPs
-Record patterns were proposed as a preview feature by JEP 405 and delivered in JDK 19, and previewed a second time by 
-JEP 432 and delivered in JDK 20. This feature has co-evolved with Pattern Matching for switch (JEP 441), with which it 
-has considerable interaction. This JEP proposes to finalize the feature with further refinements based upon continued 
-experience and feedback.
+## Overview
+
+A record declaration specifies in a header a description of its contents; the appropriate accessors, constructor.
+- equals, hashCode, and toString methods are created automatically. A 
+- record's fields are final because the class is intended to serve as a simple "data carrier"
+
+A simple record with two fields.
+```java
+record Rectangle(double width, double height) {}
+```
+
 
 ## Change of instanceof in different JEPs along with record
 
