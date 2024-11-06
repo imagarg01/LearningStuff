@@ -1,6 +1,6 @@
 ## Overview
 
-We used to create lots of classed to carry data also known as POJOs (Plain Old Java Object) or DTOs (Data Transfer Object).
+We used to create lots of classes to carry data also known as POJOs (Plain Old Java Object) or DTOs (Data Transfer Object).
 Most of time Lombok has been used as choice of tool to generate getter/setters, constructors etc. Record come as good 
 replacement of Lombok if you want to create immutable data carrier class.
 
