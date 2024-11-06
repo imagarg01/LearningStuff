@@ -87,5 +87,8 @@ Capital of a business which is used in its day-to-day trading operations. For im
 3. When current Liabilities increase🔼, your cash flow Increases🔼.
 4. When Current Liabilities Decrease🔽, your cash flow decreases 🔽
 
+## Value Migration
+
+
 
 
