@@ -34,7 +34,19 @@ Here the problem starts, number of threads (platform threads) are limited as the
 of OS thread. The JDK's current implementation of thread cap's application throughput to a level 
 below the hardware can support. 
 
-To solve this scaling we also can write non-blocking asynchronous code.
+To solve this scaling we also can write non-blocking asynchronous code. Let's see how we are traditionally writing code
+right now using Executor Service
+
+```java
+import java.util.concurrent.TimeUnit;
+
+Executor Service es =....;
+var f1 = es.submit(api.a());
+var f2 = es.submit(api.b());
+
+var result = new Result(f1.get(1, TimeUnit.SECONDS), 
+                        f2.get(1, TimeUnit.SECONDS));       
+```
 
 ## How we are writing non-blocking code 
 
@@ -57,8 +69,8 @@ public Mono<ABC> abc(int id)
                         c-> new ABC(a,b,c)));
 ```
 
-There are challenges with asynchronous style of code, which make it not so friendly for developers.
-Most of java developers mind are wired with thread per request model only also java ecosystem (debugger etc.)
+There are challenges with asynchronous style of code, which make it not so friendly for developers. Hard to read, hard 
+to write. Most java developers mind are wired with thread per request model only also java ecosystem (debugger etc  .)
 are not supporting asynchronous style natively. 
 - Each stage of a request might run on a different thread.
 - Every thread run stages belongs to different request.
@@ -449,6 +461,10 @@ blocks on a monitor, then the virtual thread will be pinned.
 I will explain these in near future, for now lets treat them as food for thought.
 
 Q- Is reactive programming still matters after we have virtual thread? Any valid use case?
+
+Ans- 
+We are talking in context of through-put only.
+
 Q- Do we really need of CompletableFuture now?
 Q- How to share expensive resources between virtual threads.
 
