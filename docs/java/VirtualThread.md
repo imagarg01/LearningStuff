@@ -240,7 +240,7 @@ stackoverflow error might be thrown.
 ## Important Points/Facts
 - Virtual thread are cheap and plentiful, and thus should never be pooled. 
 - Virtual thread are not faster threads- they do not run code any faster than PlatformThread.
-- We earlier talks about littl's law, virtual thread exist to provide throughput not speed.
+- We earlier talks about little's law, virtual thread exist to provide throughput not speed.
 Virtual threads can significantly improve application throughput when
     - The number of concurrent tasks in high (more than a few thousand) and
     - The workloads is not CPU-bound, since having many more threads than processor cores cannot 
@@ -294,7 +294,7 @@ safely assume 12 platform thread would be available to me without any hyper thre
 
 > !!!! ExecutorService instance of fixedThreadPool(12)!!!!
 - Time taken = 108 seconds 
-- CPU usage is almost nil, as most of time platform threads are just waiting.
+- CPU usage is almost nil, as most time platform threads are just waiting.
 ![Platform Thread CPU Usage](./images/platformthread-cpu.png)
 
 >  !!!! ExecutorService instance of newVirtualThreadPerTaskExecutor()!!!!
@@ -309,7 +309,7 @@ safely assume 12 platform thread would be available to me without any hyper thre
 - Time taken = 1008 seconds for 1000 tasks... i was not having patience to run 10000 tasks on platform thread 
 and wait...if I do a simple math 100 task took 108seconds and 1000 tasks took 1008seconds so i can safely
 assume 10000 tasks will take at least 10008seconds=166.8minutes=2.78hrs
-- CPU usage is almost nil, as most of time platform threads are just waiting.
+- CPU usage is almost nil, as most time platform threads are just waiting.
 ![Platform Thread CPU Usage](./images/platformthread-cpu-10000.png)
 
 >  !!!! ExecutorService instance of newVirtualThreadPerTaskExecutor()!!!!
@@ -388,8 +388,8 @@ and overrides relevant method.
 ## Next Phase 
 
 - Fix the pinning issue
-- Improve servicability and trouble shooting
-- Structured Concurrentcy and Scoped Values
+- Improve serviceability and troubleshooting
+- Structured Concurrency and Scoped Values
 
 ### Let's understand Pinning Issue
 
@@ -409,7 +409,7 @@ the virtual thread but also its carrier, and hence the underlying OS thread.
 
 Pinning is not only raise scaling challenges it also introduce issues like 
 
-1- Starvation -  If all platform threads are pinned, virtual thread will not get a carrieri 
+1- Starvation -  If all platform threads are pinned, virtual thread will not get a carrier and will starve.
 2- Deadlock
 
 **Reason of Pinning(due to synchronized)**
@@ -433,10 +433,10 @@ Object.notify() and the carrier re-acquires the monitor. The virtual thread is p
 is executing inside a synchronized method, and further pinned because its carrier is blocked in 
 the JVM.
 
-**Overcomming Pinning(due to synchronized)**
+**Overcoming Pinning(due to synchronize)**
 
 1- To avoid avoid mentioned problems, we can modify our code to use java.util.concurrent locks — 
-which do not pin virtual threads — instead of synchronized methods and statements. However this might
+which do not pin virtual threads — instead of synchronized methods and statements. However, this might
 not be possible for everyone.
 
 2- JVM team is working towards change the implementation of the synchronized keyword so that virtual
@@ -444,16 +444,25 @@ threads can acquire, hold, and release monitors, independently of their carriers
 unmounting operations will do the bookkeeping necessary to allow a virtual thread to unmount and 
 re-mount when inside a synchronized method or statement, or when waiting on a monitor. 
 
-**How to know if your virtualthreads are pinned?**
+**How to know if your virtual threads are pinned?**
 
 A ***jdk.VirtualThreadPinned*** event is recorded by JDK Flight Recorder (JFR) whenever a virtual 
-thread blocks inside a synchronized method. Use same to indentify pinning and change the code towards
-adopting java.uril.concurrent locks.
+thread blocks inside a synchronized method. Use same to identify pinning and change the code towards
+adopting java.util.concurrent locks.
 
 As we talk earlier synchronized is not the only reason you can find the event in JDK Flight Recorder(JFR)
 if a virtual thread calls native code, either through a native method or the Foreign Function & 
 Memory API, and that native code calls back to Java code that performs a blocking operation or 
 blocks on a monitor, then the virtual thread will be pinned.
+
+### Updates on virtual thread pinning (at the time 25Dec24 of writing this doc)
+
+In upcoming release of JDK24, the JVM team is working on a feature that will limit this pinning challenge for some extent:
+- The JVM will allow a virtual thread to unmount from its carrier when it blocks in a synchronized method or statement.This
+will increase the scalability of virtual threads and reduce the likelihood of starvation and deadlocks. It will be specially
+beneficial for existing library maintainer or application developer who are not able to change their code.
+
+
 
 
 ## Few questions

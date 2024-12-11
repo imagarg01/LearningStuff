@@ -64,3 +64,4 @@ decision remains important. Again, this also offers an opportunity to learn from
 - **Probability of right investments and right exits**
 Once investors find a good investment, they need to iterate the remaining ones to strike the right balance of a stock 
 portfolio.
+
