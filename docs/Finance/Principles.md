@@ -163,3 +163,9 @@ roulette vs Equity returns.
 ### Historical Value Creation
 - Did the company create a lot of shareholder value in the past?
 - At which rate did the company compound since its IPOs?
+
+### Cycles
+- Every business is cyclical in nature
+- In current world cycles are getting shorter
+
+

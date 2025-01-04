@@ -1,7 +1,7 @@
-# Vim
+## Useful Commands
 
+### Cursor Movement
 
-## Important cursor shortcuts
 - h -> move cursor left one by one
 - j -> move cursor down one by one
 - k -> move cursor up one by one
@@ -14,7 +14,7 @@
 - gg -> go the first line of document
 - G -> go to the last line of document
 - fx -> jump to next occurrence of character x
-- tx ->  jump to before next occurrence of character x
+- tx -> jump to before next occurrence of character x
 - ; -> repeat previous f,t,F or T movement
 - , -> repeat previous f,t,F or T movement, backwards
 - } -> jump to next paragraph
@@ -24,7 +24,8 @@
 - ctrl+b -> move back one full screen
 - ctrl+f -> move forward one full screen
 
-## Search and Replace
+## Search
+
 - /pattern -> search for pattern
 - ?pattern -> search for pattern backward
 - n -> repeat search in same direction
