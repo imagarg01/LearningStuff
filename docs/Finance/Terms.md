@@ -69,7 +69,13 @@ A good conversion should be 70% when it comes to B2C business and should be at l
 
 
 ## Price to Earning ratio (P/E)
-It is calculated by dividing the current market price (CMP) of stock by profit/earnings per share (EPS).
+It is calculated by dividing the current market price (CMP) of stock by profit/earnings per share (EPS) in last 12 month.
+
+
+## Eearning per share (EPS)
+
+EPS = PAT(last 12 months)/No. of shares
+
 
 ## Price to Book Value ratio (P/B)
 It is calculated by dividing the CMP of a stock with the book value (shareholder’s equity + retained earnings) per share.
@@ -77,8 +83,7 @@ It is calculated by dividing the CMP of a stock with the book value (shareholder
 value is a good indicator of the net worth of the company.
 
 ## Market Capitalization
-It represents the value of all the shares of a company and indicates the value for which the entire company can be 
-bought at any point of time. 
+It represents the value of all the shares of a company and indicates the value for which the entire company can be bought at any point of time. 
 
 ## Working Capital
 Capital of a business which is used in its day-to-day trading operations. For important points:

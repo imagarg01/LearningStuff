@@ -3,11 +3,15 @@ package com.ashish.thread;
 import java.math.BigInteger;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
 
 public class PlayingWithVT {
+
+    private List<String> dummyList = new ArrayList<>();  // This is a dummy list
 
     enum ThreadType {
         VirtualThread,
@@ -23,6 +27,10 @@ public class PlayingWithVT {
        // ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor();
         observerHowCPUIntensiveOperationWork(ThreadType.PlatformThread,executorService,1000);
 
+    }
+     
+    static void dummyFunction() {
+        System.out.println("Hello");
     }
 
     static void waysToCreateVT() throws InterruptedException {
