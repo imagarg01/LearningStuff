@@ -6,8 +6,6 @@ There are 3 important concepts in tmux:
 2. Window - A window is a collection of panes.
 3. Pane - A pane is a section of the terminal.
 
-//ToDo: Go through with this <https://www.youtube.com/watch?v=TwxgIPAg7gc>
-
 ## Commands
 
 ### Sessions
