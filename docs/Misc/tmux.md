@@ -1,14 +1,14 @@
 # Tmux (Terminal Multiplexer)
 
-There are 3 important concepts in tmux:
+There are 3 important terms in tmux.
 
 1. Session - A session is a collection of windows and panes.
 2. Window - A window is a collection of panes.
-3. Pane - A pane is a section of the terminal.
+3. Pane - A pane is a section of the terminal. Pane is actually a terminal where we run commands, scripts etc.
 
-## Commands
+![image](./images/sess-wind-pane.png)
 
-### Sessions
+## Sessions
 
 ========================================
 
@@ -56,7 +56,7 @@ tmux attach
 tmux kill-session -t <session-name>
 ```
 
-### Windows
+## Windows
 
 ===========================================
 
@@ -106,7 +106,7 @@ It will prompt you to enter the new name for the current window.
 
 It will ask for a confirmation to kill the window.
 
-### Panes
+## Panes
 
 ================================
 
@@ -180,7 +180,7 @@ It will show the number on each pane, then you can switch to the pane by pressin
 
 Press same command to toggle back
 
-### Command Mode
+## Command Mode
 
 ========================================
 
@@ -202,7 +202,7 @@ Press same command to toggle back
 <Prefix Key> then : then list-commands
 ```
 
-### Copy and Paste
+## Copy and Paste
 
 =======================================
 
