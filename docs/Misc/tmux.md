@@ -20,7 +20,7 @@ tmux new -s <session-name>
 
 As long as you didn't kill the session or reboot the laptop, you can always attach to it.
 
-- To list all the sessions
+- To list all the sessions (it might throw an error if tmux server is not running)
 
 ```cmd
 tmux ls
