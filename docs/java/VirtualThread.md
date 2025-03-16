@@ -140,7 +140,7 @@ a smaller number(N) of OS threads.
   </tr>
 </table>
 
-![Depiction](./images/VirtualThreadOnPlatformThread.png)
+![Depiction](https://github.com/imagarg01/LearningStuff/blob/main/docs/java/images/VirtualThreadOnPlatformThread.png)
 
 ### Scheduling
 For platform thread JDK relies on scheduler available in OS but virtual thread are scheduled by jdk only.
