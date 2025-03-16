@@ -1,0 +1,143 @@
+{
+  "expand": "renderedFields,names,schema,changelog",
+  "id": "10002",
+  "key": "PROJ-123",
+  "self": "https://your-domain.atlassian.net/rest/api/3/issue/10002",
+  "fields": {
+    "summary": "Fix login bug",
+    "description": "Users can't log in due to session timeout.",
+    "issuetype": {
+      "id": "10001",
+      "name": "Bug",
+      "subtask": false
+    },
+    "project": {
+      "id": "10000",
+      "key": "PROJ",
+      "name": "Project Alpha"
+    },
+    "priority": {
+      "id": "3",
+      "name": "Medium"
+    },
+    "status": {
+      "id": "1",
+      "name": "To Do"
+    },
+    "assignee": {
+      "accountId": "5b10a2844c20165700ede21g",
+      "displayName": "Alice Smith",
+      "active": true
+    },
+    "created": "2025-03-01T10:00:00.000+0000",
+    "updated": "2025-03-12T14:30:00.000+0000",
+    "labels": [
+      "bug",
+      "urgent",
+      "frontend"
+    ],
+    "customfield_10010": "High impact",
+    "timetracking": {
+      "originalEstimate": "4h",
+      "remainingEstimate": "2h",
+      "timeSpent": "2h"
+    },
+    "comments": [
+      {
+        "id": "10001",
+        "author": {
+          "displayName": "Bob Jones",
+          "accountId": "5b10b2345d30165700ede22h"
+        },
+        "body": "Confirmed on Chrome.",
+        "created": "2025-03-02T09:15:00.000+0000"
+      },
+      {
+        "id": "10002",
+        "author": {
+          "displayName": "Alice Smith",
+          "accountId": "5b10a2844c20165700ede21g"
+        },
+        "body": "Working on a fix.",
+        "created": "2025-03-10T13:45:00.000+0000"
+      }
+    ]
+  },
+  "changelog": {
+    "startAt": 0,
+    "maxResults": 100,
+    "total": 3,
+    "histories": [
+      {
+        "id": "10001",
+        "author": {
+          "accountId": "5b10b2345d30165700ede22h",
+          "displayName": "Bob Jones"
+        },
+        "created": "2025-03-02T09:20:00.000+0000",
+        "items": [
+          {
+            "field": "priority",
+            "fieldtype": "jira",
+            "from": "4",
+            "fromString": "Low",
+            "to": "3",
+            "toString": "Medium"
+          },
+          {
+            "field": "labels",
+            "fieldtype": "jira",
+            "from": null,
+            "fromString": null,
+            "to": null,
+            "toString": "urgent"
+          }
+        ]
+      },
+      {
+        "id": "10002",
+        "author": {
+          "accountId": "5b10a2844c20165700ede21g",
+          "displayName": "Alice Smith"
+        },
+        "created": "2025-03-05T11:00:00.000+0000",
+        "items": [
+          {
+            "field": "status",
+            "fieldtype": "jira",
+            "from": "1",
+            "fromString": "To Do",
+            "to": "3",
+            "toString": "In Progress"
+          },
+          {
+            "field": "assignee",
+            "fieldtype": "jira",
+            "from": null,
+            "fromString": null,
+            "to": "5b10a2844c20165700ede21g",
+            "toString": "Alice Smith"
+          }
+        ]
+      },
+      {
+        "id": "10003",
+        "author": {
+          "accountId": "5b10a2844c20165700ede21g",
+          "displayName": "Alice Smith"
+        },
+        "created": "2025-03-12T14:30:00.000+0000",
+        "items": [
+          {
+            "field": "status",
+            "fieldtype": "jira",
+            "from": "3",
+            "fromString": "In Progress",
+            "to": "1",
+            "toString": "To Do"
+          }
+        ]
+      }
+    ]
+  }
+}
