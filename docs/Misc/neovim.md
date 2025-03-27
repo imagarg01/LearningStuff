@@ -18,11 +18,12 @@
 - gg -> go the first line of document, if you want to move on a particular line for example
   '15gg' will move to 15th line upward movement.
 
-- G -> go to the last line of document, if you want to move on a particualr line downwards for
+- G -> go to the last line of document, if you want to move on a particular line downwards for
   example '7G' will move to 7th line from top.
 
 - } -> jump to next paragraph
 - { -> jump to previous paragraph
+
 - ctrl+e -> move screen down one line
 - ctrl+y -> move screen up one line
 - ctrl+b -> move back one full screen
@@ -42,10 +43,13 @@
 
 #### Editing
 
+***Insert***
 - i -> insert mode before the cursor
 - a -> insert mode after the cursor
 - o -> insert mode on the next line
 - O -> insert mode on the previous line
+
+***Delete***
 - x -> delete character under the cursor
 - dd -> delete the line
 - D -> delete from cursor to end of the line
@@ -89,3 +93,24 @@ public class Factorial {
 - ?pattern -> search for pattern backward
 - n -> repeat search in same direction
 - N -> repeat search in opposite direction
+
+
+## Neotree
+
+- a -> to add a new file or directory
+- d -> to delete a file or directory
+- r -> to rename a file or directory
+- y -> to copy file path
+- p -> to paste from clipboard
+- q -> to quit the neotree
+- l -> to open the directory tree
+- h -> to collapse the directory tree
+- leader key + e -> to toggle the neotree
+
+## Neovim as JAVA IDE
+
+- K -> to see java doc
+
+
+
+
