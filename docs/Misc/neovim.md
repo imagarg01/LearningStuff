@@ -40,16 +40,22 @@
   multiple word at a time i.e. "3w" move 3 word at a time.
 - b -> move the cursor backward one word at a time. Prefix with number if you want to move
   multiple word backward at a time i.e. "3b" move 3 word backward at a time.
+- e -> move the cursor to the end of the word. Prefix with number if you want to move multiple
+  word at a time i.e. "3e" move 3 word at a time.
 
 #### Editing
 
 ***Insert***
+
 - i -> insert mode before the cursor
 - a -> insert mode after the cursor
 - o -> insert mode on the next line
 - O -> insert mode on the previous line
+- A -> insert mode at the end of the line
+- I -> insert mode at the start of the line
 
 ***Delete***
+
 - x -> delete character under the cursor
 - dd -> delete the line
 - D -> delete from cursor to end of the line
@@ -94,23 +100,26 @@ public class Factorial {
 - n -> repeat search in same direction
 - N -> repeat search in opposite direction
 
-
 ## Neotree
 
 - a -> to add a new file or directory
 - d -> to delete a file or directory
 - r -> to rename a file or directory
+
 - y -> to copy file path
 - p -> to paste from clipboard
+
 - q -> to quit the neotree
+
 - l -> to open the directory tree
 - h -> to collapse the directory tree
-- leader key + e -> to toggle the neotree
+- j -> to move cursor down to next item
+- k -> to move cursor up to previous item
 
-## Neovim as JAVA IDE
+- m -> to move the file
+- leader key + e -> to toggle the neotree
+- H -> to show or hide hidden files
+
+## Neovim as JAVA IDE (jdtls not working fine)
 
 - K -> to see java doc
-
-
-
-
