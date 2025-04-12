@@ -221,3 +221,16 @@ Press Enter
 ```cmd
 <Prefix Key> then ]
 ```
+
+=======================================
+
+## My Tmux configuration
+
+You can find my tmux configuration [here](https://github.com/imagarg01/imagarg01/tree/main/dotfiles)
+
+## Tmux Status Bar
+
+There is a status bar at the bottom, which looks something like this:
+
+![StatusBar](./images/tmux-statusbar.png)
+
