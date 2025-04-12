@@ -18,11 +18,12 @@
 - gg -> go the first line of document, if you want to move on a particular line for example
   '15gg' will move to 15th line upward movement.
 
-- G -> go to the last line of document, if you want to move on a particualr line downwards for
+- G -> go to the last line of document, if you want to move on a particular line downwards for
   example '7G' will move to 7th line from top.
 
 - } -> jump to next paragraph
 - { -> jump to previous paragraph
+
 - ctrl+e -> move screen down one line
 - ctrl+y -> move screen up one line
 - ctrl+b -> move back one full screen
@@ -39,21 +40,36 @@
   multiple word at a time i.e. "3w" move 3 word at a time.
 - b -> move the cursor backward one word at a time. Prefix with number if you want to move
   multiple word backward at a time i.e. "3b" move 3 word backward at a time.
+- e -> move the cursor to the end of the word. Prefix with number if you want to move multiple
+  word at a time i.e. "3e" move 3 word at a time.
 
 #### Editing
+
+***Insert***
 
 - i -> insert mode before the cursor
 - a -> insert mode after the cursor
 - o -> insert mode on the next line
 - O -> insert mode on the previous line
+- A -> insert mode at the end of the line
+- I -> insert mode at the start of the line
+
+***Delete***
+
 - x -> delete character under the cursor
 - dd -> delete the line
 - D -> delete from cursor to end of the line
 - dw -> delete the word under the cursor
 - d$ -> delete from cursor to end of the line
 - d0 -> delete from cursor to start of the line
+- dG -> delete all lines start from current line under the curosr
 - u -> undo the last operation
 - ctrl+r -> redo the last operation
+
+**Copy&Paste**
+
+- yw -> to copy a word
+- yy -> to copy entire line
 - p -> paste the deleted text after the cursor
 - P -> paste the deleted text before the cursor
 - r -> replace the character under the cursor
@@ -83,9 +99,49 @@ public class Factorial {
 }
 ```
 
+#### To Change a variable name
+
+```cmd
+%s/<old name>/<new name>
+```
+
+## Neovim with fuzzy finder
+
+- Let's say you want to open a particular file in Neovim
+
+```cmd
+neovim "$(fzf)"
+```
+
+It will display a list of files based on your input, select anyone which you want to open in neovim.
+
 ## Search
 
 - /pattern -> search for pattern
 - ?pattern -> search for pattern backward
 - n -> repeat search in same direction
 - N -> repeat search in opposite direction
+
+## Neotree
+
+- a -> to add a new file or directory
+- d -> to delete a file or directory
+- r -> to rename a file or directory
+
+- y -> to copy file path
+- p -> to paste from clipboard
+
+- q -> to quit the neotree
+
+- l -> to open the directory tree
+- h -> to collapse the directory tree
+- j -> to move cursor down to next item
+- k -> to move cursor up to previous item
+
+- m -> to move the file
+- leader key + e -> to toggle the neotree
+- H -> to show or hide hidden files
+
+## Neovim as JAVA IDE (jdtls not working fine)
+
+- K -> to see java doc

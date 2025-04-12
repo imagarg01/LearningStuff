@@ -20,7 +20,7 @@ tmux new -s <session-name>
 
 As long as you didn't kill the session or reboot the laptop, you can always attach to it.
 
-- To list all the sessions (it might throw an error if tmux server is not running)
+- To list all the sessions
 
 ```cmd
 tmux ls
@@ -221,3 +221,16 @@ Press Enter
 ```cmd
 <Prefix Key> then ]
 ```
+
+=======================================
+
+## My Tmux configuration
+
+You can find my tmux configuration [here](https://github.com/imagarg01/imagarg01/tree/main/dotfiles)
+
+## Tmux Status Bar
+
+There is a status bar at the bottom, which looks something like this:
+
+![StatusBar](./images/tmux-statusbar.png)
+
