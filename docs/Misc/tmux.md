@@ -234,3 +234,6 @@ There is a status bar at the bottom, which looks something like this:
 
 ![StatusBar](./images/tmux-statusbar.png)
 
+Here 1:zsh* represents that application **zsh** is running on window number 1.
+
+
