@@ -3,6 +3,8 @@ package com.ashish.thread;
 import java.util.concurrent.Callable;
 import java.util.concurrent.StructuredTaskScope;
 
+import com.ashish.thread.PlayingWithSC.Weather;
+
 public class PlayingWithSC {
 
   record Weather(String weather) {
