@@ -2,249 +2,136 @@
 
 ## Overview
 
-You should use tmux when you want to run multiple terminal sessions from a single terminal window. It is especially useful when you are working on a remote server via SSH, and you want to keep your sessions alive even after you disconnect from the server.
+tmux is a terminal multiplexer that allows you to run multiple terminal sessions within a single window. It's particularly valuable for:
 
-Typical use cases of tmux:
+✨ **Key Benefits**:
 
-1. You are working on a remote server via SSH, and you want to keep your sessions alive even after you disconnect from the server.
-2. You want to run multiple terminal sessions from a single terminal window.
-3. You want to split your terminal window into multiple panes, and run different commands in each pane.
-4. You want to switch between different terminal sessions easily.
+- Persistent sessions that survive SSH disconnections
+- Multiple terminal sessions in one window
+- Split-screen terminal layouts
+- Easy session management and switching
 
-Before we move ahead, let's understand 3 important terms in tmux.
+## Core Concepts
 
-1. **Session** - A session is a collection of windows and panes. You can have multiple sessions running at the same time.
-2. **Window** - A window is a collection of panes. One session can have multiple windows. You can switch between windows easily.
-3. **Pane** - A pane is a section of the terminal. Pane is actually a terminal where we run commands, scripts etc. A window can have multiple panes. You can split a window into multiple panes.
+tmux is built around three main components:
+
+1. **Session**
+   - Collection of windows and panes
+   - Persists across disconnections
+   - Can run multiple sessions simultaneously
+
+2. **Window**
+   - Like tabs in a browser
+   - Contains one or more panes
+   - Easy to switch between windows
+
+3. **Pane**
+   - Individual terminal instances
+   - Split views within a window
+   - Run different commands in each pane
 
 See below diagram for better understanding.
 
 ![image](./images/sess-wind-pane.png)
 
-## Sessions
+## Session Management
 
-========================================
+### Creating Sessions
 
-- To create a new session
-
-```cmd
+```bash
+# Create a new named session
 tmux new -s <session-name>
 ```
 
-As long as you didn't kill the session or reboot the laptop, you can always attach to it.
+### Listing Sessions
 
-- To list all the sessions
-
-```cmd
+```bash
+# From outside tmux
 tmux ls
+
+# From inside tmux
+<Prefix Key> s
 ```
 
-If you are already in a tmux session, you can list all the sessions using
+### Session Operations
 
-```cmd
-<Prefix Key> then s
-```
+| Action | Command |
+|--------|---------|
+| Attach to session | `tmux attach -t <session-name>` |
+| Quick attach (single session) | `tmux attach` |
+| Detach current session | `<Prefix Key> d` |
+| Kill a session | `tmux kill-session -t <session-name>` |
 
-- To attach to a session
+## Window Management
 
-```cmd
-tmux attach -t <session-name>
-```
+### Window Operations
 
-If you have a single session, you can attach to it using
+| Action | Command |
+|--------|---------|
+| Create new window | `<Prefix Key> c` |
+| List windows | `<Prefix Key> w` |
+| Switch to window | `<Prefix Key> <window-number>` |
+| Previous window | `<Prefix Key> p` |
+| Next window | `<Prefix Key> n` |
+| Rename window | `<Prefix Key> ,` |
+| Kill window | `<Prefix Key> &` |
 
-```cmd
-tmux attach
-```
+## Pane Management
 
-- To detach from a session
+### Basic Pane Operations
 
-```cmd
-<Prefix Key> then d
-```
+| Action | Command |
+|--------|---------|
+| Split horizontally | `<Prefix Key> %` |
+| Split vertically | `<Prefix Key> "` |
+| Next pane | `<Prefix Key> o` |
+| Toggle full screen | `<Prefix Key> z` |
 
-- To kill a session
+### Pane Navigation
 
-```cmd
-tmux kill-session -t <session-name>
-```
+| Direction | Command |
+|-----------|---------|
+| Up | `<Prefix Key> ↑` |
+| Down | `<Prefix Key> ↓` |
+| Left | `<Prefix Key> ←` |
+| Right | `<Prefix Key> →` |
 
-## Windows
+### Advanced Pane Features
 
-===========================================
+- Show pane numbers: `<Prefix Key> q`
+- Jump to pane: `<Prefix Key> q <index>`
+- Move pane: `<Prefix Key> {/}`
 
-- To create a new window
+## Command Mode & Copy Mode
 
-```cmd
-<Prefix Key> then c
-```
+### Command Mode
 
-- To list all the windows
+Access command mode with `<Prefix Key> :`
 
-```cmd
-<Prefix Key> then w
-```
+Useful commands:
 
-- To switch to a window
+- `list-keys`: Show all key bindings
+- `list-commands`: Show all available commands
 
-```cmd
-<Prefix Key> then <window-number>
-```
+### Copy Mode
 
-- To switch to the previous window
+| Action | Command |
+|--------|---------|
+| Enter copy mode | `<Prefix Key> [` |
+| Start selection | `Space` |
+| Copy selection | `Enter` |
+| Paste | `<Prefix Key> ]` |
 
-```cmd
-<Prefix Key> then p
-```
+## Configuration & Status Bar
 
-- To switch to the next window
+### Custom Configuration
 
-```cmd
-<Prefix Key> then n
-```
+My complete tmux configuration is available in my [dotfiles repository](https://github.com/imagarg01/imagarg01/tree/main/dotfiles).
 
-- To rename a window
+### Status Bar
 
-```cmd
-<Prefix Key> then ,
-```
-
-It will prompt you to enter the new name for the current window.
-
-- To kill a window
-
-```cmd
-<Prefix Key> then &
-```
-
-It will ask for a confirmation to kill the window.
-
-## Panes
-
-================================
-
-- To split the current pane horizontally
-
-```cmd
-<Prefix Key> then %
-```
-
-- To split the current pane vertically
-
-```cmd
-<Prefix Key> then "
-```
-
-- To switch to the next pane
-
-```cmd
-<Prefix Key> then o
-```
-
-- To switch to the pane above the current pane
-
-```cmd
-<Prefix Key> then Up Arrow
-```
-
-- To switch to the pane below the current pane
-
-```cmd
-<Prefix Key> then Down Arrow
-```
-
-- To switch to the pane on the left of the current pane
-
-```cmd
-<Prefix Key> then Left Arrow
-```
-
-- To switch to the pane on the right of the current pane
-
-```cmd
-<Prefix Key> then Right Arrow
-```
-
-- To show number on pane
-
-```cmd
-<Prefix Key> then q
-```
-
-It will show the number on each pane, then you can switch to the pane by pressing the number.
-
-- To jump on a pane
-
-```cmd
-<Prefix Key> then q then <index of pane>
-```
-
-- Move Panes Left/Right
-
-```cmd
-<Prefix Key> then {/}
-```
-
-- To make a pane full screen
-
-```cmd
-<Prefix Key> then z
-```
-
-Press same command to toggle back
-
-## Command Mode
-
-========================================
-
-- To bring command mode of tmux
-
-```cmd
-<Prefix Key> then :
-```
-
-- To see all the key bindings
-
-```cmd
-<Prefix Key> then : then list-keys
-```
-
-- To see all the commands
-
-```cmd
-<Prefix Key> then : then list-commands
-```
-
-## Copy and Paste
-
-=======================================
-
-- Enter into copy mode
-
-```cmd
-<Prefix Key> then [
-# To start the selection
-Press Space
-# Copy Selection
-Press Enter
-```
-
-- Paste the copied text
-
-```cmd
-<Prefix Key> then ]
-```
-
-=======================================
-
-## My Tmux configuration
-
-You can find my tmux configuration [here](https://github.com/imagarg01/imagarg01/tree/main/dotfiles)
-
-## Tmux Status Bar
-
-There is a status bar at the bottom, which looks something like this:
+The status bar provides valuable information about your tmux session:
 
 ![StatusBar](./images/tmux-statusbar.png)
 
-Here 1:zsh\* represents that application **zsh** is running on window number 1.
+For example, `1:zsh*` indicates that `zsh` is running in window 1.
