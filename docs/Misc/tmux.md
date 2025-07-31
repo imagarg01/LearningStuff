@@ -1,10 +1,23 @@
 # Tmux (Terminal Multiplexer)
 
-There are 3 important terms in tmux.
+## Overview
 
-1. Session - A session is a collection of windows and panes.
-2. Window - A window is a collection of panes.
-3. Pane - A pane is a section of the terminal. Pane is actually a terminal where we run commands, scripts etc.
+You should use tmux when you want to run multiple terminal sessions from a single terminal window. It is especially useful when you are working on a remote server via SSH, and you want to keep your sessions alive even after you disconnect from the server.
+
+Typical use cases of tmux:
+
+1. You are working on a remote server via SSH, and you want to keep your sessions alive even after you disconnect from the server.
+2. You want to run multiple terminal sessions from a single terminal window.
+3. You want to split your terminal window into multiple panes, and run different commands in each pane.
+4. You want to switch between different terminal sessions easily.
+
+Before we move ahead, let's understand 3 important terms in tmux.
+
+1. **Session** - A session is a collection of windows and panes. You can have multiple sessions running at the same time.
+2. **Window** - A window is a collection of panes. One session can have multiple windows. You can switch between windows easily.
+3. **Pane** - A pane is a section of the terminal. Pane is actually a terminal where we run commands, scripts etc. A window can have multiple panes. You can split a window into multiple panes.
+
+See below diagram for better understanding.
 
 ![image](./images/sess-wind-pane.png)
 
@@ -206,7 +219,7 @@ Press same command to toggle back
 
 =======================================
 
-- Enter into cope mode
+- Enter into copy mode
 
 ```cmd
 <Prefix Key> then [
@@ -234,6 +247,4 @@ There is a status bar at the bottom, which looks something like this:
 
 ![StatusBar](./images/tmux-statusbar.png)
 
-Here 1:zsh* represents that application **zsh** is running on window number 1.
-
-
+Here 1:zsh\* represents that application **zsh** is running on window number 1.
