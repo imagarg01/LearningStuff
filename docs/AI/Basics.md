@@ -337,3 +337,37 @@ Transformer architecture as popularized on the heels of the success of seq2seq(s
 seq2seq contains an encode that processes inputs and a decoder that generates outputs. Both inputs and outputs are the sequence of tokens, uses RNNs (recurrent neural networks) as its encoder and decoder. The encoder processes the input tokens sequentially, outputting the final hidden state that represents the input. The decoder then generates output tokens sequentiall, conditioned on both the final hidden state of the input and the previously generated token.
 
 ![Model Arch](images/modelarch.png)
+
+## Patterns of AI Models
+
+### "Loop until you solve it" Pattern -
+
+#### Pros
+
+1. **Reactivity**: Designed to perceive and respond to real-time inputs, often in dynamic environments. They are capable of processing sensory data and making decisions based on current conditions.
+
+2. **Autonomy**: Operate independently without human intervention, making decisions and taking actions based on their programming and the data they receive.
+
+3. **Goal-Oriented**: Programmed to achieve specific objectives or tasks, often involving complex problem-solving and decision-making processes.
+
+4. **Adaptability**: Capable of learning from their experiences and adapting their behavior to improve performance over time.
+
+5. **Multi-Modality**: Able to process and integrate information from multiple data sources or modalities, such as text, images, audio, and sensor data.
+
+6. **Planning and Reasoning**: Equipped with the ability to plan actions and reason about their environment, often using techniques like search algorithms, logic, or probabilistic reasoning.
+
+7. **Memory**: Utilize memory systems to retain information over time, allowing them to build context and improve decision-making based on past experiences.
+
+8. **Collaboration**: Some AI agents are designed to work collaboratively with humans or other agents, sharing information and coordinating actions to achieve common goals.
+
+#### Cons of "Loop until you solve it" Pattern
+
+1. **Complexity**: AI agents can be complex to design, implement, and maintain, requiring significant expertise in AI and related fields.
+
+2. **Resource Intensive**: They may require substantial computational resources, including processing power, memory, and energy, which can limit their deployment in resource-constrained environments.
+
+3. **Unpredictability**: The autonomous nature of AI agents can lead to unpredictable behavior, especially in dynamic or uncertain environments. This can pose challenges for safety and reliability.
+
+4. **Ethical and Legal Concerns**: The deployment of AI agents raises ethical and legal issues, including concerns about privacy, accountability, and the potential for misuse or harm. 
+
+5. **Bias and Fairness**: AI agents can inherit biases from their training data or design, leading to unfair or discriminatory outcomes.

@@ -1,3 +1,13 @@
+# LLM
+
+- RNN (Recurrent Neural Networks) and CNN (Convolutional Neural Networks) were the dominant architectures for many years, especially in natural language processing (NLP) and computer vision tasks.
+
+- LSTMs (Long Short-Term Memory networks) and GRUs (Gated Recurrent Units) were developed to address some of the limitations of traditional RNNs, particularly in capturing long-range dependencies in sequential data.
+
+## Transformers
+
+Transformers, introduced in the paper "Attention is All You Need" by Vaswani et al. in 2017, revolutionized the field of NLP and beyond. The key innovation of transformers is the self-attention mechanism, which allows the model to weigh the importance of different words in a sentence relative to each other, regardless of their position. This enables transformers to capture long-range dependencies more effectively than RNNs or LSTMs.
+
 ## Core Characteristics of an AI Agent
 
 AI Agents are widerly conceptualized as instantiated operational instances of artificial intelligence system.These agents are different from traditional LLM
