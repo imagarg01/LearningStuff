@@ -1,3 +1,7 @@
+# Overview
+
+Under this we are trying to capture the summary of book "AI Engineering- Building Applications with Foundation Models."
+
 ## Language Models
 
 A language model is a statistical model that is trained on a large corpus of text data in one or more languages. It learns the patterns and structures of the language, allowing it to generate text that is coherent and contextually relevant.
@@ -31,3 +35,27 @@ Language model is one of the many ML algorithms.
 - AI engineering refers to the process of building applications on top of foundation models. Traditional ML engineering involved developing ML models, AI engineering leverage existing one.
 
 ## Foundation Models
+
+Sampling is how a model chooses an output from all possible options, chooseing right sampling strategy can also significantly boost
+a model's performane with relatively little effort.
+
+An AI model is only as good as the data it was trained on. If you want a model to improve on a certain task, you might want to include more data for that task in the training data. While language and domain specific foundation models can be trained from scratch, it's also common to finetune them on top of general-purpose methods.
+
+Given the dominance of English in the internet data, it's nos surprising that general purpose model work much better with English
+than other languages.
+
+Under-rrepresentation is a big reason for this underperformance. However under-representation is not the only reason. A language's
+structure and culture it embodies cam also make a language harder for a model to learn. Other than quality issues, models can also be slower and more expensive for non English languages. **A model's inference latency and cost is proportaional to the number of token in the input and response. It turn out that tokenization can be much more efficient for some languages than others.**
+
+Even though general-purpose foundation models can answer everyday questions about different domains, they are unlikely to perform well on domain-specific tasks.
+
+### Modeling
+
+Before training a model, developers need to decide that the model should look like. What architecture should it follow? How many parameters should it have?.
+
+- **Model Architecure**: The most domninant architecture for language-based foundation models is the transformer architecure, which is based on the attention mechanism.
+
+Transformer architecture as popularized on the heels of the success of seq2seq(sequence-to-sequence) architecture. At the high level,
+seq2seq contains an encode that processes inputs and a decoder that generates outputs. Both inputs and outputs are the sequence of tokens, uses RNNs (recurrent neural networks) as its encoder and decoder. The encoder processes the input tokens sequentially, outputting the final hidden state that represents the input. The decoder then generates output tokens sequentiall, conditioned on both the final hidden state of the input and the previously generated token.
+
+![Model Arch](images/modelarch.png)
