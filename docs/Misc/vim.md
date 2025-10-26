@@ -217,3 +217,5 @@ P - Paste the yanked text before the cursor
 :%s/old/new/gc - Replace all occurrences of "old" with "new" in the entire file, with confirmation for each replacement
 
 :%s/old/new/gi - Replace all occurrences of "old" with "new" in the entire file, ignoring case
+
+## Difference between two files

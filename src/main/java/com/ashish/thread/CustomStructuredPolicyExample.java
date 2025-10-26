@@ -1,110 +1,107 @@
 package com.ashish.thread;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.StructuredTaskScope;
 import java.util.function.Supplier;
 
-import org.apache.commons.lang3.RandomUtils;
-
-class FlightTicketPrice{
-
-    int mPrice;
-    String mNameOfAirline;
-    FlightTicketPrice(String nameOfAirline, int price){
-        this.mNameOfAirline = nameOfAirline;
-        this.mPrice = price;
-    }
-}
+record FlightTicketPrice(String airlineName, int price) {}
 
 public class CustomStructuredPolicyExample {
 
-    public static void main(String[] args) {
+    private static final String[] AIRLINE_NAMES = {"Indigo", "AirIndia", "Alaska"};
+    private static final int API_CALL_DELAY_MS = 100;
+    private static final Random random = new Random();
 
-        try (var scope = new LeastPriceScope<FlightTicketPrice>()){
-            var firstAirline = scope.fork(getPriceFromAirline1("Indigo"));
-            var rainyWeatherSubTask = scope.fork(getPriceFromAirline2("AirIndia"));
-            var coldWeatherState = scope.fork(getPriceFromAirline3("Alaska"));
+    public static void main(String[] args) {
+        try (var scope = new LeastPriceScope<FlightTicketPrice>()) {
+            var indigoTask = scope.fork(getPriceFromAirline(AIRLINE_NAMES[0]));
+            var airIndiaTask = scope.fork(getPriceFromAirline(AIRLINE_NAMES[1]));
+            var alaskaTask = scope.fork(getPriceFromAirline(AIRLINE_NAMES[2]));
 
             scope.join();
 
-            float bestPrice = scope.result();
-            System.out.println("My best price is "+bestPrice);
+            var bestPrice = scope.result();
+            System.out.println("My best price is " + bestPrice);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            Thread.currentThread().interrupt();
+            throw new FlightPriceException("Failed to get flight prices", e);
         }
     }
 
-    private static Callable<FlightTicketPrice> getPriceFromAirline1(String nameOfAirline){
-        //Let assume we are calling a rest API here and getting some price from it
+    private static Callable<FlightTicketPrice> getPriceFromAirline(String nameOfAirline) {
+        // Simulates calling a REST API to get price from airline
         return () -> {
-            Thread.sleep(100);
-            return new FlightTicketPrice(nameOfAirline,RandomUtils.nextInt());
+            Thread.sleep(API_CALL_DELAY_MS);
+            // Generate a positive random price between 100 and 1000
+            var price = 100 + random.nextInt(900);
+            return new FlightTicketPrice(nameOfAirline, price);
         };
     }
 
-    private static Callable<FlightTicketPrice> getPriceFromAirline2(String nameOfAirline){
-        //Let assume we are calling a rest API here and getting some price from it
-        return () -> {
-            Thread.sleep(100);
-            return new FlightTicketPrice(nameOfAirline,RandomUtils.nextInt());
-        };
+    static class FlightPriceException extends RuntimeException {
+        public FlightPriceException(String message, Throwable cause) {
+            super(message, cause);
+        }
     }
-
-    private static Callable<FlightTicketPrice> getPriceFromAirline3(String nameOfAirline){
-        //Let assume we are calling a rest API here and getting some price from it
-        return () -> {
-            Thread.sleep(100);
-            return new FlightTicketPrice(nameOfAirline,RandomUtils.nextInt());
-        };
-    }
-
-
 }
 
-class LeastPriceScope<T> extends StructuredTaskScope<T> {
+class LeastPriceScope<T extends FlightTicketPrice> extends StructuredTaskScope<T> {
 
-    ArrayList<Integer> arrayOfPrices = new ArrayList<Integer>();
-    private int bestPrice;
-    private final List<Throwable> exceptions =
-            Collections.synchronizedList(new ArrayList<>());
-
-    public LeastPriceScope() {
-    }
+    private final List<Integer> prices = Collections.synchronizedList(new ArrayList<>());
+    private volatile int bestPrice = Integer.MAX_VALUE;
+    private final List<Throwable> exceptions = Collections.synchronizedList(new ArrayList<>());
 
     @Override
     protected void handleComplete(Subtask<? extends T> subtask) {
         switch (subtask.state()) {
             case UNAVAILABLE -> {
-                // Ignore
+                // Task not available, ignore
             }
             case SUCCESS -> {
-                FlightTicketPrice result = (FlightTicketPrice) subtask.get();
-                 arrayOfPrices.add(result.mPrice);
-                synchronized (this) {
-                    bestPrice = Collections.min(arrayOfPrices);
+                var result = subtask.get();
+                if (result != null) {
+                    var price = result.price();
+                    prices.add(price);
+                    synchronized (this) {
+                        if (price < bestPrice) {
+                            bestPrice = price;
+                        }
+                    }
                 }
             }
-            case FAILED -> exceptions.add(subtask.exception());
+            case FAILED -> {
+                var exception = subtask.exception();
+                if (exception != null) {
+                    exceptions.add(exception);
+                }
+            }
         }
     }
 
-    public int result(){
+    public int result() {
+        ensureOwnerAndJoined();
+        if (bestPrice == Integer.MAX_VALUE) {
+            throw new IllegalStateException("No successful price results available");
+        }
         return bestPrice;
     }
 
-    public <X extends Throwable> float resultOrElseThrow(
-            Supplier<? extends X> exceptionSupplier) throws X {
+    public <X extends Throwable> int resultOrElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
         ensureOwnerAndJoined();
-        if (bestPrice != 0) {
+        if (bestPrice != Integer.MAX_VALUE) {
             return bestPrice;
         } else {
-            X exception = exceptionSupplier.get();
+            var exception = exceptionSupplier.get();
             exceptions.forEach(exception::addSuppressed);
             throw exception;
         }
+    }
+
+    public List<Throwable> getExceptions() {
+        return new ArrayList<>(exceptions);
     }
 }
