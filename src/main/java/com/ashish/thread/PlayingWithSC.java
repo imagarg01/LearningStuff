@@ -3,49 +3,42 @@ package com.ashish.thread;
 import java.util.concurrent.Callable;
 import java.util.concurrent.StructuredTaskScope;
 
-import com.ashish.thread.PlayingWithSC.Weather;
-
 public class PlayingWithSC {
 
-  record Weather(String weather) {
-  }
+    record Weather(String condition) {}
 
-  public static void main(String[] args) {
+    private static final int WEATHER_READ_DELAY_MS = 100;
+    private static final String[] WEATHER_CONDITIONS = {"Sunny", "Rainy", "Cold"};
 
-    try (var scope = new StructuredTaskScope<Weather>()) {
-      var weatherSubTask = scope.fork(readSunnyWeather());
-      var rainyWeatherSubTask = scope.fork(readRainyWeather());
-      var coldWeatherState = scope.fork(readColdWeather());
+    public static void main(String[] args) {
+        try (var scope = new StructuredTaskScope<Weather>()) {
+            var sunnyWeatherTask = scope.fork(readWeather(WEATHER_CONDITIONS[0]));
+            var rainyWeatherTask = scope.fork(readWeather(WEATHER_CONDITIONS[1]));
+            var coldWeatherTask = scope.fork(readWeather(WEATHER_CONDITIONS[2]));
 
-      scope.join();
+            scope.join();
 
-      System.out.println("State is " + weatherSubTask.state());
+            System.out.println("Sunny weather task state: " + sunnyWeatherTask.state());
+            if (sunnyWeatherTask.state() == StructuredTaskScope.Subtask.State.SUCCESS) {
+                System.out.println("Sunny weather result: " + sunnyWeatherTask.get());
+            }
 
-    } catch (InterruptedException e) {
-      throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new WeatherReadException("Failed to read weather data", e);
+        }
     }
-  }
 
-  private static Callable<Weather> readSunnyWeather() {
-    return () -> {
-      Thread.sleep(100);
-      return new Weather("Sunny");
-    };
-  }
+    private static Callable<Weather> readWeather(String condition) {
+        return () -> {
+            Thread.sleep(WEATHER_READ_DELAY_MS);
+            return new Weather(condition);
+        };
+    }
 
-  private static Callable<Weather> readRainyWeather() {
-    return () -> {
-      Thread.sleep(100);
-      return new Weather("Rainy");
-    };
-  }
-
-  private static Callable<Weather> readColdWeather() {
-    return () -> {
-      Thread.sleep(100);
-      return new Weather("Cold");
-    };
-  }
-
-   
+    static class WeatherReadException extends RuntimeException {
+        public WeatherReadException(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
 }

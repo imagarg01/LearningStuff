@@ -1,5 +1,71 @@
 # Overview
 
+## Neural Networks
+
+The first thing to note is that neuralt networks can only take numbers as inputs and can only output numbers. No Exceptions. So, any data that is not in numerical format must be converted to numbers before it can be fed into a neural network. This includes text, images, audio, and video.
+
+![Neural Network](images/NeuralNetwork.png)
+
+### Neurons/nodes: The numbers in the circles
+
+### Weights: The colored numbers on the lines
+
+### Layers: A collection of neurons is called a layer. You could think of this network as having 3 layers: Input layer with 4 neurons, Middle layer with 3 neurons, and the Output layer with 2 neurons
+
+This network has no notion of what a leaf or a flower is, or what (RGB, Vol) are. It has a job of taking in exactly 4 numbers and giving out exactly 2 numbers. The numbers that go into the network are called inputs, and the numbers that come out of the network are called outputs. It's our interpretation of these numbers that gives them meaning that the 4 input numbers are (RGB,Vol) and it also our decision to look at the ouput numbers and infer that if the first number is larger it's a leaf and so on, its also up to us to choose the right weights such that the model will take our input numbers and give us the right output numbers.
+
+The network just gives you two numbers, whether you interpret it as classification or regression is up to you. If you want to use it for classification, you can interpret the output numbers as probabilities of each class. If you want to use it for regression, you can interpret the output numbers as continuous values.
+
+//ToDo ...read and understand about Activation layer, Bias, Softmax, Dropout, Batch Normalization, Gradient Clipping, Weight Initialization, Regularization, and Optimizer etc.
+
+Similar mechanism used by models to generate language, images, audio and video.
+
+![Neural Network For Language](images/NeuralNetworkForLanguage.png)
+
+So now we can predict one character ahead by providing the network a list of characters. We can use this to generate text by providing a starting character and then repeatedly predicting the next character and appending it to the input sequence.
+
+### Context Length
+
+Context that is provided to the network to make future predictions. The more context you provide, the better the predictions will be. But there is a limit to how much context you can provide. This limit is called the context length. For example, if the context length is 5, then you can only provide the last 5 characters to the network to make a prediction. Modern networks can have very large context lengths (several thoudand words).
+
+### Embeddings
+
+When we trained the models above, the way we did it was by moving around weights and seeing that gives us a smaller loss in the end. And then slowly and recursively changing the weights. At each turn we would calculate the loss and see if it is smaller than before. If it is, we keep the new weights, otherwise we discard them and try again. This is called gradient descent. In this process, the inputs are fixed; the numbers we are putting in now for a,b,c.etc..are arbitrarily picked by us. What if at every iteration in addition to moving the weights around by a bit we also moved the input around and see if we get a smaller loss. This is called learning embeddings. The inputs are no longer fixed, they are also learned. The inputs are now called embeddings.
+
+We talked about embeddings that are just one number per character. But in practice, embeddings are usually multi-dimensional. For example, instead of representing each character with a single number, we can represent it with a vector of 8 numbers. This is called an 8-dimensional embedding. The idea is that each dimension can capture some aspect of the character. For example, one dimension can capture the character's position in the alphabet, another dimension can capture the character's frequency of occurrence in the text, and so on.
+
+Let's call an ordered collection of same-sized vectors a matrix. This matrix is called an embedding matrix. Each row in the matrix corresponds to a character, and the columns correspond to the dimensions of the embedding. So, if we have 26 characters and we want to use 8-dimensional embeddings, our embedding matrix will be of size 26x8.
+
+When we train the model, we will learn both the weights of the network and the values in the embedding matrix. The embedding matrix will be learned such that similar characters will have similar embeddings. For example, the embeddings for 'a' and 'b' will be closer to each other than the embeddings for 'a' and 'z'.
+
+### Subword Tokenizers
+
+What if we directly assigned embeddings to words and made the network predict the next word. The network doesn't understand anything more than numbers anyway, so we can assign a 10-length vector to each word in the vocabulary. The problem with this approach is that the vocabulary size can be very large. For example, if we have a vocabulary of 100,000 words and we want to use 10-dimensional embeddings, our embedding matrix will be of size 100,000x10. This can be very large and can lead to overfitting. Token is the term for a single unit that we embed and then feed to the model. A token can be a character, a word, or a subword.
+
+A Toeknizer is a tool that converts text into tokens and gives you the corresponding numbers that you need to look up the embedding vector for that token in the embedded matrix. There are many different types of tokenizers.
+
+### Self Attention
+
+ToDo
+
+### Softmax
+
+ToDo
+
+### Residual Connections
+
+### Layer Normalization
+
+### Dropout
+
+### Multi head Attention
+
+### Positional encoding and embeddings
+
+## The GPT architecture
+
+Read this <https://medium.com/data-science/understanding-llms-from-scratch-using-middle-school-math-e602d27ec876>
+
 Under this we are trying to capture the summary of book "AI Engineering- Building Applications with Foundation Models."
 
 ## Language Models
@@ -368,6 +434,6 @@ seq2seq contains an encode that processes inputs and a decoder that generates ou
 
 3. **Unpredictability**: The autonomous nature of AI agents can lead to unpredictable behavior, especially in dynamic or uncertain environments. This can pose challenges for safety and reliability.
 
-4. **Ethical and Legal Concerns**: The deployment of AI agents raises ethical and legal issues, including concerns about privacy, accountability, and the potential for misuse or harm. 
+4. **Ethical and Legal Concerns**: The deployment of AI agents raises ethical and legal issues, including concerns about privacy, accountability, and the potential for misuse or harm.
 
 5. **Bias and Fairness**: AI agents can inherit biases from their training data or design, leading to unfair or discriminatory outcomes.
