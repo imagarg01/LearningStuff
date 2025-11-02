@@ -1,8 +1,20 @@
 # Overview
 
+The emergence of prompt engineering has sparked a debate on its role in software development. Advocates argue that it represents a natural evolution of programming. Critics, however, view it as a supplementary skill that supports development. Following differences are there:
+
+1. **Lack of Formal Syntax**: Programming languages are defined by formal syntax (e.g., BNF notation), ensuring consistency and allowing compilers to catch errors before execution. In contrast, prompt engineering uses free-form natural language, which lacks such rigid structure, making it flexible but less predictable.
+
+2. **Error Tolerance**: Programming demands precision. Errors like typos can stop a program from running. Prompt engineering is far more forgiving. AI models can handle errors and still generate responses. However, this leniency can reduce reliability in high-stakes scenarios.
+
+3. **Ambiguity in Natural Language**: Natural language is inherently ambiguous, leading to multiple interpretations of the same prompt. This ambiguity can result in inconsistent outputs from AI models, whereas programming languages are designed to minimize ambiguity through strict syntax and semantics.
+
+4. **Variability in Responses**: AI models operate probabilistically, meaning identical prompts can yield different outputs. Programming, however, is deterministic, producing consistent results for the same input, which is essential for reliability in structured environments.
+
+One thing is common similar to programming languages, involves continuous learning and improvement. As developers gain experience with prompt engineering, they refine their techniques, leading to more effective and efficient interactions with AI models. Prompting engineering is continuous evolving requires us to stay updated with the latest advancements.
+
 Prompt engineering is not just about crafting effective prompts for AI models; it's about understanding the underlying mechanisms of these models and leveraging that knowledge to achieve desired outcomes. You can use prompt engineering to improve safety, reduce bias, and enhance the overall performance of LLM.
 
-You can configure few parameters to influence the behavior of the LLM. Tweaking these settings are important to improve reliability and dependability of the responses. It takes a bit of experimentation to find the right combination of parameters that work best for your specific use case. Below are common seetings you can adjust:
+You can configure few parameters to influence the behavior of the LLM. Tweaking these settings are important to improve reliability and dependability of the responses. It takes a bit of experimentation to find the right combination of parameters that work best for your specific use case. Below are common settings you can adjust:
 
 - **Temperature**: This parameter controls the randomness of the model's output. A lower temperature (e.g., 0.2) makes the output more deterministic and focused, while a higher temperature (e.g., 0.8) increases creativity and diversity in responses. For tasks requiring precision, such as technical writing or factual information, a lower temperature is preferable. Conversely, for creative tasks like storytelling or brainstorming, a higher temperature can yield more varied and imaginative results.
 

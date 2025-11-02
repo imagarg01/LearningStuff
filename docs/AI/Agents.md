@@ -171,3 +171,127 @@ Guidance: combine automated metrics, human evaluation, and production telemetry.
 - Custom Scores
 
 ![Evaluation and Optimization](./images/EvaluationStrategies.png)
+
+In an LLM powered autonomous agent system, LLM functions as brain with several key components:
+
+1. Planning
+
+   - Subgoal and decomposition: Break down complex tasks into manageable subgoals.
+   - Reflection and refinement: Agent can do self-criticism and self-reflection over past actions, learn from mistakes to improve quality of results.
+
+2. Memory
+
+   - Short-term memory: Retain context during interactions. Mostl all active context is stored here.
+   - Long-term memory: Store knowledge and experiences for future use. Retain and recall information over time
+
+3. Tool Use
+
+    - Tool selection: Choose appropriate tools based on task requirements.
+    - Tool execution: Effectively utilize tools to perform actions and gather information.
+
+![Autonomous Agent Components](./images/AutonomousAgent.png)
+
+Let's explore each of these components in detail:
+
+### 1. Planning
+
+Planning is a critical function of an AI agent that enables it to strategize and execute tasks effectively. It involves breaking down complex objectives into smaller, manageable subgoals and continuously refining its approach based on feedback and outcomes.
+
+#### Task Decomposition
+
+- **Chain of Thought (CoT)**: This technique involves breaking down reasoning into a series of intermediate steps, allowing the agent to tackle complex problems methodically. By articulating each step of the thought process, the agent can ensure that it addresses all aspects of the task.
+
+- **Tree of Thought (ToT)**: This approach extends CoT by exploring multiple reasoning paths in parallel. The agent generates a tree-like structure of possible solutions, evaluating each branch to identify the most effective strategy for achieving the goal. The search process can be BFS (breadth-first search) or DFS (depth-first search) based on the task requirements. Task decomposition can be done by LLM another quite distinctive approach is LLM+P involves relying on external planner module to do the decomposition.
+
+#### Self-Reflection and Refinement
+
+Its a vital aspect that allows autonomous agents to improve iteratively bu refining past action decisions and correcting previous mistakes. This process involves:
+
+- **ReAct (Reason + Act)**: A framework where the agent alternates between reasoning about its actions and executing them. This iterative process enables the agent to adapt its strategy based on real-time feedback. The ReAct prompt template incorporates explicit steps for LLM to think, roughly formatted as:
+
+```text
+Thought: <reasoning about what to do>
+Action: <the action to take, e.g. call a tool>
+Action Input: <input to the action>
+Observation: <the result of the action>
+... (this Thought/Action/Action Input/Observation can repeat N times) 
+Thought: <final reasoning>
+Final Answer: <the final answer to the original question>
+```
+
+- **Reflection**: Equip agents with dynamic memory and self-evaluation capabilities. Agents can periodically review their actions, assess outcomes, and adjust strategies accordingly. This continuous learning loop enhances the agent's ability to deliver accurate and relevant results over time. After each action, the agent computes a heuristic and optonally may decide to reset the environment to start a new trial depending on the self-reflection outcome.
+
+![Agent Reflection](./images/AgentReflection.png)
+
+The heuristic function determines when the trajectory is inefficient or contains hallucination and should be stopped.
+
+- **Chain of Hindsight (CoH)**: This technique involves the agent reflecting on its past actions and outcomes to learn from mistakes. By analyzing previous decisions, the agent can identify areas for improvement and refine its strategies for future tasks. The idea of CoH is to generate a hindsight chain of thought that explains what went wrong and how to fix it. Considering that an agent interacts with the environment many times and in each episode the agent gets a little better, AD (Algorithm Distillation) concatenates this learning history and feeds that into the model.
+
+### 2. Memory
+
+Memory is a crucial component of AI agents that enables them to retain and utilize information from past interactions. It can be broadly categorized into short-term and long-term memory, each serving distinct purposes in the agent's functioning.
+
+#### Sensory Memory
+
+Provides the ability to retain impressions of sensory information after the original stimuli have ended. It acts as a buffer for stimuli received through the five senses. Subcategories include iconic (visual) and echoic (auditory) memory, and haptic (tactile) memory.
+
+#### Short-Term Memory or Working Memory
+
+Stores information that we are currently aware and needed to carry out tasks. It has a limited capacity and duration, typically holding information for about 20-30 seconds. Techniques to enhance short-term memory in AI agents include:
+
+   1. **Chunking**: Breaking down information into smaller, manageable units (chunks) to improve retention and recall. For example, a phone number is easier to remember when divided into segments (e.g., 123-456-7890).
+
+   2. **Rehearsal**: Actively repeating or reviewing information to reinforce memory retention. This can be done through techniques like mental imagery or verbal repetition.
+
+   3. **Contextual Cues**: Utilizing environmental or situational cues to trigger memory recall. This can involve associating information with specific contexts or using mnemonic devices.
+
+#### Long-Term Memory
+
+There are two types of long-term memory:
+
+  1. **Explicit Memory (Declarative Memory)**: Involves conscious recollection of facts and events. It can be further divided into episodic memory (personal experiences) and semantic memory (general knowledge).
+
+  2. **Implicit Memory (Non-Declarative Memory)**: Involves unconscious retention of information, such as skills and habits. This type of memory is often demonstrated through performance rather than conscious recall, like riding a bike or playing a musical instrument.
+
+  We can roughly consider the following mappings:
+    - Sensory Memory as learning embedding representations from raw data, including text, images, audio, and video.
+    - Short-Term Memory as maintaining and manipulating information in working memory for immediate tasks.
+    - Long-Term Memory as the storage of information over extended periods, encompassing both explicit and implicit memory. These could be external vector databases or knowledge bases.
+
+### 3. Tool Use
+
+Tool use refers to the ability of AI agents to leverage external tools and resources to enhance their capabilities and performance. This can include a wide range of tools, such as:
+
+- **APIs**: Agents can interact with external APIs to access additional data, services, or functionalities that are not natively available within the agent's environment.
+
+- **Databases**: Agents can query databases to retrieve relevant information, store knowledge, or update records based on their interactions.
+
+- **Plugins**: Agents can utilize plugins or extensions to augment their functionality, enabling them to perform specialized tasks or access new features.
+
+Effective tool use requires agents to have a clear understanding of their goals, the capabilities of the tools at their disposal, and the context in which they are operating. This involves not only selecting the appropriate tools but also managing interactions with them in a way that maximizes efficiency and effectiveness.
+
+#### Tool Selection
+
+Tool selection is a critical aspect of AI agent functionality, as it involves choosing the most appropriate tools to accomplish specific tasks. Effective tool selection requires the agent to evaluate the available options based on several criteria:
+
+- **Relevance**: The tool must be suitable for the task at hand and capable of delivering the desired outcomes.
+
+- **Compatibility**: The tool should integrate seamlessly with the agent's existing systems and workflows.
+
+- **Usability**: The tool must be user-friendly and easy to operate, minimizing the learning curve for the agent.
+
+- **Performance**: The tool should demonstrate reliable and efficient performance, meeting the agent's requirements for speed and accuracy.
+
+By carefully considering these criteria, AI agents can optimize their tool selection process, ultimately enhancing their overall effectiveness and efficiency in achieving their goals.
+
+#### Tool Execution
+
+Tool execution refers to the process by which AI agents utilize selected tools to perform specific actions and gather information. This involves several key steps:
+
+## Challenges in Building AI Agents
+
+1. **Finite Context Length**: Restricted context limits the inclusion of historical data and knowledge, impacting performance on complex tasks. Design has to work with this limited communication bandwidth.
+
+2. **Challenges in long-term planning and task decomposition for complex objectives**: AI agents often struggle with breaking down intricate tasks into manageable subtasks and establishing effective plans to achieve their goals. This can result in inefficiencies and suboptimal performance.
+
+3. **Reliability of natural language interface**: Natural language can be ambiguous and context-dependent, leading to misunderstandings and errors in communication between the agent and users or other systems.

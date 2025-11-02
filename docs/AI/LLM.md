@@ -79,3 +79,18 @@ LLMs also have important limitations:
 - Bias: They can reflect and amplify biases present in the training data.
 - **Context windows**: They have limited context windows, meaning they can only consider a certain amount of text at a time, which can lead to loss of information in longer conversations.(though this is improving with newer models)
 - **Resource Intensive**: They require significant computational resources for training and inference, making them less accessible for smaller applications or devices.
+
+
+## Hanllucinations
+
+Hallucinations refer to instances where a language model generates information that is false, misleading, or not grounded in reality. This can occur even when the model is confident in its output. Hallucinations can manifest in various ways, such as fabricating facts, misrepresenting data, or generating nonsensical text.
+
+### Types of Hallucinations
+
+1. **In-contextual Hallucinations**: When the model generates information that is inconsistent with the provided context or prompt.
+2. **Extrinsic Hallucinations**: Model output should be grounded by the pre-training dataset. When the model generates information that is not supported by its training data or external knowledge sources.
+
+### What Causes Hallucinations?
+
+- **Pre-training Data Issues**: Volume of pre-training is enormous. Data crawled from public internet is noisy, contains inaccuracies, and may include biased or misleading information. As model incorrectly learns from this data, it can produce hallucinated outputs.
+- **Fine-tuning New Knowledge**: When LLMs are fine-tuned on new datasets, especially if the datasets are small or not representative, the model may generate outputs that are not aligned with its original training data.
