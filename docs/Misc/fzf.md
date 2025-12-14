@@ -83,3 +83,59 @@ Checkout a branch easily by fuzzy searching all branches.
 ```bash
 git checkout $(git branch | fzf)
 ```
+
+## Power User Examples
+
+### 1. Interactive Process Killer
+
+Kill processes by selecting them from a list. We use `-m` for multi-select (use TAB to select multiple).
+
+```bash
+# MacOS/Linux
+ps -ef | fzf -m | awk '{print $2}' | xargs kill -9
+```
+
+### 2. Git Stage Files
+
+Select files to stage for commit.
+
+```bash
+git add $(git status -s | fzf -m | awk '{print $2}')
+```
+
+### 3. SSH to Host
+
+Parse your `~/.ssh/config` or `known_hosts` to fuzzy find a host to ssh into.
+
+```bash
+# Simple example using history or a list
+ssh $(cat ~/.ssh/known_hosts | cut -f 1 -d ' ' | fzf)
+```
+
+## The Power of Preview
+
+One of fzf's strongest features is the `--preview` flag, which allows you to see the content of the selection before you press Enter.
+
+### Basic Preview
+
+```bash
+fzf --preview 'cat {}'
+```
+
+*`{}` is a placeholder for the currently highlighted item.*
+
+### Enhanced Preview (with Bat)
+
+If you have `bat` (a cat clone with syntax highlighting) installed:
+
+```bash
+fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'
+```
+
+### Directory Navigation with Preview
+
+Alias specifically for finding files with a preview:
+
+```bash
+alias p="fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'"
+```
