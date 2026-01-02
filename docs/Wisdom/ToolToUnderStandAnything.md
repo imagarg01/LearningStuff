@@ -58,4 +58,10 @@ By identifying these recurring structures, you can apply lessons learned from on
 
 Compare the current situation to similar past cases to draw insights and make predictions. This method leverages historical data and experiences to inform understanding and decision-making.
 
-By situating new information within a broader context of known examples, you can better assess its implications and potential trajectories. Our brain love believing our situation is special, but history shows we are rarely that unique. 
+By situating new information within a broader context of known examples, you can better assess its implications and potential trajectories. Our brain love believing our situation is special, but history shows we are rarely that unique.
+
+### Distinguish Signal from Noise
+
+Focus on the most relevant information that drives understanding, filtering out distractions and irrelevant details. This sharpens your analysis and helps in forming clear insights.
+
+Elite thinkers excel at identifying what truly matters amidst a sea of data, honing in on the core elements that shape outcomes.
