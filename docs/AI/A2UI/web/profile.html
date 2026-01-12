@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Card - A2UI Demo</title>
+    <link rel="stylesheet" href="/static/a2ui-styles.css">
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav {
+            background: var(--a2ui-card-bg);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--a2ui-border);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav a {
+            color: var(--a2ui-text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover {
+            color: var(--a2ui-primary);
+        }
+
+        .nav .logo {
+            font-weight: bold;
+            color: var(--a2ui-text);
+            font-size: 1.1rem;
+        }
+
+        #a2ui-root {
+            flex: 1;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--a2ui-text-muted);
+        }
+
+        .loading::before {
+            content: "⏳";
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 16px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+        }
+
+        /* Profile-specific styles */
+        #avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid var(--a2ui-primary);
+            margin-right: 16px;
+        }
+
+        .debug-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1a1a2e;
+            border-top: 1px solid var(--a2ui-border);
+            max-height: 200px;
+            overflow: auto;
+            font-family: monospace;
+            font-size: 12px;
+            padding: 10px;
+            display: none;
+        }
+
+        .debug-panel.open {
+            display: block;
+        }
+
+        .debug-toggle {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: var(--a2ui-secondary);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body class="a2ui-container">
+    <nav class="nav">
+        <a href="/" class="logo">🚀 A2UI Demo</a>
+        <a href="/profile">Profile</a>
+        <a href="/counter">Counter</a>
+        <a href="/restaurant">Restaurant</a>
+    </nav>
+
+    <div id="a2ui-root">
+        <div class="loading">Streaming UI from server...</div>
+    </div>
+
+    <button class="debug-toggle" onclick="toggleDebug()">Debug</button>
+    <div id="debug-panel" class="debug-panel"></div>
+
+    <script src="/static/a2ui-renderer.js"></script>
+    <script>
+        const renderer = new A2UIRenderer('a2ui-root');
+        const debugPanel = document.getElementById('debug-panel');
+
+        // Connect to SSE stream
+        const eventSource = new EventSource('/api/profile/stream');
+
+        eventSource.addEventListener('a2ui', (e) => {
+            logDebug('📥 ' + e.data);
+            renderer.processMessage(e.data);
+        });
+
+        eventSource.addEventListener('message', (e) => {
+            if (e.data) {
+                logDebug('📥 ' + e.data);
+                renderer.processMessage(e.data);
+            }
+        });
+
+        eventSource.onerror = (e) => {
+            logDebug('❌ SSE Error');
+            eventSource.close();
+        };
+
+        // Handle actions
+        renderer.onAction = async (event) => {
+            logDebug('📤 ' + JSON.stringify(event));
+
+            const response = await fetch('/api/action', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(event)
+            });
+
+            const result = await response.json();
+            logDebug('✅ ' + JSON.stringify(result));
+        };
+
+        // Debug helpers
+        function logDebug(msg) {
+            const line = document.createElement('div');
+            line.textContent = msg;
+            debugPanel.appendChild(line);
+            debugPanel.scrollTop = debugPanel.scrollHeight;
+        }
+
+        function toggleDebug() {
+            debugPanel.classList.toggle('open');
+        }
+    </script>
+</body>
+
+</html>

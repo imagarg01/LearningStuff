@@ -1,0 +1,9 @@
+langgraph
+langchain
+langchain-ollama
+langchain-openai
+pytest
+jupyter
+# Optional for visualization
+langchain_core
+grandalf

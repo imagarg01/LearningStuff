@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter - A2UI Demo</title>
+    <link rel="stylesheet" href="/static/a2ui-styles.css">
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav {
+            background: var(--a2ui-card-bg);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--a2ui-border);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav a {
+            color: var(--a2ui-text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover {
+            color: var(--a2ui-primary);
+        }
+
+        .nav .logo {
+            font-weight: bold;
+            color: var(--a2ui-text);
+            font-size: 1.1rem;
+        }
+
+        #a2ui-root {
+            flex: 1;
+            max-width: 400px;
+            margin: 80px auto;
+            padding: 0 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--a2ui-text-muted);
+        }
+
+        /* Counter-specific styles */
+        #count_display {
+            font-size: 4rem !important;
+            text-align: center;
+            margin: 20px 0 !important;
+        }
+
+        #button_row {
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        #dec_btn,
+        #inc_btn {
+            font-size: 1.5rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+
+        #reset_btn {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body class="a2ui-container">
+    <nav class="nav">
+        <a href="/" class="logo">🚀 A2UI Demo</a>
+        <a href="/profile">Profile</a>
+        <a href="/counter">Counter</a>
+        <a href="/restaurant">Restaurant</a>
+    </nav>
+
+    <div id="a2ui-root">
+        <div class="loading">Loading counter...</div>
+    </div>
+
+    <script src="/static/a2ui-renderer.js"></script>
+    <script>
+        const renderer = new A2UIRenderer('a2ui-root');
+        let count = 0;
+
+        // Connect to SSE stream
+        const eventSource = new EventSource('/api/counter/stream');
+
+        eventSource.addEventListener('a2ui', (e) => {
+            renderer.processMessage(e.data);
+        });
+
+        eventSource.addEventListener('message', (e) => {
+            if (e.data) {
+                renderer.processMessage(e.data);
+            }
+        });
+
+        eventSource.onerror = () => {
+            eventSource.close();
+        };
+
+        // Handle actions locally for this demo
+        renderer.onAction = (event) => {
+            const action = event.userAction.action.name;
+
+            if (action === 'increment') {
+                count++;
+            } else if (action === 'decrement') {
+                count--;
+            } else if (action === 'reset') {
+                count = 0;
+            }
+
+            // Update data model and re-render
+            renderer.handleDataModelUpdate({ contents: { count: String(count) } });
+        };
+    </script>
+</body>
+
+</html>

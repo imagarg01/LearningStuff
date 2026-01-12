@@ -1,43 +1,146 @@
-## Overview
+# Value Objects in Java: The Comprehensive Guide
 
-- Java's required that every object has identity, even if simple domain values don't want it, means worse performance. 
-Typically, the JVM has to allocate memory for each newly created object, distinguishing it from every object already 
-in the system, and reference that memory location whenever the object is used or stored. This causes the garbage 
-collector to work harder, taking cycles away from the application.
+> "A small object that represents a simple entity whose equality is not based on identity: i.e. two value objects are equal when they have the same value, not necessarily being the same object." — Martin Fowler
 
-- A value object is an object that does not have identity. A value object is an instance of a value class. Two value 
-objects are the same according to == if they have the same field values, regardless of when or how they were created.
+## 1. What is a Value Object?
 
-- Two variables of a value class type may hold references to different memory locations, but refer to the same value 
-object—much like two variables of type int may hold the same int value.
+In Domain-Driven Design (DDD), we distinguish between two main types of objects:
 
-### Programming without identity
+1. **Entities**: Objects defined by their **Identity** (who they are). If you change their name or address, they are still the same person/company.
+2. **Value Objects**: Objects defined by their **Attributes** (what they are). If you change the value, it is a different object.
 
-- By opting out of identity, developers are opting in to a programming model that provides the best of both worlds: the 
-abstraction of classes with the simplicity and performance benefits of primitives.
+### The "Bill vs Coin" Analogy
 
+- **Entity**: A `$100 Bill` has a unique serial number. If you swap it with your friend, you have a *different* bill.
+- **Value Object**: A `$1 Coin` has no ID. If you swap it with your friend, it doesn't matter. It holds the same *value*.
 
-### Important points
+![Entity vs Value Object](./images/entity_vs_vo.png)
 
-- Classes with the value modifier are value classes; classes without the modifier are identity classes.
+### Key Characteristics
+
+1. **Immutable**: Once created, it cannot be changed. You must create a new one to represent a new value.
+2. **Identity-less**: Equality is based on fields (`.equals()`), not memory address (`==`).
+3. **Self-Validating**: It should never exist in an invalid state. `new Money(-100)` should throw an exception immediately.
+
+---
+
+## 2. Why Use Them? (Avoiding "Primitive Obsession")
+
+**Anti-Pattern: Primitive Obsession**
+Using raw types (`String`, `int`) to represent domain concepts often leads to bugs and scattered logic.
+
+```java
+// BAD: Logic scattered everywhere
+public void registerUser(String email) {
+    if (email == null || !email.contains("@")) { // Validation repeated
+        throw new IllegalArgumentException("Invalid email");
+    }
+    // ...
+}
+```
+
+**Solution: Value Objects**
+Encapsulate the logic in a dedicated class.
+
+```java
+// GOOD: Logic centralised
+public void registerUser(EmailAddress email) {
+    // email is guaranteed to be valid here
+}
+```
+
+---
+
+## 3. Implementation in Modern Java (Records)
+
+Since Java 14, **Records** are the perfect tool for Value Objects. They provide immutability, `equals()`, `hashCode()`, and `toString()` out of the box.
+
+### Example 1: Money
+
+```java
+public record Money(BigDecimal amount, String currency) {
+    
+    // Compact Constructor for Validation
+    public Money {
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Money cannot be negative");
+        }
+        if (currency == null || currency.length() != 3) {
+            throw new IllegalArgumentException("Invalid currency code");
+        }
+    }
+
+    public Money add(Money other) {
+        if (!this.currency.equals(other.currency)) {
+            throw new IllegalArgumentException("Currency mismatch");
+        }
+        return new Money(this.amount.add(other.amount), this.currency);
+    }
+}
+```
+
+### Example 2: Email Address
+
+```java
+public record EmailAddress(String value) {
+    public EmailAddress {
+        if (value == null || !value.contains("@")) {
+            throw new IllegalArgumentException("Invalid email format");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return value; // Unbox seamlessly
+    }
+}
+```
+
+---
+
+## 4. The Future: Project Valhalla & `value class`
+
+*Note: This section covers upcoming Java features (JEP 401).*
+
+While `records` are great, they still have "Identity" in the JVM (monitor locks, memory address). This has a performance cost.
+Project Valhalla introduces true **Value Classes** to the JVM.
+
+### The Problem with Objects today
+
+- **Pointer Chasing**: Objects are stored in the Heap. An array `Money[]` is actually an array of pointers to objects scattered in memory.
+- **Header Overhead**: Every object has a header (12-16 bytes) for locking/GC, even if it just holds a single `byte`.
+
+### The Solution: `value class`
+
+In a future Java version, you will be able to declare:
 
 ```java
 value record Color(byte red, byte green, byte blue) {}
 ```
 
-- Instance fields of value class are implicitly final.
-- Instance method of value class must not be synchronized.
-- A concrete value class is implicitly final and may have no subclasses.
-- A abstract value class may have both value and identity subclasses.
-- Identity classes may only be extended by identity classes.
-- Interfaces may be extended by both identity and value classes.
-- The class Object, which sits at the top of the class hierarchy, is considered an identity class and has identity 
-instances, but in most respects behaves more like an interface and permits value subclasses.
-- System.identityHashCode: The "identity hash code" of a value object is computed by combining the hash codes of the 
-value object's fields. The default implementation of Object.hashCode continues to return the same value as identityHashCode.
-- **Synchronization** -> Value objects do not have synchronization monitors. At compile time, the operand of a 
-synchronized statement must not have a concrete value class type. At run time, if an attempt is made to synchronize on 
-a value object (for example, where the operand of a synchronized statement has type Object), an IdentityException is 
-thrown. Invocations of the wait and notify methods of Object will similarly fail at run time, because they require 
-callers to first synchronize on the object's monitor.
-- 
+**Benefits**:
+
+1. **Flattened in Memory**: An array `Color[]` will store the bytes `rgb rgb rgb` directly, just like `int[]`. No pointers!
+2. **No Identity**:
+    - `==` compares values, not addresses.
+    - No `synchronized` allowed.
+    - No `null` (potentially).
+
+### Summary of Differences (Future)
+
+| Feature | Identity Class (Normal) | Value Class (Valhalla) |
+| :--- | :--- | :--- |
+| **Declaration** | `class` | `value class` |
+| **Equality (`==`)** | Check same reference | Check same fields |
+| **Sync Monitor** | Allowed | Throws `IdentityException` |
+| **Memory Layout** | Pointer to Heap | Flattened / Inline |
+| **Best For** | Services, Entities, mutable state | Points, Money, Dates, Colors |
+
+---
+
+## Summary Checklist
+
+- [ ] Use **Records** for all your Value Objects today.
+- [ ] Validate data in the **Compact Constructor**.
+- [ ] Make them **Immutable**.
+- [ ] Watch out for **Project Valhalla** for free performance boosts in the future.

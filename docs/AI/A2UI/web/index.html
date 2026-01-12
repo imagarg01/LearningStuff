@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A2UI Demo</title>
+    <link rel="stylesheet" href="/static/a2ui-styles.css">
+    <style>
+        body {
+            margin: 0;
+            background: var(--a2ui-bg);
+            color: var(--a2ui-text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #1e1e2e 0%, #2a2a4a 100%);
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin: 0 0 20px;
+            background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--a2ui-text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        
+        .demos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .demo-card {
+            background: var(--a2ui-card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid var(--a2ui-border);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .demo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.2);
+            border-color: var(--a2ui-primary);
+        }
+        
+        .demo-card .icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+        
+        .demo-card h2 {
+            margin: 0 0 12px;
+            font-size: 1.5rem;
+        }
+        
+        .demo-card p {
+            margin: 0;
+            color: var(--a2ui-text-muted);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--a2ui-text-muted);
+            border-top: 1px solid var(--a2ui-border);
+        }
+        
+        footer a {
+            color: var(--a2ui-primary);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>🚀 A2UI Demo</h1>
+        <p>Experience AI agents generating rich, interactive UIs that render natively in your browser—streamed in real-time via SSE.</p>
+    </div>
+    
+    <div class="demos">
+        <a href="/profile" class="demo-card">
+            <div class="icon">👤</div>
+            <h2>Profile Card</h2>
+            <p>See a complete user profile built progressively from A2UI JSONL stream with data binding.</p>
+        </a>
+        
+        <a href="/counter" class="demo-card">
+            <div class="icon">⚡</div>
+            <h2>Interactive Counter</h2>
+            <p>A reactive counter demonstrating event handling and data updates without page reload.</p>
+        </a>
+        
+        <a href="/restaurant" class="demo-card">
+            <div class="icon">🍽️</div>
+            <h2>Restaurant Finder</h2>
+            <p>Complete demo with search form, dynamic results, and booking actions.</p>
+        </a>
+    </div>
+    
+    <footer>
+        <p>Built with A2UI Protocol v0.8 | 
+           <a href="https://a2ui.org" target="_blank">Official Docs</a> | 
+           <a href="https://github.com/google/A2UI" target="_blank">GitHub</a>
+        </p>
+    </footer>
+</body>
+</html>

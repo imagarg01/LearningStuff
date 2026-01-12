@@ -1,0 +1,289 @@
+/**
+ * A2UI CSS Styles
+ * ===============
+ * Default styling for A2UI components
+ */
+
+:root {
+    --a2ui-primary: #6366f1;
+    --a2ui-primary-hover: #4f46e5;
+    --a2ui-secondary: #64748b;
+    --a2ui-secondary-hover: #475569;
+    --a2ui-danger: #ef4444;
+    --a2ui-danger-hover: #dc2626;
+    --a2ui-success: #22c55e;
+    --a2ui-bg: #1e1e2e;
+    --a2ui-card-bg: #2a2a3e;
+    --a2ui-text: #e2e8f0;
+    --a2ui-text-muted: #94a3b8;
+    --a2ui-border: #3f3f5a;
+    --a2ui-radius: 12px;
+    --a2ui-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+/* Light theme override */
+.a2ui-light {
+    --a2ui-bg: #f8fafc;
+    --a2ui-card-bg: #ffffff;
+    --a2ui-text: #1e293b;
+    --a2ui-text-muted: #64748b;
+    --a2ui-border: #e2e8f0;
+    --a2ui-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Container */
+.a2ui-container {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--a2ui-bg);
+    color: var(--a2ui-text);
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Layout Components */
+.a2ui-column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.a2ui-column.align-start { align-items: flex-start; }
+.a2ui-column.align-center { align-items: center; }
+.a2ui-column.align-end { align-items: flex-end; }
+
+.a2ui-row {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.a2ui-row.align-start { justify-content: flex-start; align-items: center; }
+.a2ui-row.align-center { justify-content: center; align-items: center; }
+.a2ui-row.align-end { justify-content: flex-end; align-items: center; }
+.a2ui-row.align-spaceBetween { justify-content: space-between; align-items: center; }
+
+.a2ui-row.spacing-small { gap: 8px; }
+.a2ui-row.spacing-medium { gap: 16px; }
+.a2ui-row.spacing-large { gap: 24px; }
+
+/* Text Components */
+.a2ui-text {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.a2ui-text.h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--a2ui-primary), #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.a2ui-text.h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.a2ui-text.h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.a2ui-text.body {
+    font-size: 1rem;
+    color: var(--a2ui-text);
+}
+
+.a2ui-text.caption {
+    font-size: 0.875rem;
+    color: var(--a2ui-text-muted);
+}
+
+/* Button Component */
+.a2ui-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.a2ui-button:active {
+    transform: scale(0.98);
+}
+
+.a2ui-button.primary {
+    background: var(--a2ui-primary);
+    color: white;
+}
+
+.a2ui-button.primary:hover {
+    background: var(--a2ui-primary-hover);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.a2ui-button.secondary {
+    background: var(--a2ui-secondary);
+    color: white;
+}
+
+.a2ui-button.secondary:hover {
+    background: var(--a2ui-secondary-hover);
+}
+
+.a2ui-button.danger {
+    background: var(--a2ui-danger);
+    color: white;
+}
+
+.a2ui-button.danger:hover {
+    background: var(--a2ui-danger-hover);
+}
+
+.a2ui-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Card Component */
+.a2ui-card {
+    background: var(--a2ui-card-bg);
+    border-radius: var(--a2ui-radius);
+    padding: 20px;
+    border: 1px solid var(--a2ui-border);
+}
+
+.a2ui-card.elevation-low {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.a2ui-card.elevation-medium {
+    box-shadow: var(--a2ui-shadow);
+}
+
+.a2ui-card.elevation-high {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Image Component */
+.a2ui-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* TextField Component */
+.a2ui-textfield-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.a2ui-textfield-wrapper label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--a2ui-text-muted);
+}
+
+.a2ui-textfield {
+    padding: 12px 16px;
+    border: 1px solid var(--a2ui-border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--a2ui-bg);
+    color: var(--a2ui-text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.a2ui-textfield:focus {
+    outline: none;
+    border-color: var(--a2ui-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.a2ui-textfield::placeholder {
+    color: var(--a2ui-text-muted);
+}
+
+/* Checkbox Component */
+.a2ui-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.a2ui-checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--a2ui-primary);
+    cursor: pointer;
+}
+
+.a2ui-checkbox-wrapper label {
+    cursor: pointer;
+    user-select: none;
+}
+
+/* List Component */
+.a2ui-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.a2ui-list-item {
+    padding: 12px;
+    background: var(--a2ui-card-bg);
+    border-radius: 8px;
+    border: 1px solid var(--a2ui-border);
+}
+
+/* Unknown Component */
+.a2ui-unknown {
+    padding: 10px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px dashed var(--a2ui-danger);
+    border-radius: 8px;
+    color: var(--a2ui-danger);
+}
+
+/* Loading Animation */
+@keyframes a2ui-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.a2ui-loading {
+    animation: a2ui-pulse 1.5s ease-in-out infinite;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .a2ui-container {
+        padding: 12px;
+    }
+    
+    .a2ui-text.h1 {
+        font-size: 1.5rem;
+    }
+    
+    .a2ui-text.h2 {
+        font-size: 1.25rem;
+    }
+    
+    .a2ui-row {
+        flex-direction: column;
+    }
+}

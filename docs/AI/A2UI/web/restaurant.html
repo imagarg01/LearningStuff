@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Finder - A2UI Demo</title>
+    <link rel="stylesheet" href="/static/a2ui-styles.css">
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav {
+            background: var(--a2ui-card-bg);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--a2ui-border);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav a {
+            color: var(--a2ui-text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover {
+            color: var(--a2ui-primary);
+        }
+
+        .nav .logo {
+            font-weight: bold;
+            color: var(--a2ui-text);
+            font-size: 1.1rem;
+        }
+
+        #a2ui-root {
+            flex: 1;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--a2ui-text-muted);
+        }
+
+        /* Restaurant-specific styles */
+        #search_form {
+            gap: 12px;
+        }
+
+        #search_input {
+            flex: 1;
+        }
+
+        #results_list .a2ui-card {
+            margin-bottom: 12px;
+            transition: transform 0.2s;
+        }
+
+        #results_list .a2ui-card:hover {
+            transform: translateX(4px);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--a2ui-success);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body class="a2ui-container">
+    <nav class="nav">
+        <a href="/" class="logo">🚀 A2UI Demo</a>
+        <a href="/profile">Profile</a>
+        <a href="/counter">Counter</a>
+        <a href="/restaurant">Restaurant</a>
+    </nav>
+
+    <div id="a2ui-root">
+        <div class="loading">Finding restaurants near you...</div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="/static/a2ui-renderer.js"></script>
+    <script>
+        const renderer = new A2UIRenderer('a2ui-root');
+        const toast = document.getElementById('toast');
+
+        // Connect to SSE stream
+        const eventSource = new EventSource('/api/restaurant/stream');
+
+        eventSource.addEventListener('a2ui', (e) => {
+            renderer.processMessage(e.data);
+        });
+
+        eventSource.addEventListener('message', (e) => {
+            if (e.data) {
+                renderer.processMessage(e.data);
+            }
+        });
+
+        eventSource.onerror = () => {
+            eventSource.close();
+        };
+
+        // Handle actions
+        renderer.onAction = async (event) => {
+            const action = event.userAction.action.name;
+
+            if (action.startsWith('book_')) {
+                const restaurantId = action.replace('book_', '');
+                showToast(`✅ Booking requested for restaurant ${restaurantId}!`);
+
+                // Send to server
+                await fetch('/api/action', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(event)
+                });
+            } else if (action === 'search') {
+                showToast('🔍 Searching...');
+            }
+        };
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+
+</html>
