@@ -60,6 +60,38 @@ graph TB
 
 Each surface has its **own data model**, preventing key collisions across surfaces.
 
+### 📱 Mobile-Specific Surfaces
+
+On mobile platforms, surfaces map to different navigation contexts:
+
+```mermaid
+graph TB
+    subgraph "Mobile App Surfaces"
+        subgraph "Surface: main_screen"
+            A[Main Content]
+        end
+        subgraph "Surface: bottom_sheet"
+            B[Expandable Details]
+        end
+        subgraph "Surface: modal"
+            C[Full-Screen Dialog]
+        end
+        subgraph "Surface: tab_bar"
+            D[Tab Navigation]
+        end
+    end
+```
+
+| Mobile Surface Type | Native Implementation |
+|---------------------|----------------------|
+| **Screen** | React Native `Screen` / Flutter `Scaffold` |
+| **Bottom Sheet** | iOS Sheets / Android BottomSheet |
+| **Modal** | `Modal` component with animations |
+| **Tab Content** | Per-tab isolated surfaces |
+
+> [!TIP]
+> Mobile surfaces often have **gesture-based dismissal** (swipe down to close). The A2UI client sends a `userAction` with `action.name = "dismiss"` when users gesture to close.
+
 ---
 
 ## 2. Components
@@ -236,10 +268,23 @@ The **Catalog** is a client-side mapping from abstract component types to **nati
 graph LR
     A["A2UI: {Text: {...}}"] --> B[Catalog Lookup]
     B --> C{Platform?}
-    C -->|React| D["<Typography>"]
-    C -->|Flutter| E["Text()"]
-    C -->|Angular| F["<mat-label>"]
+    C -->|React Web| D["<Typography>"]
+    C -->|React Native| E["<Text>"]
+    C -->|Flutter| F["Text()"]
 ```
+
+### 📱 Mobile Widget Mapping
+
+| A2UI Component | React Native | Flutter |
+|----------------|--------------|---------|
+| `Text` | `<Text>` | `Text()` |
+| `Button` | `<Pressable>` | `ElevatedButton()` |
+| `TextField` | `<TextInput>` | `TextField()` |
+| `Card` | `<View>` with shadow | `Card()` |
+| `Row` | `<View style={flexDirection: 'row'}>` | `Row()` |
+| `Column` | `<View style={flexDirection: 'column'}>` | `Column()` |
+| `Image` | `<Image>` | `Image.network()` |
+| `List` | `<FlatList>` | `ListView.builder()` |
 
 ### Catalog Negotiation
 
@@ -253,6 +298,7 @@ graph LR
 |------|----------|------------|
 | **Standard** | Text, Button, Row, Column, Card | A2UI Spec |
 | **Custom** | MapView, ChartWidget, VideoPlayer | Client App |
+| **📱 Mobile-Only** | BottomSheet, SwipeableRow, FloatingActionButton | Mobile Catalog |
 
 ---
 

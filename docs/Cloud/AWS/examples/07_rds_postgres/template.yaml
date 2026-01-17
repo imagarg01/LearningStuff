@@ -1,0 +1,103 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: RDS PostgreSQL with best practices
+
+Parameters:
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+  SubnetIds:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: Private subnets for RDS
+  MasterPassword:
+    Type: String
+    NoEcho: true
+    MinLength: 8
+  EnvironmentName:
+    Type: String
+    Default: demo
+  MultiAZ:
+    Type: String
+    Default: "false"
+    AllowedValues: ["true", "false"]
+  InstanceClass:
+    Type: String
+    Default: db.t3.micro
+
+Conditions:
+  IsMultiAZ: !Equals [!Ref MultiAZ, "true"]
+
+Resources:
+  # DB Subnet Group
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subnets for RDS
+      SubnetIds: !Ref SubnetIds
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-db-subnet-group
+
+  # Security Group
+  DBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: RDS Security Group
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          CidrIp: 10.0.0.0/8
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-rds-sg
+
+  # Parameter Group
+  DBParameterGroup:
+    Type: AWS::RDS::DBParameterGroup
+    Properties:
+      Family: postgres14
+      Description: Custom parameters
+      Parameters:
+        log_connections: "1"
+        log_disconnections: "1"
+
+  # RDS Instance
+  DBInstance:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Snapshot
+    Properties:
+      DBInstanceIdentifier: !Sub ${EnvironmentName}-postgres
+      DBInstanceClass: !Ref InstanceClass
+      Engine: postgres
+      EngineVersion: "14"
+      AllocatedStorage: "20"
+      StorageType: gp3
+      StorageEncrypted: true
+      MasterUsername: admin
+      MasterUserPassword: !Ref MasterPassword
+      DBName: mydb
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      VPCSecurityGroups:
+        - !Ref DBSecurityGroup
+      DBParameterGroupName: !Ref DBParameterGroup
+      MultiAZ: !If [IsMultiAZ, true, false]
+      BackupRetentionPeriod: 7
+      PreferredBackupWindow: "03:00-04:00"
+      PreferredMaintenanceWindow: "sun:04:00-sun:05:00"
+      PubliclyAccessible: false
+      EnablePerformanceInsights: true
+      PerformanceInsightsRetentionPeriod: 7
+      DeletionProtection: false
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-postgres
+
+Outputs:
+  Endpoint:
+    Value: !GetAtt DBInstance.Endpoint.Address
+    Description: RDS Endpoint
+  Port:
+    Value: !GetAtt DBInstance.Endpoint.Port
+  ConnectionString:
+    Value: !Sub postgresql://admin@${DBInstance.Endpoint.Address}:${DBInstance.Endpoint.Port}/mydb
+    Description: Connection string (password not included)

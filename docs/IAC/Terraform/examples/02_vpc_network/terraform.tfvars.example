@@ -1,0 +1,37 @@
+# Example Terraform Variables
+# Copy this file to terraform.tfvars and customize values
+
+# AWS region for VPC deployment
+aws_region = "us-east-1"
+
+# VPC CIDR block
+vpc_cidr = "10.0.0.0/16"
+
+# Environment name
+environment = "dev"
+
+# Project name
+project = "learning-terraform"
+
+# Availability zones
+# Leave empty to auto-detect, or specify explicitly
+# availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
+
+# Number of public subnets
+public_subnet_count = 2
+
+# Number of private subnets
+private_subnet_count = 2
+
+# Enable NAT Gateway for private subnets (adds cost!)
+# enable_nat_gateway = false
+
+# Single NAT Gateway (cheaper) or one per AZ (more resilient)
+# single_nat_gateway = true
+
+# Tags
+# common_tags = {
+#   Owner     = "your-name"
+#   Team      = "platform"
+#   CostCenter = "12345"
+# }

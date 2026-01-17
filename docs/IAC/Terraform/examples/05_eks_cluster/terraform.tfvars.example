@@ -1,0 +1,57 @@
+# Example Terraform Variables
+# Copy this file to terraform.tfvars and customize values
+
+# AWS region
+aws_region = "us-east-1"
+
+# Environment name
+environment = "dev"
+
+# Project name
+project = "learning-terraform"
+
+# Cluster settings
+cluster_name    = "my-eks-cluster"
+cluster_version = "1.28"
+
+# Node group configuration
+node_instance_types = ["t3.medium"]
+node_desired_size   = 2
+node_min_size       = 1
+node_max_size       = 4
+
+# Node disk size (GB)
+node_disk_size = 20
+
+# Capacity type: ON_DEMAND or SPOT
+# SPOT is cheaper but can be interrupted
+# capacity_type = "ON_DEMAND"
+
+# Enable private cluster (control plane private access only)
+# private_cluster = false
+
+# Enable public endpoint access
+# public_access = true
+
+# Allowed CIDR blocks for public access
+# public_access_cidrs = ["0.0.0.0/0"]
+
+# VPC settings
+# Use existing VPC or let module create one
+# vpc_id = "vpc-12345678"
+# subnet_ids = ["subnet-abc", "subnet-def"]
+
+# Add-ons
+# enable_cluster_autoscaler = true
+# enable_metrics_server = true
+# enable_aws_load_balancer_controller = true
+
+# Tags
+# common_tags = {
+#   Owner     = "your-name"
+#   Team      = "platform"
+#   CostCenter = "12345"
+# }
+
+# WARNING: EKS clusters are expensive!
+# Estimated cost: ~$70/month for control plane + node costs

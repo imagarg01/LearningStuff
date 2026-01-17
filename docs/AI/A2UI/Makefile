@@ -18,6 +18,7 @@ help:
 	@echo "  events       - Run event handling examples"
 	@echo "  streaming    - Run streaming UI patterns"
 	@echo "  restaurant   - Run restaurant finder (Python only)"
+	@echo "  mobile       - Run mobile demo (📱 SwipeableRow, BottomSheet, FAB)"
 	@echo "  all-examples - Run all Python examples"
 	@echo ""
 	@echo "🌐 Full-Stack Demos (Python + Browser):"
@@ -46,6 +47,7 @@ validate:
 	python -m py_compile src/03_event_handling.py
 	python -m py_compile src/04_streaming_ui.py
 	python -m py_compile src/05_restaurant_finder.py
+	python -m py_compile src/06_mobile_demo.py
 	python -m py_compile server.py
 	@echo "✅ All files valid!"
 
@@ -83,7 +85,13 @@ restaurant:
 	@echo ""
 	python src/05_restaurant_finder.py
 
-all-examples: basic data-binding events streaming restaurant
+mobile:
+	@echo ""
+	@echo "📱 Running Mobile Demo (SwipeableRow, FAB, PullToRefresh)..."
+	@echo ""
+	python src/06_mobile_demo.py
+
+all-examples: basic data-binding events streaming restaurant mobile
 	@echo ""
 	@echo "✅ All Python examples completed!"
 

@@ -9,6 +9,8 @@ Imagine your application is a building. You want to know which room is the most 
 - **Log files** are like reading a guest list—valid but tedious.
 - **Flamegraphs** are like an X-ray heatmap. You can instantly see which room (function) is packed.
 
+![Flamegraph](./images/flamegraph.png)
+
 ### How to Read one
 
 A flamegraph is a chart of stacked rectangles.
@@ -143,32 +145,41 @@ mvn spring-boot:run
 
 The server will start on port `8080`.
 
-### Scenarios & Endpoints
+### Interactive Dashboard (NEW)
 
-We have mapped the patterns above to REST endpoints so you can profile a live web server.
+We have built a **Web Dashboard** to make profiling easy.
 
-| Scenario | Endpoint | Description |
-| :--- | :--- | :--- |
-| **Jackson Tower** | `GET /heavy/cpu` | Simulates CPU-heavy Regex & Math |
-| **Logging Plateau** | `GET /heavy/alloc` | Simulates high allocation & String churn |
-| **DB Wait** | `GET /heavy/db` | Simulates thread blocking (sleep) |
-| **Proxy Forest** | `GET /heavy/proxy` | Simulates AOP overhead |
+1. Open **<http://localhost:8080>** in your browser.
+2. You will see controls to **Start/Stop Scenarios** and **Record Profiling Data**.
 
-### How to Profile
+![Dashboard](https://placehold.co/600x400?text=Flamegraph+Dashboard)
 
-1. Start the app: `mvn spring-boot:run`
-2. Run a load generator in a separate terminal (e.g., `ab` or a loop):
+### Using the Dashboard
 
-   ```bash
-   # Example: Hit the Proxy endpoint 1000 times
-   while true; do curl -s http://localhost:8080/heavy/proxy > /dev/null; done
-   ```
+| Button | Description |
+| :--- | :--- |
+| **Start CPU Load** | Triggers high CPU usage (Regex/Math) |
+| **Start Allocation** | Triggers high memory allocation (String churn) |
+| **Start Lock Contention** | Simulates threads fighting for locks |
+| **Start File I/O** | Simulates blocking I/O (Disk write/read) |
+| **Start Recording** | Starts Java Flight Recorder (JFR) in the background |
+| **Stop & Download** | Stops JFR and downloads the `.jfr` file for analysis |
 
-3. Run `asprof`:
+---
 
-   ```bash
-   asprof -d 10 -f proxy-forest.html <PID_OF_SPRING_BOOT_APP>
-   ```
+## 5. Analyzing the Results
+
+Once you have downloaded the `.jfr` file from the dashboard:
+
+1. **IntelliJ IDEA**: Drag and drop the `.jfr` file into the IDE. It will open the "Profiler" view. Select "Flamegraph".
+2. **JDK Mission Control (JMC)**: Open the file in JMC to see advanced details.
+
+### What to look for?
+
+- **CPU Task**: Look for wide towers involving `PerformanceScenarioService.hotMethod`.
+- **Alloc Task**: Look for `PerformanceScenarioService.allocateAndProcess` allocating `java.lang.String`.
+- **Lock Task**: Look for `jdk.JavaMonitorEnter` events (if viewing Lock profile).
+- **IO Task**: Look for `FileDispatcherImpl` (if viewing Wall-clock profile).
 
 ---
 
@@ -264,5 +275,15 @@ If you are a Spring Boot developer, your flamegraphs will look unique due to the
 | **GC Pauses** | App freezes, high memory | `asprof -d 30 -e alloc -f alloc.html <PID>` | `-e alloc` |
 | **Locks** | Slow app, low CPU | `asprof -d 30 -e lock -f lock.html <PID>` | `-e lock` |
 | **I/O Wait** | Slow app, low CPU | `asprof -d 30 -e wall -f wall.html <PID>` | `-e wall` |
+
+## Reference
+
+| Bottleneck Type | Profiler Mode | Visual Signature |
+| :--- | :--- | :--- |
+| Calculation Heavy | CPU | The Wide Tower |
+| Memory/Allocation | -e alloc | The Flat Plateau (Mesa) |
+| Slow DB/API Wait | -e wall | The Solid Block (Bottom) |
+| Thread Fighting | -e lock | The Wait Block (Top) |
+| Spring/AOP Layers | CPU | The Proxy Forest |
 
 Happy Profiling!

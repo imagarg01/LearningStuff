@@ -1,0 +1,43 @@
+# Example Terraform Variables
+# Copy this file to terraform.tfvars and customize values
+
+# AWS region
+aws_region = "us-east-1"
+
+# Environment (dev, staging, prod)
+# This affects:
+# - NAT Gateway (disabled in dev to save costs)
+# - SSH access (enabled in dev only)
+# - Multi-AZ database (enabled in prod only)
+# - Deletion protection (enabled in prod only)
+environment = "dev"
+
+# Project name
+project = "internal-modules-demo"
+
+# VPC CIDR
+vpc_cidr = "10.0.0.0/16"
+
+# Availability zones
+availability_zones = ["us-east-1a", "us-east-1b"]
+
+# Web server instance type
+web_instance_type = "t3.micro"
+
+# Database instance class
+db_instance_class = "db.t3.micro"
+
+# Database name
+db_name = "appdb"
+
+# =============================================================================
+# INTERNAL MODULE BENEFITS
+# =============================================================================
+#
+# 1. SECURITY: Modules enforce IMDSv2, encryption, private databases
+# 2. COMPLIANCE: Minimum backup retention, no public DB access
+# 3. VALIDATION: Input validation prevents misconfigurations
+# 4. PRECONDITIONS: Production checks (min instance size, final snapshots)
+# 5. CONSISTENCY: All teams deploy with same patterns
+#
+# =============================================================================

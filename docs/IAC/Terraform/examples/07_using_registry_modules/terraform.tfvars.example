@@ -1,0 +1,45 @@
+# Example Terraform Variables
+# Copy this file to terraform.tfvars and customize values
+
+# AWS region
+aws_region = "us-east-1"
+
+# Environment name
+environment = "dev"
+
+# Project name
+project = "registry-modules-demo"
+
+# VPC CIDR
+vpc_cidr = "10.0.0.0/16"
+
+# Availability zones
+availability_zones = ["us-east-1a", "us-east-1b"]
+
+# Database settings
+db_name           = "appdb"
+db_username       = "admin"
+db_instance_class = "db.t3.micro"
+
+# Application settings
+app_port          = 80
+health_check_path = "/"
+
+# =============================================================================
+# BENEFITS OF USING REGISTRY MODULES
+# =============================================================================
+# 
+# 1. 30 lines of code vs 300+ lines writing from scratch
+# 2. Battle-tested by thousands of companies
+# 3. Automatic best practices (encryption, tagging, etc.)
+# 4. Regular updates and security patches
+# 5. Comprehensive documentation
+# 
+# Popular modules:
+# - terraform-aws-modules/vpc/aws
+# - terraform-aws-modules/eks/aws
+# - terraform-aws-modules/rds/aws
+# - terraform-aws-modules/s3-bucket/aws
+# - terraform-aws-modules/lambda/aws
+# 
+# =============================================================================

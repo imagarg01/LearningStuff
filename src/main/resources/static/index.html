@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Flamegraph Demo Dashboard</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            padding: 50px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #1a1a1a;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            padding: 20px;
+            border: 1px solid #e1e4e8;
+            border-radius: 8px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        button.start {
+            background: #007bff;
+            color: white;
+        }
+
+        button.start:hover {
+            background: #0056b3;
+        }
+
+        button.stop {
+            background: #dc3545;
+            color: white;
+        }
+
+        button.stop:hover {
+            background: #a71d2a;
+        }
+
+        button.record {
+            background: #28a745;
+            color: white;
+        }
+
+        button.record:hover {
+            background: #1e7e34;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>🔥 Flamegraph Generator</h1>
+        <p>Simulate performance issues and capture them with JFR.</p>
+
+        <div class="grid">
+            <div class="card">
+                <h3>1. Workload Control</h3>
+                <p>Start a scenario to generate load.</p>
+                <button class="start" onclick="start('cpu')">Start CPU Load</button>
+                <button class="start" onclick="start('alloc')">Start Allocation Load</button>
+                <button class="start" onclick="start('locks')">Start Lock Contention</button>
+                <button class="start" onclick="start('io')">Start File I/O</button>
+                <button class="stop" onclick="stopAll()">🛑 Stop All Scenarios</button>
+            </div>
+
+            <div class="card">
+                <h3>2. Profiler Control</h3>
+                <p>Capture the flamegraph.</p>
+                <button class="record" onclick="startRecording()">🔴 Start Recording</button>
+                <button class="stop" onclick="stopRecording()">⬇️ Stop & Download .jfr</button>
+                <p class="small">Open the file in IntelliJ Profiler or JMC.</p>
+            </div>
+        </div>
+
+        <div class="status" id="statusBox">Ready.</div>
+    </div>
+
+    <script>
+        const statusBox = document.getElementById('statusBox');
+
+        async function start(type) {
+            try {
+                const res = await fetch(`/api/scenarios/${type}/start`, { method: 'POST' });
+                statusBox.innerText = await res.text();
+            } catch (e) {
+                statusBox.innerText = "Error: " + e;
+            }
+        }
+
+        async function stopAll() {
+            try {
+                const res = await fetch(`/api/scenarios/stop`, { method: 'POST' });
+                statusBox.innerText = await res.text();
+            } catch (e) {
+                statusBox.innerText = "Error: " + e;
+            }
+        }
+
+        async function startRecording() {
+            statusBox.innerText = "Starting JFR...";
+            try {
+                const res = await fetch(`/api/recording/start`, { method: 'POST' });
+                statusBox.innerText = "Recording started! Wait 10-30 seconds, then Stop.";
+            } catch (e) {
+                statusBox.innerText = "Error: " + e;
+            }
+        }
+
+        // Stop recording triggers a download
+        function stopRecording() {
+            statusBox.innerText = "Stopping & Dumping JFR...";
+            window.location.href = "/api/recording/stop";
+        }
+    </script>
+
+</body>
+
+</html>

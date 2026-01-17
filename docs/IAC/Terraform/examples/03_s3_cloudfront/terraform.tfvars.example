@@ -1,0 +1,33 @@
+# Example Terraform Variables
+# Copy this file to terraform.tfvars and customize values
+
+# AWS region for S3 and CloudFront deployment
+aws_region = "us-east-1"
+
+# S3 bucket name (must be globally unique!)
+# Replace with your unique bucket name
+bucket_name = "my-static-website-unique-12345"
+
+# Environment name
+environment = "dev"
+
+# Project name
+project = "static-website"
+
+# CloudFront settings
+# enable_cloudfront = true
+
+# Custom domain (requires ACM certificate)
+# domain_name = "www.example.com"
+# acm_certificate_arn = "arn:aws:acm:us-east-1:123456789:certificate/abc123"
+
+# Price class for CloudFront (affects cost and global coverage)
+# Options: PriceClass_100 (cheapest), PriceClass_200, PriceClass_All
+# cloudfront_price_class = "PriceClass_100"
+
+# Tags
+# common_tags = {
+#   Owner     = "your-name"
+#   Team      = "web"
+#   CostCenter = "12345"
+# }

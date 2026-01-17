@@ -1,0 +1,84 @@
+# Example Terraform Variables
+# Copy this file to terraform.tfvars and customize values
+
+# AWS region
+aws_region = "us-east-1"
+
+# Environment name
+environment = "dev"
+
+# Project name
+project = "three-tier-app"
+
+# =====================
+# VPC Configuration
+# =====================
+vpc_cidr           = "10.0.0.0/16"
+availability_zones = ["us-east-1a", "us-east-1b"]
+
+# =====================
+# Web Tier (ALB + ASG)
+# =====================
+web_instance_type = "t3.micro"
+web_min_size      = 1
+web_max_size      = 4
+web_desired_size  = 2
+
+# =====================
+# Application Tier
+# =====================
+app_instance_type = "t3.small"
+app_min_size      = 1
+app_max_size      = 4
+app_desired_size  = 2
+
+# =====================
+# Database Tier
+# =====================
+db_instance_class = "db.t3.micro"
+db_engine         = "postgres"
+db_engine_version = "14"
+db_name           = "appdb"
+db_username       = "admin"
+# db_password - use TF_VAR_db_password environment variable
+
+# Database storage
+db_allocated_storage = 20
+
+# High availability (significant cost!)
+# db_multi_az = false
+
+# =====================
+# SSL/TLS (Optional)
+# =====================
+# domain_name = "app.example.com"
+# acm_certificate_arn = "arn:aws:acm:..."
+
+# =====================
+# SSH Access (Optional)
+# =====================
+# key_name = "my-key-pair"
+# ssh_allowed_cidr = "YOUR_IP/32"
+
+# =====================
+# Tags
+# =====================
+# common_tags = {
+#   Owner      = "your-name"
+#   Team       = "engineering"
+#   CostCenter = "12345"
+# }
+
+# =====================
+# COST WARNING
+# =====================
+# This architecture includes:
+# - NAT Gateways (~$32/month each)
+# - ALB (~$16/month + data transfer)
+# - EC2 instances (depends on size)
+# - RDS instance (depends on class)
+# 
+# Development estimate: ~$100-150/month
+# Production estimate: ~$300-500/month
+#
+# Remember to run `terraform destroy` when done!

@@ -176,6 +176,26 @@ Move beyond text to **structured interfaces**.
 
 ---
 
+### 📱 8. Native Mobile Performance
+
+A2UI on mobile delivers **true native performance** - not WebViews.
+
+| Aspect | WebView Approach | A2UI Native |
+|--------|------------------|-------------|
+| **Rendering** | HTML → DOM → View | Direct native widgets |
+| **Gestures** | JS event → bridge | Native gesture system |
+| **Animations** | CSS/JS (60fps max) | Platform animations |
+| **Memory** | Higher overhead | Optimized per-platform |
+
+**Mobile-Specific Benefits:**
+
+- 🎯 **Native gestures**: Swipe actions, haptic feedback work natively
+- 📴 **Offline caching**: Cache A2UI state for offline access
+- 🔋 **Battery efficient**: No WebView overhead
+- 📲 **Platform adaptive**: iOS/Android styling automatically
+
+---
+
 ## ❌ Cons (Disadvantages)
 
 ### 📦 1. Limited Component Set

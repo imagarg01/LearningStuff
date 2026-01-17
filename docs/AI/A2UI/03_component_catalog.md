@@ -408,3 +408,131 @@ Clients advertise their supported components to agents:
 ```
 
 **Best Practice:** Agents should check the catalog before generating components to ensure compatibility.
+
+---
+
+## 📱 Mobile-Specific Components
+
+Mobile clients can extend the standard catalog with platform-specific components for enhanced native experiences.
+
+### BottomSheet
+
+Modal sheet that slides up from the bottom of the screen.
+
+```json
+{
+    "id": "details_sheet",
+    "component": {
+        "BottomSheet": {
+            "child": "sheet_content",
+            "snapPoints": ["25%", "50%", "90%"],
+            "initialSnap": 1,
+            "dismissible": true
+        }
+    }
+}
+```
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `child` | string | ID of child component |
+| `snapPoints` | array | Height snap positions |
+| `initialSnap` | number | Initial snap index |
+| `dismissible` | boolean | Can swipe to dismiss |
+
+---
+
+### SwipeableRow
+
+Row that reveals actions when swiped.
+
+```json
+{
+    "id": "item_row",
+    "component": {
+        "SwipeableRow": {
+            "child": "row_content",
+            "leftActions": {
+                "explicitList": ["archive_action"]
+            },
+            "rightActions": {
+                "explicitList": ["delete_action"]
+            }
+        }
+    }
+}
+```
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `child` | string | Main row content |
+| `leftActions` | object | Actions revealed on right swipe |
+| `rightActions` | object | Actions revealed on left swipe |
+
+---
+
+### FloatingActionButton
+
+Floating action button with optional speed dial.
+
+```json
+{
+    "id": "fab",
+    "component": {
+        "FloatingActionButton": {
+            "icon": {"literalString": "add"},
+            "action": {"name": "add_item"},
+            "position": "bottomRight"
+        }
+    }
+}
+```
+
+---
+
+### PullToRefresh
+
+Wrapper that adds pull-to-refresh gesture.
+
+```json
+{
+    "id": "refresh_wrapper",
+    "component": {
+        "PullToRefresh": {
+            "child": "scrollable_list",
+            "action": {"name": "refresh_data"}
+        }
+    }
+}
+```
+
+---
+
+### Mobile Catalog Negotiation Example
+
+Mobile clients should declare their extended component support:
+
+```json
+{
+    "catalog": {
+        "version": "1.0",
+        "platform": "react-native",
+        "components": [
+            "Text", "Button", "Row", "Column",
+            "Card", "Image", "TextField", "List"
+        ],
+        "mobileComponents": [
+            "BottomSheet", "SwipeableRow", 
+            "FloatingActionButton", "PullToRefresh"
+        ],
+        "capabilities": {
+            "haptics": true,
+            "gestures": ["swipe", "longPress", "pinch"],
+            "offlineCache": true
+        }
+    }
+}
+```
+
+> [!TIP]
+> When the agent detects a mobile client, it can generate touch-optimized UIs with larger tap targets and gesture-based interactions.

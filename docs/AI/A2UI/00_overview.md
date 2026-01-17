@@ -47,10 +47,38 @@ graph LR
 
 ## Architecture
 
+A2UI supports **web, mobile, and desktop platforms** through platform-specific renderers.
+
+```mermaid
+graph TB
+    subgraph "AI Agent Backend"
+        Agent[AI Agent<br/>LLM-powered]
+    end
+    
+    subgraph "A2UI Protocol Layer"
+        Stream[JSONL Stream<br/>surfaceUpdate / dataModelUpdate]
+    end
+    
+    subgraph "Platform Renderers"
+        Web[🌐 Web<br/>React / Angular / Vue]
+        RN[📱 React Native<br/>iOS & Android]
+        Flutter[📱 Flutter<br/>iOS & Android]
+        Desktop[🖥️ Desktop<br/>Electron / Tauri]
+    end
+    
+    Agent --> Stream
+    Stream --> Web
+    Stream --> RN
+    Stream --> Flutter
+    Stream --> Desktop
+```
+
+### Message Flow
+
 ```mermaid
 sequenceDiagram
     participant User
-    participant Client as Client App<br/>(React/Flutter/Angular)
+    participant Client as Client App<br/>(Web/React Native/Flutter)
     participant Agent as AI Agent<br/>(LLM-powered)
     
     User->>Client: User interaction/message
@@ -104,6 +132,16 @@ The client receives this stream and renders a **native Card component** with the
 - **Dashboards**: Real-time data visualization
 - **Chat apps**: Rich message bubbles, quick actions
 
+### 📱 Mobile-Specific Use Cases
+
+| Use Case | A2UI Benefit |
+|----------|--------------|
+| **AI Chat Apps** | Native mobile components with swipe gestures |
+| **Dynamic Forms** | Adaptive keyboard types, date pickers |
+| **Search Results** | Swipeable cards with haptic feedback |
+| **Booking Flows** | Bottom sheets, pull-to-refresh |
+| **Settings Screens** | Toggle switches, sliders with native feel |
+
 ### ❌ Not Ideal For
 
 - Simple text Q&A (overkill)
@@ -118,3 +156,4 @@ The client receives this stream and renders a **native Card component** with the
 | [02_message_types.md](./02_message_types.md) | Server & Client message formats |
 | [03_component_catalog.md](./03_component_catalog.md) | Standard component reference |
 | [04_pros_and_cons.md](./04_pros_and_cons.md) | Detailed analysis |
+| [05_mobile_implementation.md](./05_mobile_implementation.md) | **📱 Mobile: React Native & Flutter** |

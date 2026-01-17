@@ -1,0 +1,52 @@
+# Example Terraform Variables
+# Copy this file to terraform.tfvars and customize values
+
+# AWS region
+aws_region = "us-east-1"
+
+# Environment name
+environment = "dev"
+
+# Project name
+project = "learning-terraform"
+
+# Database settings
+db_identifier = "mydb"
+db_name       = "applicationdb"
+db_username   = "admin"
+# db_password = "use-env-var-TF_VAR_db_password-instead"
+
+# Instance class (affects cost significantly!)
+# db.t3.micro is cheapest, suitable for development
+db_instance_class = "db.t3.micro"
+
+# Storage settings
+db_allocated_storage = 20
+db_storage_type      = "gp3"
+
+# Engine settings
+db_engine         = "postgres"
+db_engine_version = "14"
+
+# High availability (adds significant cost!)
+# multi_az = false
+
+# Backup retention (days, 0 to disable)
+backup_retention_period = 7
+
+# Delete protection (recommended for production)
+# deletion_protection = true
+
+# Skip final snapshot on destroy (development only!)
+skip_final_snapshot = true
+
+# VPC settings (existing VPC)
+# vpc_id = "vpc-12345678"
+# subnet_ids = ["subnet-abc", "subnet-def"]
+
+# Tags
+# common_tags = {
+#   Owner     = "your-name"
+#   Team      = "data"
+#   CostCenter = "12345"
+# }
