@@ -152,7 +152,7 @@ We have built a **Web Dashboard** to make profiling easy.
 1. Open **<http://localhost:8080>** in your browser.
 2. You will see controls to **Start/Stop Scenarios** and **Record Profiling Data**.
 
-![Dashboard](https://placehold.co/600x400?text=Flamegraph+Dashboard)
+![Flamegraph Demo](./images/flamegraphdemo.png)
 
 ### Using the Dashboard
 
