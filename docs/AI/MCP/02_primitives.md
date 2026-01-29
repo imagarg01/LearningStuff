@@ -19,9 +19,9 @@ graph LR
 
 | Primitive | Purpose | Example |
 |-----------|---------|---------|
-| **Tools** | Functions the AI can call | `send_email`, `query_database` |
-| **Resources** | Data the AI can read | Files, API responses |
-| **Prompts** | Reusable templates | "Summarize this document" |
+| **Tools**     | Functions the AI can call | `send_email`, `query_database` |
+| **Resources** | Data the AI can read      | Files, API responses           |
+| **Prompts**   | Reusable templates        | "Summarize this document"      |
 
 ---
 
@@ -126,10 +126,10 @@ graph LR
 
 ### Tool Result Types
 
-| Type | Content |
-|------|---------|
-| `text` | Plain text response |
-| `image` | Base64-encoded image |
+| Type       | Content                 |
+|------------|-------------------------|
+| `text`     | Plain text response     |
+| `image`    | Base64-encoded image    |
 | `resource` | Reference to a resource |
 
 ---
@@ -349,10 +349,10 @@ When the resource changes, server sends notification:
 
 | Aspect | Tools | Resources | Prompts |
 |--------|-------|-----------|---------|
-| **Purpose** | Execute actions | Read data | Guide interaction |
-| **Direction** | Client → Server → External | Client ← Server | Client ← Server |
-| **Examples** | Send email, query DB | Files, API data | Templates |
-| **Stateful** | Can modify state | Read-only | Read-only |
+| **Purpose**   | Execute actions            | Read data       | Guide interaction |
+| **Direction** | Client → Server → External | Client ← Server | Client ← Server   |
+| **Examples**  | Send email, query DB       | Files, API data | Templates         |
+| **Stateful**  | Can modify state           | Read-only       | Read-only         |
 
 ---
 
@@ -373,3 +373,11 @@ graph TD
 
 > [!TIP]
 > Use **Tools** for actions, **Resources** for data access, and **Prompts** for reusable AI instructions.
+
+---
+
+## 4. MCP Apps (UI)
+
+MCP also supports **MCP Apps** (also known as MCP-UI), which allows tools to specify a user interface. This is done by linking a **Tool** to a **Resource** containing HTML/JS via a `_meta` tag.
+
+For more details, see [MCP Apps](./06_mcp_app.md).

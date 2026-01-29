@@ -1,116 +1,98 @@
 # Overview
 
-Lazygit is an terminal-base user interface (TUI) written in Go that provides a keyboard-driven, intuitive interface for interacting with Git repositories. Instead of typing long commands, you can perform these actions with single keypresses.
+Lazygit is a **terminal-based** user interface (TUI) written in Go that provides a keyboard-driven, intuitive interface for interacting with Git repositories. Instead of typing long commands, you can perform massive operations with single keypresses.
 
-The interface is divided into panels—such as
+The interface is divided into panels:
 
-- Files
-- Commits
-- Branches
-- Stash
-- Status
-- Command Log: A command log shows the Git commands executed behind the scenes, making it a great learning tool as well.
-
-Here you can see how, all these panels are arranged in the interface:
+- **1. Status**: Repo state (Repo name, branch, etc).
+- **2. Files**: Staged/Unstaged changes.
+- **3. Branches**: Local/Remote branches.
+- **4. Commits**: Commit history (and Reflog).
+- **5. Stash**: Stashed changes.
 
 ![Lazygit](./images/lazygit.png)
 
 ## How to Leverage Lazygit's Power
 
-To make the most of Lazygit, here's how you can integrate it into your workflow and harness its capabilities:
-
 1. **Install and Set Up**
 
-```cmd
-brew install lazygit
-```
+   ```bash
+   brew install lazygit
+   # or
+   go install github.com/jesseduffield/lazygit@latest
+   ```
 
-1. **Launch Lazygit**: Open it in a Git repository by typing `lazygit` in your terminal.
+2. **Launch**: Type `lazygit` in any mapped git directory.
 
-2. **Navigation**: There are two ways to navigate in Lazygit.
+3. **Navigation**:
+   - **H/J/K/L** (Vim keys) or **Arrows**: Move selection.
+   - **[/]** or **Numbers (1-5)**: Switch Panels.
 
-   - Use arrow keys or Vim-style bindings (h, j, k, l) to move between panels and items.
-   - Switch panels with number keys (1 for Status, 2 for Files, etc.) or Tab.
+4. **Essential Operations**:
 
-3. **Essential Operations**:
-
-   a. **Files Panel Operations**:
-   - `Space` to stage/unstage entire file
-   - `a` to stage all changes
-   - `d` to view inline diff
-   - `/` to filter files
-   - `Enter` to open file in editor
-   - `Ctrl+o` to open file in default program
-   - `M` to open external merge tool
+   - `Space`: Stage/Unstage file
+   - `d`: **Discard changes** (Use with caution!)
+   - `c`: Commit changes
+   - `Enter`: View diff (Stage individual lines)
+   - `a`: Stage all
+   - `D`: View reset options
 
    b. **Staging and Committing**:
-   - `c` to commit (opens commit message editor)
-   - `C` to commit using git editor
-   - `A` to amend last commit
-   - `m` to commit with message without opening editor
-   - `Space` on specific lines to stage them
+   - `c`: Commit (opens editor)
+   - `C`: Commit using git editor
+   - `A`: Amend last commit
+   - `Space`: Stage selected line/hunk (in diff view)
 
    c. **Review and Diff**:
-   - `Enter` on a file to see diff
-   - `]` and `[` to navigate between changed chunks
-   - `Tab` to switch to staging view
-   - `Ctrl+s` to stash selected lines
-   - `Shift+s` to stash all changes
+   - `Enter`: Focus main panel (diff view)
+   - `[` / `]`: Navigate hunks
+   - `Tab`: Switch to Staging Area (left/right)
 
    d. **Branch Operations**:
-   - `n` to create new branch
-   - `c` to checkout branch
-   - `b` to view branch options
-   - `Space` to checkout by name
-   - `F` to force checkout
-   - `d` to delete branch
-   - `m` to merge into current branch
-   - `r` to rebase onto selected branch
+   - `n`: New branch
+   - `Space`: Checkout branch
+   - `d`: Delete branch
+   - `r`: Rebase onto...
+   - `M`: Merge into current branch
 
    e. **Remote Operations**:
-   - `p` to pull
-   - `P` to push
-   - `f` to fetch
-   - `g` for custom remote options
-   - `u` to set upstream branch
+   - `p`: Pull
+   - `P`: Push
+   - `f`: Fetch
 
-   f. **Commit History**:
-   - `e` for interactive rebase
-   - `s` to squash down
-   - `f` to fixup
-   - `r` to reword commit
-   - `d` to drop commit
-   - `v` to paste commit (cherry-pick)
-   - `A` to amend commit
-   - `Ctrl+z` to undo last action
+5. **Killer Features (Why use Lazygit?)**
 
-   g. **Stashing Operations**:
-   - `s` to stash all changes
-   - `S` to stash staged changes
-   - `a` to apply selected stash
-   - `g` to pop selected stash
-   - `d` to drop selected stash
-   - `w` to open stash options menu
+   **A. The "Oh shoot, I forgot to add this file to the last commit" Fix**
+   - Go to Files -> Stage the file -> Press `A` (Amend). Done.
 
-   h. **Search and Filter**:
-   - `/` to start search in any panel
-   - `Ctrl+s` to search commits
-   - `t` to filter by files
-   - `Esc` to clear filter
+   **B. Interactive Rebase (Time Travel)**
+   - Go to **Commits** panel.
+   - Press `Enter` on a commit to view its files.
+   - **Move Commits**: Press `J` (down) or `K` (up) to reorder commits instantly.
+   - **Squash/Fixup**: Press `f` on a commit to "fixup" (merge) it into the one below it.
+   - **Edit History**: Press `e` on an old commit to edit it, then continue.
 
-   i. **Advanced Features**:
-   - `m` to open external merge tool
-   - `i` to add to .gitignore
-   - `Shift+r` to refresh
-   - `x` to open menu for current panel
-   - `?` to toggle keybindings popup
+   **C. Cherry Picking**
+   - Go to **Commits** (or even another branch's commits).
+   - Press `c` (Copy) on the commits you want.
+   - Go to your branch -> Press `v` (Paste).
 
-4. **Customization**:
-   Edit `~/.config/lazygit/config.yml` to customize:
-   - Keybindings
-   - Theme
-   - Behavior
+6. **Resolving Merge Conflicts (The Life Saver)**
 
-To see these operations in action, try them in a test repository first. The visual feedback makes it easy to understand what's happening with each command.
+   Merge conflicts are where Lazygit truly shines. Instead of seeing `<<<<HEAD` markers in a text editor, Lazygit gives you a UI.
 
-Integrate with tools like pre-commit hooks, which Lazygit supports, to enforce code quality.
+   **Workflow**:
+   1. When a conflict happens, Lazygit opens the **Files** panel with a "Conflicted" status.
+   2. Press `Enter` on the conflicted file.
+   3. You will see the **Conflicts Panel**.
+   4. **Resolve**:
+      - `←` / `→`: Pick "Ours" (Current) or "Theirs" (Incoming).
+      - `b`: Pick **Both**.
+      - `Space`: Toggle selection.
+   5. Once all hunks are resolved, press `Esc`.
+   6. Lazygit asks to continue the rebase/merge automatically.
+
+   **Why it's better**: You never accidentally delete a closing brace `}` while deleting conflict markers.
+
+7. **Customization**:
+   Edit `~/.config/lazygit/config.yml` (open with `o` in Status panel) to customize keybindings and themes.

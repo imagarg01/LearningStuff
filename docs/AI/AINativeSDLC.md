@@ -55,3 +55,30 @@ aligns with stakeholder expectations
 - <https://www.irejournals.com/formatedpaper/1702368.pdf>
 - <https://dspace.mit.edu/bitstream/handle/1721.1/154009/mridulaprakash-mridula-sm-sdm-2024-thesis.pdf?sequence=1&isAllowed=y>
 - <https://codescene.com/hubfs/whitepapers/Refactoring-vs-Refuctoring-Advancing-the-state-of-AI-automated-code-improvements.pdf>
+
+## Practical Toolkit for 2025
+
+Moving from theory to practice, here is the modern AI-Native stack:
+
+### 1. The IDE (Coding)
+
+- **Cursor / Windsurf**: Not just autocomplete. These IDEs index your entire codebase.
+  - *Feature*: "Composer" (Cmd+K) allows writing diffs across multiple files.
+  - *Best Practice*: Use `@Codebase` context to ask high-level architectural questions.
+
+### 2. The Code Review (CI/CD)
+
+- **PR-Agent (Codium)**: Automatically reviews Pull Requests.
+  - *Capabilities*: Summarizes changes, detects bugs, suggests documentation.
+  - *Workflow*: GitHub Action runs on every PR -> Bot comments on lines of code.
+
+### 3. The Prototyping (Design-to-Code)
+
+- **v0 (Vercel)**: Text-to-React.
+  - *Workflow*: Screenshot a drawing -> v0 generates Tailwind/Shadcn code -> Copy to Cursor.
+- **Lovable**: Full-stack app generation.
+
+### 4. The Testing
+
+- **Codeium / Copilot**: Auto-generate unit tests from functions.
+  - *Prompt*: "Generate pytest cases for this class, covering edge cases."

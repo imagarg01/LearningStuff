@@ -17,6 +17,7 @@ help:
 	@echo "  simple     - Basic MCP server demo"
 	@echo "  tools      - Multiple tools with JSON Schema"
 	@echo "  resources  - Resource provider demo"
+	@echo "  app        - MCP App (UI) demo"
 	@echo "  all        - Run all examples"
 	@echo ""
 	@echo "🔧 Utilities:"
@@ -30,6 +31,7 @@ help:
 	@echo "  03_transports.md      - Stdio, HTTP"
 	@echo "  04_building_servers.md - Implementation guide"
 	@echo "  05_pros_and_cons.md   - Analysis"
+	@echo "  06_mcp_app.md        - MCP App / UI Features"
 
 # =============================================================================
 # Python Examples
@@ -53,7 +55,13 @@ resources:
 	@echo ""
 	python src/03_resource_server.py
 
-all: simple tools resources
+app:
+	@echo ""
+	@echo "🎨 Running MCP App (UI) Demo..."
+	@echo ""
+	python src/04_mcp_app_server.py
+
+all: simple tools resources app
 	@echo ""
 	@echo "✅ All MCP examples completed!"
 
@@ -68,6 +76,7 @@ validate:
 	python -m py_compile src/01_simple_server.py
 	python -m py_compile src/02_tool_server.py
 	python -m py_compile src/03_resource_server.py
+	python -m py_compile src/04_mcp_app_server.py
 	@echo "✅ All files valid!"
 
 clean:

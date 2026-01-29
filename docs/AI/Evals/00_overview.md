@@ -39,3 +39,9 @@ The development lifecycle of an AI product should revolve around evals:
 3. **Create Eval**: Turn those logs into a test case.
 4. **Iterate**: Tweak the prompt/code to pass the eval.
 5. **Repeat**: Continuously expand the eval suite.
+
+## See Also
+
+For deep dives into specific domains:
+
+- **RAG + Evals**: [RAG Evaluation Strategies & Tools](../RAG_Strategies/RAGEvaluation.md)
