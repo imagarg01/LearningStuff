@@ -11,6 +11,8 @@ The **GitHub Copilot CLI** provides a conversational AI agent in your terminal. 
 - **npm**: Installed (usually comes with Node.js).
 - **Subscription**: Active GitHub Copilot subscription.
 
+![GitHub Copilot Cli](./images/copilotcli.png)
+
 ## 2. Installation
 
 Install the CLI globally using npm:
