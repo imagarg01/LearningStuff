@@ -53,17 +53,17 @@ private final double width;
 private final double height;
 ```
 
-2. It will also create public accessor for these field.
+1. It will also create public accessor for these field.
 
 ```java
 Rectangle::width()
 Rectangle::height()
 ```
 
-3. Implementations of the equals and hashCode methods, which specify that two record classes are equal if they are of
+1. Implementations of the equals and hashCode methods, which specify that two record classes are equal if they are of
    the same type and contain equal component values.
 
-4. An implementation of the toString method that includes the string representation of all the record class's components
+2. An implementation of the toString method that includes the string representation of all the record class's components
    , with their names.
 
 ### How constructor will work
@@ -86,7 +86,7 @@ public Rectangle(double height, double width) {
 
 In above example we are simply validating the provided values in constructor.
 
-2. Example - **Compact Constructor**
+1. Example - **Compact Constructor**
 
 Use it, if you don't want to repeat signature in header and constructor
 
@@ -123,7 +123,7 @@ record Rectangle(double height, double width) {
 
 Similarly we can implement other generated method as well like toString, hashcode and equals.
 
-### You can declare static fields, static initializers and static methods, and they behave like in a normal class.
+### You can declare static fields, static initializers and static methods, and they behave like in a normal class
 
 ```java
 record Rectangle(double height, double width) {
@@ -237,12 +237,13 @@ simple data carriers, while sealed classes help in defining a closed set of subc
 maintainability and security.
 
 ```java
-public sealed class Shape permits Circle, Square, Triangle {
-    public non-sealed abstract record Point(int x, int y) {}
-
-    public static record Circle(Point center, double radius) implements Shape {
-        // Constructor, accessors, and methods specific to Circle
-    }
+public sealed interface Shape permits Circle, Square {
+    
+    // Records are implicitly final, so they cannot be abstract or non-sealed.
+    // They are the "leaves" of the hierarchy.
+    
+    record Circle(double radius) implements Shape {}
+    record Square(double side) implements Shape {}
 }
 ```
 
@@ -260,3 +261,100 @@ ordinary object. During deserialization, if specified stream class is a record c
    replacement may be specified, by the writeReplace and readResolve methods, respectively.
 4. The serialVersionUID of a record class is 0L unless explicitly declared. The requirement for matching serialVersionUID
    values is waived for record classes.
+
+## Records in Spring Boot
+
+Records are a game-changer for Spring Boot applications, primarily for **Data Transfer Objects (DTOs)** and **Read-Only Data**.
+
+### 1. DTOs & JSON (Controller Layer)
+
+Since Spring Boot 2.12+ (Jackson), Records are mapped automatically.
+
+- **Request**: `@RequestBody UserRecord` works out of the box. Jackson uses the canonical constructor.
+- **Response**: Records are serialized to JSON automatically.
+
+```java
+@RestController
+public class UserController {
+    // Automatic JSON -> Record mapping
+    @PostMapping("/users")
+    public CreateUserResponse create(@RequestBody CreateUserRequest req) {
+        return new CreateUserResponse(req.username(), "CREATED");
+    }
+}
+// Immutable DTOs! Match JSON exactly.
+record CreateUserRequest(String username, String email) {}
+record CreateUserResponse(String username, String status) {}
+```
+
+### 2. Database Projections (Repository Layer)
+
+Spring Data JPA supports **Interface-based** and **Class-based** projections. Records are perfect for "Class-based Projections" (selecting specific columns) because they are immutable.
+
+```java
+// Entity
+@Entity
+class User { @Id Long id; String name; String email; String password; ... }
+
+// Projection Record (Selects only Name and Email)
+record UserSummary(String name, String email) {}
+
+// Repository
+interface UserRepository extends JpaRepository<User, Long> {
+    // Spring Data effectively does: "SELECT name, email FROM User..."
+    // and maps it to the Record constructor automatically.
+    List<UserSummary> findByEmailEndingWith(String suffix);
+}
+```
+
+### 3. Configuration Properties
+
+Records are ideal for `@ConfigurationProperties` because config should be immutable once loaded.
+*(Requires `@ConstructorBinding` or enabling record support in Spring Boot 2.6+)*
+
+```java
+@ConfigurationProperties(prefix = "app")
+record AppConfig(String name, int timeout, String url) {}
+```
+
+### ⚠️ CRITICAL: Records as JPA Entities?
+
+**DO NOT use Records as JPA `@Entity` classes.**
+
+1. **Proxies**: Hibernate/JPA needs to create *proxies* (subclasses) for lazy loading. Records are `final`, so they cannot be proxied.
+2. **Setters**: JPA relies on mutability (setters) to update state or separate creation from population. Records are immutable.
+3. **No-Args Constructor**: JPA requires a no-args constructor. Records (canonical) typically enforce arguments.
+
+> **Rule of Thumb**: Use **Classes** for Entities (DB State) and **Records** for DTOs/Projections (Data Movement).
+
+## Performance & Internals
+
+Do Records provide performance benefits? **Yes**, but often in subtle, architectural ways rather than raw CPU instructions.
+
+### 1. Faster Reflection & Startup (Frameworks)
+
+Traditional POJOs force frameworks (Jackson, Hibernate) to use "Dark Magic" (Reflection, `setAccessible(true)`, `Unsafe`) to force data into private fields.
+
+- **Records**: Expose their API (Constructors/Accessors) publicly. Frameworks can simply **call the constructor**.
+- **Benefit**: This is safer and often faster for libraries to bind data, potentially improving application startup time where thousands of DTOs are scanned and instantiated.
+
+### 2. Smaller Bytecode (Disk/Memory Footprint)
+
+A standard POJO with generated getters, setters, `equals`, `hashCode`, and `toString` contains a lot of bytecode instructions.
+
+- **Records**: Use `invokedynamic`. The methods `equals`, `hashCode`, and `toString` do not have huge bodies in the bytecode. Instead, they point to a factory (`ObjectMethods.bootstrap`).
+- **Benefit**: Smaller `.class` files and slightly less pressure on the ClassLoader.
+
+### 3. Serialization Speed
+
+Record serialization is designed to be **safe and fast**.
+
+- **Traditional**: Uses magic to bypass constructors.
+- **Records**: **ALWAYS** use the canonical constructor.
+- **Benefit**: This simplifies the serialization graph and verification, making it more robust and potentially faster to reconstruct.
+
+### 4. Future Proofing (Project Valhalla)
+
+Records are compliant with "Value-Based Classes".
+
+- **Future**: When Project Valhalla arrives, Records are the prime candidates to become **Value Types** (flat memory layout, no object header, incredibly fast CPU cache usage). Adopting records now prepares you for this free performance boost later.

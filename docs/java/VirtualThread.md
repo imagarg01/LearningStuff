@@ -1,9 +1,9 @@
-## Overview
+# Overview
 
 Virtual Thread was released as a final feature in JDK 21 under [JEP 444](https://openjdk.org/jeps/444).
 Subsequent improvements, such as removing pinning for `synchronized` blocks, were introduced in JDK 24.
 
-### Background
+## Background
 
 The scalability of server applications is governed by Little's law.
 
@@ -84,7 +84,9 @@ does not support asynchronous style natively.
 
 ## Let's understand virtual threads
 
-Virtual threads are created to efficiently use the hardware resources at our disposal. As more and more
+Virtual Threads (Project Loom) are lightweight threads that significantly reduce the effort of writing, maintaining, and observing high-throughput concurrent applications.
+
+> **Run Code Example**: [`VirtualThreadsDemo.java`](../../src/main/java/com/ashish/thread/VirtualThreadsDemo.java) are created to efficiently use the hardware resources at our disposal. As more and more
 applications are moving to the cloud, every infrastructure resource is charged.
 
 Language designers realized that this problem can be addressed at the language level only, as OS threads
@@ -145,6 +147,40 @@ a smaller number (N) of OS threads.
    </td>
   </tr>
 </table>
+
+```mermaid
+graph TD
+    subgraph "Heap (Virtual Threads)"
+        VT1[VT 1]
+        VT2[VT 2]
+        VT3[VT 3]
+        VT4[VT 4]
+        VT5[VT ...Millions]
+    end
+    
+    subgraph "Carrier Threads (Platform)"
+        CT1[Carrier 1]
+        CT2[Carrier 2]
+    end
+    
+    subgraph "OS Kernel"
+        OS1[OS Thread 1]
+        OS2[OS Thread 2]
+    end
+    
+    VT1 -.->|Mounts| CT1
+    VT2 -.->|Mounts| CT1
+    VT3 -.->|Mounts| CT2
+    VT4 -.->|Mounts| CT2
+    
+    CT1 --- OS1
+    CT2 --- OS2
+    
+    style VT1 fill:#dfd,stroke:#333
+    style VT2 fill:#dfd,stroke:#333
+    style CT1 fill:#fdd,stroke:#333
+    style CT2 fill:#fdd,stroke:#333
+```
 
 ![Depiction](https://raw.githubusercontent.com/imagarg01/LearningStuff/main/docs/java/images/VirtualThreadOnPlatformThread.png)
 
@@ -386,26 +422,21 @@ You can see there is no benefit to using virtual threads for CPU-intensive opera
 
 ## Internal implementation details  
 
-Virtual threads work on the Continuation programming technique. Continuation allows a program to pause at
-a specific point and later resume execution from where it left off.
+Virtual threads work on the **Continuation** programming technique.
 
-Java has provided a Continuation API that provides a way for a program to capture its current state, including
-its call stack and local variables, and later restore them to resume the execution.
+> Please refer to [Continuation.md](./Continuation.md) for a detailed deep dive into how Continuations work internally.
 
-**Note**: The Continuation API of Java is not supposed to be used by application developers. For now, it is only used by the JDK
-to implement virtual threads.
+In summary:
 
-In the JDK, "java.lang.VirtualThread" has an inner class named VThreadContinuation, which extends Continuation
-and overrides the relevant methods.
+- The JDK uses a private `Continuation` API.
+- When a virtual thread blocks, it yields its continuation.
+- The stack is copied to the heap, and the carrier thread is released.
 
-- Whenever Continuation.yield() is called, it preserves the current state in an instance of ContinuationScope.
-- When the run method of Continuation is called again, it resumes from the same state saved before.
+## Next Phase / Future Roadmaps (as of Java 21)
 
-## Next Phase
-
-- Fix the pinning issue
-- Improve serviceability and troubleshooting
-- Structured Concurrency and Scoped Values
+- Improved serviceability and troubleshooting
+- Structured Concurrency and Scoped Values (Preview in JDK 24)
+- **Resolved in JDK 24**: The "synchronized" pinning issue.
 
 ### Let's understand the Pinning Issue
 
@@ -468,11 +499,29 @@ blocks on a monitor, then the virtual thread will be pinned.
 
 ### Updates on virtual thread pinning (JDK 24+)
 
-With JDK 24 (JEP 491), the "synchronized" pinning issue is effectively solved.
+With **JDK 24 (JEP 491)**, the "synchronized" pinning issue is **resolved**.
 
-- The JVM now admits unmounting virtual threads when they block on a monitor (synchronized).
-- This allows existing libraries (like JDBC drivers, older frameworks) to work seamlessly with Virtual Threads without code changes.
-- Pinning still occurs for Native Method calls (JNI/FFM).
+#### The Fix: JEP 491 Deep Dive
+
+Prior to JDK 24, the JVM's implementation of `synchronized` (ObjectMonitor) assumed that the thread holding the lock was a platform thread. This tightly coupled the lock ownership to the OS thread, preventing the virtual thread from unmounting.
+
+In JDK 24, the JVM implementation of ObjectMonitor has been completely rewritten to support virtual threads:
+
+1. **Detach on Block**: When a virtual thread attempts to acquire a monitor (enter `synchronized`) and finds it locked, the JVM now **unmounts** the virtual thread from its carrier.
+2. **Park Phase**: The virtual thread is "parked" (suspended) and stored in the heap, releasing the platform thread to do other work.
+3. **Reschedule on Notify**: When the monitor is released (exit `synchronized`), the virtual thread is unparked and scheduled back onto a carrier thread to retry acquiring the lock.
+4. **Wait/Notify Support**: Similarly, `Object.wait()` now unmounts the virtual thread, allowing it to wait for a notification without consuming an OS thread.
+
+**Impact**:
+
+- **Backward Compatibility**: You no longer need to rewrite `synchronized` blocks to `ReentrantLock`. Legacy code and libraries (like JDBC drivers) immediately become scalable.
+- **Diagnostics**: The `jdk.tracePinnedThreads` property is removed. You should rely on JFR events (`jdk.VirtualThreadPinned`) which will now *only* fire for the remaining pinning cases (native code).
+
+#### Remaining Constraints
+
+Pinning is *not* completely gone. It still happens in one specific scenario:
+
+- **Native Frames**: If a virtual thread calls a **Native Method** (JNI) or a Foreign Function (FFM), and *that* native code calls back into Java to perform a blocking operation (or uses a `synchronized` block), the thread will still be pinned. This is because the native C/C++ stack frame cannot be unmounted/moved by the JVM.
 
 ## Few questions
 
@@ -489,7 +538,11 @@ Q: How to share expensive resources between virtual threads?
 ## Code Samples
 
 ### Virtual thread code
+
 <https://github.com/imagarg01/LearningStuff/blob/main/src/main/java/com/ashish/thread/PlayingWithVT.java>
 
-### Structured concurrency
-<https://github.com/imagarg01/LearningStuff/blob/main/src/main/java/com/ashish/thread/PlayingWithSC.java>
+### Structured Concurrency
+
+For a detailed guide on managing groups of related virtual threads, see [StructuredConcurrency.md](./StructuredConcurrency.md).
+
+Example code: <https://github.com/imagarg01/LearningStuff/blob/main/src/main/java/com/ashish/thread/PlayingWithSC.java>

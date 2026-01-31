@@ -1,4 +1,6 @@
-# Structured Concurrency in Java (Java 21+)
+# Structured Concurrency in Java (JDK 21+ Preview)
+
+> **Status**: Preview Feature (JEP 453 in JDK 21, JEP 480 in JDK 24). You must enable `--enable-preview` to use this.
 
 > "If a task splits into concurrent subtasks, then they all return to the same place, namely the task's code block."
 
@@ -12,6 +14,25 @@ Concurrency is often difficult because it breaks the simple, linear flow of logi
 ### Visual Comparison
 
 ![Structured vs Unstructured Concurrency](./images/structured_concurrency_tree.png)
+
+```mermaid
+graph TD
+    subgraph "StructuredTaskScope (The Box)"
+        Task[Main Request] -->|fork| S1[Subtask 1: FetchUser]
+        Task -->|fork| S2[Subtask 2: FetchOrder]
+        
+        S1 -->|fork| S1A[DB Call]
+        S1 -->|fork| S1B[Cache Check]
+        
+        S1 --x|Failure| Error[Exception]
+    end
+    
+    Error -.->|Cancels| S2
+    Error -.->|Cancels| S1A
+    Error -.->|Cancels| S1B
+    
+    style Error fill:#f99,stroke:#333
+```
 
 ### Why it matters
 
@@ -87,15 +108,65 @@ Integer getBestPrice() throws ExecutionException, InterruptedException {
 
 ---
 
-## 4. Best Practices
+## 4. Handling Timeouts (Deadlines)
 
-1. **Use with Virtual Threads**: Structured Concurrency is designed for millions of threads. `fork()` uses Virtual Threads by default.
+In production, you rarely want to wait forever. `StructuredTaskScope` provides a clean way to apply a deadline to the entire scope using `joinUntil(Instant)`.
+
+```java
+Response handleWithTimeout() {
+    try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
+        
+        scope.fork(() -> slowTaskA());
+        scope.fork(() -> slowTaskB());
+
+        try {
+            // Wait with a deadline
+            scope.joinUntil(Instant.now().plusSeconds(2)); 
+        } catch (TimeoutException e) {
+            // Cancel all running tasks immediately
+            scope.shutdown();
+            throw new RuntimeException("Request timed out", e);
+        }
+
+        // Handle success
+        return new Response(...);
+    }
+}
+```
+
+---
+
+## 5. Passing Context (Scoped Values)
+
+When using Structured Concurrency, you often need to pass implicit context (like User ID, Transaction ID) to the subtasks. **Scoped Values** (JEP 429/446/481) are the modern replacement for `ThreadLocal`.
+
+> **Note**: Scoped Values are also a Preview feature.
+
+```java
+final static ScopedValue<String> USER_ID = ScopedValue.newInstance();
+
+void serve() {
+    ScopedValue.where(USER_ID, "user-123").run(() -> {
+        // Inside this block, USER_ID is bound to "user-123"
+        // It is automatically inherited by subtasks forked in a StructuredTaskScope!
+        handle(); 
+    });
+}
+```
+
+This pairs perfectly with `StructuredTaskScope` because the scope automatically propagates bound Scoped Values to the forked threads.
+
+---
+
+## 6. Best Practices
+
+1. **Use with [Virtual Threads](./VirtualThread.md)**: Structured Concurrency is designed for millions of threads. `fork()` uses Virtual Threads by default.
 2. **Always use `try-with-resources`**: This ensures that `close()` is called, which waits for threads to finish shutting down.
 3. **Don't ignore the `join()`**: You must call `join()` before accessing results.
 
 ---
 
-## Summary Checklist
+## 7. Summary Checklist
 
 - [ ] Replaced `ExecutorService` with `StructuredTaskScope` for complex workflows.
 - [ ] Used `ShutdownOnFailure` for "User Page" style logic.
