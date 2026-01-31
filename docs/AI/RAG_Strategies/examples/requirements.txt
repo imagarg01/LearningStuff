@@ -8,4 +8,9 @@ datasets
 openai
 deepeval
 trulens-eval
+langchain
+langchain-community
+langchain-experimental
+langchain-text-splitters
+langchain-huggingface
 

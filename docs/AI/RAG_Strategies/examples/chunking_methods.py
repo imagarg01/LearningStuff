@@ -1,94 +1,123 @@
-import asyncio
-import re
-from typing import List, Dict
+import os
+from typing import List
+from langchain_text_splitters import (
+    RecursiveCharacterTextSplitter, 
+    MarkdownHeaderTextSplitter,
+    Language
+)
+from langchain_experimental.text_splitter import SemanticChunker
+from langchain_huggingface import HuggingFaceEmbeddings
 
-# MockTextSplitter to demonstrate Recursive Splitting logic without heavy dependencies
-class RecursiveSplitter:
-    def __init__(self, chunk_size: int, chunk_overlap: int):
-        self.chunk_size = chunk_size
-        self.chunk_overlap = chunk_overlap
-        self.separators = ["\n\n", "\n", " ", ""]
+# Sample Text Data
+SAMPLE_TEXT = """
+Apple released its quarterly earnings report today. Revenue exceeded expectations, driven by strong iPhone 15 sales in Asian markets. 
+The stock price jumped 5% in after-hours trading, reaching a new all-time high. 
+Analysts have upgraded their price targets, citing robust services growth.
 
-    def split_text(self, text: str) -> List[str]:
-        """
-        Naive implementation of recursive splitting for demonstration.
-        """
-        final_chunks = []
-        if len(text) <= self.chunk_size:
-            return [text]
-        
-        # Try to find the best separator
-        separator = self.separators[-1]
-        for sep in self.separators:
-            if sep in text:
-                separator = sep
-                break
-        
-        # Split
-        if separator:
-            splits = text.split(separator)
-        else:
-            splits = list(text) # Character split
+Meanwhile, Microsoft unveiled a new AI Copilot feature for Windows 11. 
+This tool integrates deeply with the OS to automate tasks like summarizing emails and generating content. 
+Satya Nadella called it "a new era of computing" during the keynote. Azure usage is expected to spike as a result.
+"""
 
-        # Merge back up to chunk size
-        current_chunk = ""
-        for s in splits:
-            if len(current_chunk) + len(s) + len(separator) < self.chunk_size:
-                current_chunk += (separator if current_chunk else "") + s
-            else:
-                if current_chunk:
-                    final_chunks.append(current_chunk)
-                current_chunk = s
-        
-        if current_chunk:
-            final_chunks.append(current_chunk)
-            
-        return final_chunks
+SAMPLE_MARKDOWN = """
+# RAG Strategies
+RAG stands for Retrieval Augmented Generation.
 
-# Semantic Chunking Simulation
-def semantic_chunking_simulation(text: str) -> List[str]:
-    """
-    Simulates semantic chunking by splitting on evident topic shifts 
-    (represented here by double newlines or specific markers for the example).
-    In reality, this uses cosine similarity of embeddings.
-    """
-    # Simulate embedding-based decision: "Apple" vs "Microsoft" are different topics
-    sentences = re.split(r'(?<=[.!?])\s+', text)
-    chunks = []
-    current_topic = []
+## Chunking
+Chunking is the process of breaking text.
+### Fixed Size
+Fixed size is simple but dumb.
+### Semantic
+Semantic is smart but slow.
+
+## Embedding
+Embeddings turn text into vectors.
+"""
+
+SAMPLE_PYTHON = """
+class RAGPipeline:
+    def __init__(self, model_name):
+        self.model = model_name
     
-    for sentence in sentences:
-        if "Microsoft" in sentence and any("Apple" in s for s in current_topic):
-            # Simulated Topic Shift detected
-            chunks.append(" ".join(current_topic))
-            current_topic = [sentence]
-        else:
-            current_topic.append(sentence)
-    
-    if current_topic:
-        chunks.append(" ".join(current_topic))
-    
-    return chunks
+    def retrieve(self, query):
+        # Retrieve relevant docs
+        return []
 
 def main():
-    sample_text = (
-        "Apple released its quarterly earnings report today. Revenue exceeded expectations driven by iPhone sales. "
-        "The stock price jumped 5% in after-hours trading.\n\n"
-        "Meanwhile, Microsoft unveiled a new AI Copilot feature for Windows. "
-        "This tool integrates deeply with the OS to automate tasks. "
-        "Analysts believe this will drive Azure adoption."
+    rag = RAGPipeline("gpt-4")
+    print(rag.retrieve("hello"))
+"""
+
+def run_recursive_chunking():
+    print("\n--- 1. Recursive Character Chunking ---")
+    print("(Splits by paragraphs, then sentences. Good for general text.)")
+    
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=150,
+        chunk_overlap=20,
+        separators=["\n\n", "\n", " ", ""]
     )
+    chunks = splitter.create_documents([SAMPLE_TEXT])
+    
+    for i, chunk in enumerate(chunks):
+        print(f"[{i+1}] {chunk.page_content!r}")
 
-    print("--- 1. Recursive Chunking (Size=100) ---")
-    splitter = RecursiveSplitter(chunk_size=100, chunk_overlap=20)
-    chunks = splitter.split_text(sample_text)
-    for i, c in enumerate(chunks):
-        print(f"Chunk {i+1}: {c!r}")
+def run_markdown_chunking():
+    print("\n--- 2. Markdown Header Chunking ---")
+    print("(Preserves header hierarchy in metadata. Good for docs.)")
+    
+    headers_to_split_on = [
+        ("#", "Header 1"),
+        ("##", "Header 2"),
+        ("###", "Header 3"),
+    ]
+    
+    splitter = MarkdownHeaderTextSplitter(headers_to_split_on=headers_to_split_on)
+    chunks = splitter.split_text(SAMPLE_MARKDOWN)
+    
+    for i, chunk in enumerate(chunks):
+        print(f"[{i+1}] Content: {chunk.page_content!r}")
+        print(f"      Metadata: {chunk.metadata}")
 
-    print("\n--- 2. Semantic Chunking (Simulated) ---")
-    sem_chunks = semantic_chunking_simulation(sample_text)
-    for i, c in enumerate(sem_chunks):
-        print(f"Chunk {i+1}: {c!r}")
+def run_code_chunking():
+    print("\n--- 3. Python Code Chunking ---")
+    print("(Keeps classes and functions together.)")
+    
+    splitter = RecursiveCharacterTextSplitter.from_language(
+        Language.PYTHON, 
+        chunk_size=100, 
+        chunk_overlap=0
+    )
+    chunks = splitter.create_documents([SAMPLE_PYTHON])
+    
+    for i, chunk in enumerate(chunks):
+        print(f"[{i+1}] {chunk.page_content!r}")
+
+def run_semantic_chunking():
+    print("\n--- 4. Semantic Chunking (Experimental) ---")
+    print("(Splits when topic changes. Using local HF Embeddings - might be slow first run.)")
+    
+    try:
+        # distinct color for semantic chunking
+        embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+        splitter = SemanticChunker(
+            embeddings, 
+            breakpoint_threshold_type="percentile" # Splits at spikes in dissimilarity
+        )
+        
+        chunks = splitter.create_documents([SAMPLE_TEXT])
+        for i, chunk in enumerate(chunks):
+            print(f"[{i+1}] {chunk.page_content!r}")
+            
+    except Exception as e:
+        print(f"Skipping Semantic Chunking due to error (likely missing dependency or model download): {e}")
+
+def main():
+    print("=== RAG Chunking Strategies Demo ===")
+    run_recursive_chunking()
+    run_markdown_chunking()
+    run_code_chunking()
+    run_semantic_chunking()
 
 if __name__ == "__main__":
     main()
