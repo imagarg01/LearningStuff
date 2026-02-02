@@ -14,6 +14,47 @@ The **GitHub Copilot SDK** allows developers to embed the powerful agentic capab
 - **GitHub Integration**: Built-in authentication and integration with GitHub's ecosystem.
 - **MCP Integration**: seamless integration with the Model Context Protocol (MCP) to connect to external data and tools.
 
+## Practical Use Cases
+
+The Copilot SDK enables building specialized agents that go beyond generic chat. Here are powerful ways to use it:
+
+### 1. **Custom CLI DevOps Assistants**
+
+- **Goal**: Simplify complex infrastructure tasks using natural language.
+- **How**: Create an agent with tools wrapping `kubectl`, `aws`, or `terraform` commands.
+- **Example**: User types *"Scale the payment service to 5 replicas"*. The agent confirms the current state (using a tool) and executes the `kubectl scale` command (via a tool).
+- **Key Features**: `tools`, `permissions` (for safety), `hooks` (for auditing).
+
+### 2. **Repo-Specific "Onboarding Buddy"**
+
+- **Goal**: Help new engineers understand a complex legacy codebase.
+- **How**: Feed architecture docs and key file maps into the session context relative to the user's current directory.
+- **Example**: *"Where is the auth logic handled?"* -> Agent analyzes the specific files in your workspace and points to `src/auth/` with an explanation of the flow.
+- **Key Features**: `attachments`, `infinite_sessions` (to maintain context).
+
+### 3. **Automated Structured Data Extraction**
+
+- **Goal**: Convert unstructured logs, error reports, or legacy code into machine-readable JSON.
+- **How**: Use prompt engineering to enforce a specific JSON schema output.
+- **Example**: Feed a messy crash log into the agent. It outputs a clean JSON object with `{ "error_type": "NullPtr", "location": "main.py:42", "severity": "High" }` which triggers a Jira ticket via an API tool.
+- **Key Features**: `response_format` (or prompt engineering), `attachments`.
+
+### 4. **Intelligent Code Refactoring & Migration**
+
+- **Goal**: Mass-refactor code patterns that regex/linters can't catch.
+- **How**: An agent that reads a file, understands semantic intent, and writes the refactored version.
+- **Example**: *"Convert all raw SQL queries in this file to use our new ORM builder pattern."*
+- **Key Features**: `tools` (read/write files), `streaming` (for real-time progress).
+
+### 5. **Interactive Educational Tutors**
+
+- **Goal**: Teach coding concepts by analyzing the user's actual code in real-time.
+- **How**: An agent that watches file changes and offers hints when the user gets stuck.
+- **Example**: A Python tutor that detects an infinite loop in the user's script and explains *why* it will fail before they run it.
+- **Key Features**: `hooks` (monitor file access), `user_input` (ask quizzes).
+
+---
+
 ## Architecture
 
 The SDK revolves around a few core concepts:
@@ -21,6 +62,17 @@ The SDK revolves around a few core concepts:
 1. **Client**: The entry point for interacting with the SDK. It handles authentication and connection to the Copilot backend.
 2. **Session**: Represents a conversation or interaction context. All messages and state are scoped to a session.
 3. **Agent**: The AI entity that processes user input, plans actions, calls tools, and generates responses.
+
+```mermaid
+graph TD
+    User[User Application] --> Client
+    Client --> Session
+    Session --> Agent
+    Agent --> LLM[Copilot Backend / LLM]
+    Agent -- Calls --> Tools[Custom Tools]
+    Tools -- Result --> Agent
+    Agent -- Response --> Session
+```
 
 ## Installation
 
@@ -30,7 +82,15 @@ The SDK is available as a Python package.
 pip install github-copilot-sdk
 ```
 
-*Note: You must have an active GitHub Copilot subscription.*
+### Prerequisites
+
+- **GitHub Copilot Subscription**: You must have an active GitHub Copilot subscription.
+- **Environment Variables**:
+  - `GITHUB_TOKEN`: A valid GitHub Personal Access Token (PAT) with Copilot chat permissions is required to authenticate.
+
+    ```bash
+    export GITHUB_TOKEN="your_token_here"
+    ```
 
 ## Core Concepts
 
@@ -48,7 +108,7 @@ Unlike simple chat completions, the Copilot SDK uses an "agentic" approach. When
 Tools are the hands of the agent. You can define any Python function as a tool.
 
 ```python
-from copilot_sdk import tool
+from copilot import tool
 
 @tool
 def get_weather(city: str) -> str:
@@ -64,6 +124,12 @@ You can force the agent to return data in a specific JSON structure, which is cr
 ### 4. Streaming
 
 For real-time user experiences, the SDK supports streaming responses, allowing you to display the agent's "thought process" and partial answers as they differ.
+
+## Best Practices
+
+- **Tool Design**: Keep tools focused and atomic. A tool should do one thing well. Provide clear, descriptive docstrings as these are used by the agent to understand when to call the tool.
+- **System Prompts**: While the SDK handles the heavy lifting, providing a clear "persona" or system prompt to the agent can significantly improve performance for specific domains.
+- **Error Handling**: Always wrap tool execution in try-except blocks (as shown in the examples) to prevent the agent from crashing due to external API failures. The agent can often recover if you return the error message as a string.
 
 ## Next Steps
 
@@ -101,3 +167,31 @@ If the extension update doesn't work, install the standalone CLI via npm and poi
     ```bash
     export COPILOT_CLI_PATH=$(which github-copilot-cli)
     ```
+
+3. **Authenticate Standalone CLI**:
+   The standalone CLI requires separate authentication.
+
+## Troubleshooting & Learnings
+
+### 1. Protocol Version Mismatch
+
+**Symptom**: `RuntimeError: SDK protocol version mismatch` or `ValueError: Missing required fields... protocolVersion=None`.
+**Cause**: The `github-copilot-sdk` (v0.1.20+) is stricter than the current `gh copilot` extension (v1.2.0) which acts as the server. The extension does not send the `protocolVersion` field.
+**Solution**: This documentation assumes the SDK has been patched to:
+
+1. Default `protocolVersion` to `1` in `copilot/types.py`.
+2. Expect `SDK_PROTOCOL_VERSION = 1` in `copilot/sdk_protocol_version.py`.
+
+### 2. Authentication Timeouts
+
+**Symptom**: `TimeoutError` when connecting, especially with manual `COPILOT_CLI_PATH`.
+**Cause**: The standalone `github-copilot-cli` (npm) requires separate authentication via `github-copilot-cli auth`. This service may be flaky or down.
+**Solution**: Use the default `gh copilot` extension (aliased as `copilot` in your path) by unsetting `COPILOT_CLI_PATH`. Ensure `gh auth status` shows you are logged in.
+
+### 3. Tool Definitions
+
+**Lesson**: The SDK does NOT provide a simple `@tool` decorator. You must use `@define_tool` from `copilot` and strictly type your arguments using Pydantic models (subclasses of `BaseModel`).
+
+### 4. Sending Messages
+
+**Lesson**: `session.send()` expects a dictionary `{"prompt": "message"}`, not a raw string. Using a string will cause a `TypeError`. Use `await session.send_and_wait(...)` for simple request-response flows.

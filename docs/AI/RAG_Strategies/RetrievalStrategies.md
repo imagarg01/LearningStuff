@@ -1,196 +1,205 @@
-# RAG Retrieval Strategies
+# RAG Retrieval Strategies: The Comprehensive Guide
 
-Retrieval is the "R" in RAG (Retrieval-Augmented Generation). The quality of your generation is fundamentally limited by the quality of your retrieval. If the LLM doesn't get the right context, no amount of prompt engineering can save it (garbage in, garbage out).
+Retrieval is the "R" in RAG. If the LLM doesn't get the right context, no amount of prompt engineering can save it.
 
-This document details various retrieval strategies, ranging from basic to advanced, and provides a guide on when to select which.
+> "Garbage Retrieval In, Garbage Generation Out."
 
----
+This document details retrieval strategies from basic to expert, with **code examples** and **selection guides**.
 
-## 1. Foundations: Sparse vs. Dense Retrieval
+## 1. Foundations: Sparse vs. Dense Deployment
 
-### Sparse Retrieval (Keyword Search / BM25)
+### Selection Visualizer
 
-This is the traditional search method (like Lucene/Elasticsearch). It maps words to documents based on exact keyword matching.
+```mermaid
+flowchart TD
+    A[Start] --> B{Exact Keyword Match needed?}
+    B -- Yes (SKUs, Names) --> C[Hybrid Search (BM25 + Vector)]
+    B -- No --> D{Complex Query?}
+    D -- Yes --> E[Query Decomposition / Multi-Query]
+    D -- No --> F[Standard Dense Retrieval]
+    F --> G{High Precision Required?}
+    G -- Yes --> H[Re-ranking (Cross-Encoder)]
+    G -- No --> I[Standard Cosine Similarity]
+```
 
-- **Mechanism**: Approaches like TF-IDF or **BM25** (Best Matching 25) calculate relevance based on how often a term appears in a document relative to the entire corpus.
-- **Pros**:
-  - precise for specific keywords (identifiers, names, acronyms).
-  - Explainable.
-  - Computationally cheap.
-- **Cons**:
-  - Fails with synonyms (e.g., "car" won't match "automobile").
-  - Ignores semantic meaning.
+### 1.1 Sparse (BM25) vs Dense (Vector)
 
-### Dense Retrieval (Vector Search)
-
-This uses Deep Learning models (Embeddings) to represent text as high-dimensional vectors. Use cosine similarity to find "nearest neighbors".
-
-- **Mechanism**: A Bi-Encoder model converts the query and documents into vectors.
-- **Pros**:
-  - Captures semantic meaning (e.g., "fast" matches "quick").
-  - Handles multilingual queries well.
-- "Out of domain" problems: if the embedding model wasn't trained on your specific jargon, it might map concepts poorly.
-
-### Choosing an Embedding Model (MTEB)
-
-Not all embeddings are created equal. Use **MTEB (Massive Text Embedding Benchmark)** to choose.
-
-- **Leaderboard**: [Hugging Face MTEB Leaderboard](https://huggingface.co/spaces/mteb/leaderboard)
-- **Key Dimensions**:
-  - **Performance**: Look for high scores in "Retrieval".
-  - **Context Window**: 512 (BERT) vs 8192 (OpenAI).
-  - **Dimensions**:
-    - **1536** (OpenAI default): High quality, expensive storage.
-    - **384** (MiniLM): Fast, cheap, good for simple use cases.
-  - **Matryoshka Embeddings**: Newer models (like `text-embedding-3`) let you shorten vectors (e.g., 1024 -> 256) while keeping most performance.
+* **Sparse (BM25)**: Matches keywords. Fast, interpretable. Good for specific names ("Product ID 555-ABC").
+* **Dense (Embeddings)**: Matches meaning. Good for synonyms ("car" matches "automobile").
 
 ---
 
 ## 2. Advanced Strategies
 
-### Hybrid Search
+### 2.1 Hybrid Search (The Standard)
 
-**Strategy**: Combine Sparse and Dense retrieval to get the best of both worlds.
+Combine BM25 and Vector Search using **Reciprocal Rank Fusion (RRF)**.
 
-- **How it works**: Run BM25 and Vector Search in parallel. Combine their scores.
-- **Fusion Algorithms**:
-  - **Reciprocal Rank Fusion (RRF)**: Rank-based method. sum(1 / (k + rank)). Robust and doesn't require normalizing disparate scores.
-  - **Convex Combination**: weighted_score = alpha *dense_score + (1 - alpha)* sparse_score.
+* **Why**: BM25 catches the keywords, Vectors catch the meaning.
+* **Code Example (LangChain)**:
 
-### Re-ranking (Two-Stage Retrieval)
+```python
+from langchain.retrievers import EnsembleRetriever
+from langchain_community.retrievers import BM25Retriever
 
-**Strategy**: Retrieve a large set of candidates cheaply, then sort the best ones using a more expensive, accurate model.
+# bm25_retriever = ... (created from docs)
+# vector_retriever = ... (created from vectorstore)
 
-- **Stage 1 (Retrieval)**: Get top 50-100 results using Hybrid or Dense search (Bi-Encoder). Fast.
-- **Stage 2 (Re-ranking)**: Use a **Cross-Encoder**.
-  - A Cross-Encoder takes the pair `(Query, Document)` as input and outputs a relevance score. Integrating the query and document early allows for deep interaction between their tokens (self-attention).
-- **Benefit**: dramatically improves precision.
-- **Cost**: Slower and more expensive than Bi-encoders. Only run on the top N candidates.
+ensemble_retriever = EnsembleRetriever(
+    retrievers=[bm25_retriever, vector_retriever],
+    weights=[0.5, 0.5] # Equal weight to keyword and semantic
+)
+docs = ensemble_retriever.invoke("apple iphone sales")
+```
 
-### Query Transformations
+### 2.2 Re-ranking (The Precision Booster)
 
-Often the user's query is poorly formulated for retrieval. We can transform it before searching.
+Retrieve a large set (e.g., 50) using cheap vector search, then sort the top results using a **Cross-Encoder**.
 
-1. **Query Expansion / Multi-Query**:
-    - Use an LLM to generate synonyms or alternative phrasings of the query.
-    - Retrieve for *all* variations and dedup/pool the results.
-2. **Query Decomposition**:
-    - Break a complex question ("Compare the revenue of Apple and Microsoft in 2023") into sub-questions ("What was Apple's revenue in 2023?", "What was MSFT's?").
-    - Retrieve and answer individually.
-3. **HyDE (Hypothetical Document Embeddings)**:
-    - Ask LLM to *hallucinate* a hypothetical answer to the question.
-    - Embed the *answer*, not the question.
-    - **Why?** The answer is semantically closer to the documents you want to find than the question is.
+```mermaid
+sequenceDiagram
+    User->>BiEncoder: Query "Apples revenue"
+    BiEncoder->>VectorDB: ANN Search (Top 50)
+    VectorDB-->>CrossEncoder: Return 50 Candidates
+    CrossEncoder->>CrossEncoder: Score (Query, Doc) pairs
+    CrossEncoder-->>User: Return Top 5 Re-ranked
+```
 
-### Contextual Retrieval
+* **Code Example**:
 
-**Problem**: When you chunk a document, a chunk might say "The company revenue grew by 5%". Without the parent document context, we don't know *which* company.
-**Strategy (Anthropic's approach)**:
+```python
+from langchain.retrievers import ContextualCompressionRetriever
+from langchain.retrievers.document_compressors import CrossEncoderReranker
+from langchain_community.cross_encoders import HuggingFaceCrossEncoder
 
-- Pre-process: Use an LLM to generate a minimal explanation of the context for each chunk *before* embedding.
-- Prepend: "This chunk is from the 2023 Financial Report of Acme Corp..." -> "The company revenue grew..."
-- Result: The chunk is now retrievable by queries about "Acme Corp" even if the chunk didn't mention it.
+model = HuggingFaceCrossEncoder(model_name="BAAI/bge-reranker-base")
+compressor = CrossEncoderReranker(model=model, top_n=5)
+retriever = ContextualCompressionRetriever(
+    base_compressor=compressor, base_retriever=base_vector_retriever
+)
+```
 
-### Metadata Filtering (Self-Querying)
+### 2.3 Query Transformations (Multi-Query / HyDE)
 
-**Strategy**: Use document attributes (Date, Author, Category) to narrow the search space.
+The user often asks bad questions. Fix them before searching.
 
-- **Pre-filtering**: Filter *before* vector search. fast, but if filter is too strict, you might get zero results.
-- **Post-filtering**: Retrieve first, then filter. Can result in retrieving N docs, filtering them all out, and returning nothing.
-- **Self-Querying**: Use an LLM to extract filters from the user's natural language question (e.g., "Show me emails from last week" -> `{ "date": "> now-7d", "type": "email" }`).
+* **Multi-Query**: Generate 3 variations of the question.
+* **HyDE**: Hallucinate an answer, then search for that answer.
 
----
+```python
+from langchain.retrievers.multi_query import MultiQueryRetriever
+from langchain_openai import ChatOpenAI
 
-## 3. Supervised Retrieval
+retriever = MultiQueryRetriever.from_llm(
+    retriever=vector_retriever, llm=ChatOpenAI()
+)
+# Generates: "What is Apple's revenue?", "Apple 2024 financial results", etc.
+```
 
-When generic models aren't enough, you can "teach" the system your domain.
+### 2.4 Contextual Retrieval (Anthropic Strategy)
 
-### Fine-tuning Embedding Models
-
-- **What**: Adapt the Bi-encoder (e.g., BERT-based) on your specific data.
-- **Data Needed**: `(Positive_Query, Positive_Document)` pairs (and ideally negatives).
-- **Use Case**: Highly specialized domains (Structure biology, ancient law) where general semantic relationships don't hold.
-- **Architecture**: Contrastive Learning (MNRL - Multiple Negatives Ranking Loss).
-
-### Learning to Rank (LTR)
-
-- **What**: Train a specialized model just for the ranking phase.
-- **Models**:
-  - **XGBoost / LightGBM**: Feature-based ranking. Features can be BM25 score, cosine similarity, document freshness, click-through rate (CTR), etc.
-  - **Deep Learning**: Fine-tuning a Cross-Encoder specifically for ranking your documents.
-- **Use Case**: E-commerce, large-scale search engines where you have user interaction data (clicks).
+**Problem**: Chunks lose context. "It grew by 5%" is useless if you don't know "It" is "Google".
+**Solution**: Prepend context ("This chunk is from Google's 2023 report...") to the text *before* embedding.
 
 ---
 
-## 4. Selection Guide: When to choose what?
+## 3. Expert Strategies
 
-| Use Case / Constraint | Recommended Strategy | Why? |
+### 3.1 GraphRAG (Global Context)
+
+Uses a Knowledge Graph to answer "global" questions like "What are the common themes?" which vector search fails at.
+
+* **Method**: Summary of communities (clusters of nodes).
+
+### 3.2 Agentic / Self-Correcting RAG
+
+The Retrieval system is an agent that can loop.
+
+1. **Retrieve**.
+2. **Grade**: Is this document relevant? (LLM as Judge).
+3. **Correct**:
+    * *Yes*: Generate answer.
+    * *No*: Rewrite query and search again.
+    * *Still No*: Search the Web.
+
+---
+
+## 4. Testing & Evaluation Metrics
+
+How do you measure success?
+
+| Metric | Definition | Good For |
 | :--- | :--- | :--- |
-| **Simple / PoC** | **Naive Dense Retrieval** | Use a standard vector DB. Fast to set up. Good enough for 80% of general cases. |
-| **Specific Identifiers** (Product SKUs, Names) | **Hybrid Search (Dense + Sparse)** | Vector search fails at exact matches; BM25 complements it perfectly. |
-| **Ambush of Precision** | **Re-ranking** | If users complain irrelevant docs are in top 3 positions. |
-| **Complex User Queries** | **Query Decomposition / Multi-Query** | If one single vector lookup can't capture the multi-faceted intent. |
-| **Domain Mismatch** (e.g., Medical codes) | **Fine-tuning Embeddings** | Generic models won't know that "Code 123" is related to "Disease X". |
-| **Latency Critical (<50ms)** | **Sparse or Dense Only (No Re-ranking)** | Re-ranking or HyDE adds significant latency (hundreds of ms). |
-| **Small Chunks losing meaning** | **Contextual Retrieval** | Adds parent context so chunks stand on their own. |
-
-### Summary Flowchart
-
-1. **Start** with **Naive RAG** (Standard Embeddings).
-2. *Verification*: Are results good? -> Done.
-3. *Issue*: Misses exact keywords? -> Add **Hybrid (BM25)**.
-4. *Issue*: Top results are loosely related but not precise? -> Add **Re-ranking**.
-5. *Issue*: Questions are too vague or complex? -> Add **Query Transformations**.
-6. *Issue*: Domain jargon is completely misunderstood? -> **Fine-tune Embeddings**.
+| **Hit Rate @ K** | Is the correct document present in the top K results? | Initial recall check. |
+| **MRR (Mean Reciprocal Rank)** | How high up is the first correct result? (1 = 1st, 0.5 = 2nd). | Search ranking quality. |
+| **NDCG** | Considers the *order* and *relevance grade* of all results. | Gold standard for ranking. |
+| **Context Recall** | (LLM-based) Does the retrieved context contain the answer? | End-to-end RAG quality. |
 
 ---
 
-## 5. Expert Strategies (State of the Art)
+## 5. Libraries & Ecosystem
 
-### GraphRAG (Knowledge Graphs + Vector)
-
-**Problem**: Vector search fails at "Global Questions" (e.g., "What are the main themes in this dataset?") or "Multi-hop Reasoning" where documents don't explicitly overlap but share entities.
-**Strategy**:
-
-- Build a **Knowledge Graph** (Nodes = Entities, Edges = Relationships) from your documents.
-- Use **Community Detection** (Leiden algorithm) to cluster related entities.
-- **Retrieval**:
-  - **Local Search**: Traverse edges to find related concepts (e.g., "Apple" -> "Tim Cook" -> "Biography").
-  - **Global Search**: Summarize entire communities to answer high-level questions.
-
-### ColBERT (Late Interaction)
-
-**Problem**: Bi-Encoders are fast but lose nuance (compressing 500 words into 1 vector). Cross-Encoders are accurate but slow (full O(n^2) attention).
-**Strategy**:
-
-- **Late Interaction**: Encode query and document tokens *independently* (like Bi-Encoder) but keep *all* token vectors (MaxSim operation).
-- **Mechanism**: Calculates a "MaxSim" matrix between every query token and every document token.
-- **Result**: Accuracy close to GPT-4 re-ranking with latency close to standard vector search.
-
-### Agentic RAG
-
-**Problem**: Naive RAG is a linear pipeline. If retrieval fails, generation fails.
-**Strategy**: Turn the RAG system into an **Agent** that can use tools.
-
-- **Self-RAG**: The model generates a "Critique Token" evaluating its own retrieval. If low quality, it re-writes the query.
-- **Corrective RAG (CRAG)**: An external evaluator checks the document relevance.
-  - *Correct*: Proceed to generate.
-  - *Incorrect*: Search the Web (Google Search Tool).
-  - *Ambiguous*: Ask clarifying question.
+| Tool | Type | Best For |
+| :--- | :--- | :--- |
+| **Pinecone / Weaviate / Qdrant** | Vector Database | Storing millions of vectors. Scalability. |
+| **Chroma / FAISS** | Local Vector DB | Prototyping, privacy, or small-scale ( < 100k docs). |
+| **RankGauss / BGE-Reranker** | Re-ranking Model | Plugging into the re-ranking stage. |
+| **Ragas / DeepEval / TruLens** | Evaluation | Measuring Hit Rate, Context Precision. |
+| **LangChain / LlamaIndex** | Orchestration | Glue code to connect DBs, Embeddings, and LLMs. |
 
 ---
 
-## 6. References & Further Reading
+## 6. Multimodal Retrieval (Beyond Text)
 
-### Key Papers
+The world isn't just text. RAG must handle **Images**, **Video**, and **Audio**.
 
-- **Original RAG Paper**: [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401)
-- **DPR (Dense Passage Retrieval)**: [Dense Passage Retrieval for Open-Domain Question Answering](https://arxiv.org/abs/2004.04906) - The foundation of dense retrieval.
-- **HyDE**: [Precise Zero-Shot Dense Retrieval without Relevance Labels](https://arxiv.org/abs/2212.10496)
-- **Lost in the Middle**: [How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172) - Why re-ranking and context precision matter.
+### 6.1 Image Retrieval (CLIP / SigLIP)
 
-### Useful Articles & Guides
+Standard dense retrieval works because "dog" and "canine" are close in vector space. **CLIP (Contrastive Language-Image Pre-training)** aligns **Text** and **Images** in the *same* vector space.
 
-- [Pinecone Learning Center](https://www.pinecone.io/learn/) - Excellent visual guides on Vector Search and RAG.
-- [LangChain RAG Docs](https://python.langchain.com/docs/expression_language/cookbook/retrieval) - Practical implementation patterns.
-- [Anthropic: Contextual Retrieval](https://www.anthropic.com/news/contextual-retrieval) - Source for the Contextual Retrieval strategy.
+* **Mechanism**: A query "Two dogs playing in snow" will have a vector very close to an *image* of two dogs in snow.
+* **Embeddings**:
+  * **OpenAI CLIP**: The standard.
+  * **SigLIP (Google)**: Better performance/precision.
+* **Workflow**:
+    1. Embed all images in your DB (Vector X).
+    2. Embed user text query (Vector Y).
+    3. Find images where Cosine(X, Y) is high.
+
+### 6.2 Video Retrieval (Temporal Understanding)
+
+Video is just a sequence of images + audio.
+
+* **Naive Approach**: Extract 1 frame every second -> Embed with CLIP.
+* **Advanced (TwelveLabs / Marengo)**: Use models that understand *time*. "A man jumps *after* the car explodes". Frame-level embeddings can't capture the "after".
+
+### 6.3 Audio Retrieval
+
+* **Transcription First (Whisper)**: Convert Audio -> Text -> Standard Text RAG. (Most common/reliable).
+* **Direct Audio (CLAP)**: Contrastive Language-Audio Pretraining. Search for "steps on gravel" and find sound effects matching that sound, without text.
+
+---
+
+## 7. Critic Review: The State of Retrieval
+
+*A critical look at where we stand today.*
+
+* **Vector Search is NOT Magic**: It creates a false sense of security. It fails miserably at:
+  * **Negation**: "Show me phones that are NOT Apple". Vector search will show you Apple phones because "Apple" is the most semantically relevant word.
+  * **Exact Match**: SKU lookups or precise SQL-like filters.
+  * **Structured Reasoning**: "Compare the revenue growth of X vs Y". Vectors can't do math.
+* **The "Context Window" Fallacy**: "Why RAG? Just put 1M tokens in Gemini 1.5".
+  * **Cost**: Input tokens are expensive.
+  * **Latency**: Waiting 30s for a prompt to process is bad UX.
+  * **Lost in the Middle**: Even with 1M context, attention mechanisms degrade. RAG is still needed for *selection*.
+* **Multimodal is Immature**: Image retrieval is great, but *reasoning* across video frames is still expensive and slow. Most "Video RAG" is just "Keyframe RAG".
+
+## Summary Recommendation Matrix
+
+| Scenario | Strategy |
+| :--- | :--- |
+| **Standard Baseline** | **Dense Retrieval** |
+| **Specific Keywords** | **Hybrid (BM25 + Dense)** |
+| **High Accuracy Needed** | **Hybrid + Re-ranking** |
+| **Vague User Questions** | **Multi-Query + Hybrid** |
+| **Global/Summarization** | **GraphRAG** |
