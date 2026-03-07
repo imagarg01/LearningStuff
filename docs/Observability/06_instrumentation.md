@@ -6,6 +6,8 @@ Instrumentation is the process of adding observability code to your applications
 
 ## Instrumentation Types
 
+There are three primary ways to approach OpenTelemetry instrumentation. Understanding when to use which is the key to a scalable observability strategy.
+
 ```mermaid
 graph TB
     I[Instrumentation]
@@ -20,9 +22,41 @@ graph TB
 
 | Type | Effort | Control | Use Case |
 |------|--------|---------|----------|
-| **Auto** | Low | Limited | Quick start, frameworks |
-| **Manual** | High | Full | Business logic, custom spans |
-| **Hybrid** | Medium | Full | Production systems |
+| **Auto** | Low | Limited | Quick start, standard framework operations (HTTP routes, DB queries) |
+| **Manual** | High | Full | Core business logic, custom attributes (e.g., `order.id`), domain events |
+| **Hybrid** | Medium | Full | **The Production Standard**: Auto traces the framework, Manual traces the business logic |
+
+### The Hybrid Approach in Action
+
+The Hybrid approach is the most common pattern in production. By combining Automatic and Manual instrumentation, you map the complete journey of a request without having to write code for the boilerplate items:
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Auto as Auto-Instrumentation<br/>(Framework)
+    participant Manual as Manual Instrumentation<br/>(Business Logic)
+    participant DB as Auto-Instrumentation<br/>(Database)
+    
+    Client->>Auto: HTTP POST /checkout
+    activate Auto
+    Note over Auto: Span: "HTTP POST /checkout"<br/>(Zero-code, automatic)
+    
+    Auto->>Manual: call process_checkout()
+    activate Manual
+    Note over Manual: Span: "process_checkout"<br/>Attrs: order.id, customer.tier<br/>(Full Control, code changes)
+    
+    Manual->>DB: INSERT into orders
+    activate DB
+    Note over DB: Span: "INSERT orders"<br/>(Zero-code, automatic)
+    DB-->>Manual: Success
+    deactivate DB
+    
+    Manual-->>Auto: Return
+    deactivate Manual
+    
+    Auto-->>Client: 200 OK
+    deactivate Auto
+```
 
 ---
 
@@ -620,6 +654,22 @@ def create_order():
 ---
 
 ## Complete Setup Example
+
+> [!TIP]
+> **Runnable Java Demo Available!** ☕️
+> We have built a comprehensive, runnable Spring Boot application demonstrating both "Zero-Code" (Auto) and "With Code" (Manual) instrumentation workflows.
+>
+> You can find the code and a junior-developer friendly tutorial in [src/main/java/com/ashish/observability/README.md](../../../src/main/java/com/ashish/observability/README.md).
+>
+> Features:
+>
+> - Auto-instrumentation of HTTP requests
+> - Manual injection of Business Attributes (`order.id`)
+> - Custom Business Metrics (`orders.processed`)
+> - A `docker-compose` stack with Jaeger & pre-configured Grafana
+> - A `k6` chaos script for load generation
+
+### Python Setup
 
 ```python
 # telemetry.py - Centralized setup

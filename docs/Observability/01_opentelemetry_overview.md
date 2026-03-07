@@ -64,18 +64,22 @@ OpenTelemetry was formed by merging two projects:
 
 ### Telemetry Signals
 
-```mermaid
-graph TB
-    OTel[OpenTelemetry]
-    
-    OTel --> Traces
-    OTel --> Metrics
-    OTel --> Logs
-    
-    Traces --> S1["Distributed request tracking"]
-    Metrics --> S2["Numeric measurements over time"]
-    Logs --> S3["Timestamped event records"]
-```
+OpenTelemetry standardizes the collection of three primary telemetry signals:
+
+**1. Traces (Distributed Request Tracking)**
+Traces track the progression of a single request, called a trace, as it is handled by services that make up an application.
+
+![Jaeger Distributed Tracing Dashboard Mockup](images/jaeger_tracing_mockup_1772859141861.png)
+
+**2. Metrics (Numeric Measurements)**
+Metrics are a service measuring some operations at regular intervals, providing aggregations over time.
+
+![Grafana Metrics Dashboard Mockup](images/grafana_dashboard_mockup_1772859157426.png)
+
+**3. Logs (Timestamped Event Records)**
+Logs are timestamped text records, structured or unstructured, with metadata.
+
+![Structured application logs in terminal Mockup](images/terminal_logs_mockup_1772859173300.png)
 
 ### Components Architecture
 
@@ -407,9 +411,155 @@ Combines agent and gateway for maximum flexibility.
 
 ---
 
+## OpenTelemetry in the Age of AI Agents
+
+As system architectures evolve from standard microservices to **Agentic Architectures** (systems where autonomous AI agents interact with standard microservices, databases, and queues), the complexity of tracking requests grows exponentially. OpenTelemetry is no longer just "nice to have"—it becomes the critical backbone for understanding non-deterministic systems.
+
+### The Challenge of Agentic Architectures
+
+In a traditional microservice architecture, a user clicking "Checkout" triggers a predictable, deterministic chain of events (Frontend $\rightarrow$ Auth $\rightarrow$ Inventory $\rightarrow$ Payment).
+
+In an Agentic architecture, a user asking a chatbot "Plan my trip and book the cheapest flights" triggers a highly non-deterministic chain. The "Travel Agent" might:
+
+1. Call an LLM to parse the intent.
+2. Search a vector database for past preferences.
+3. Queue 5 parallel tasks to standard Flight API microservices to check prices.
+4. Call another "Booking Agent" to finalize the transaction.
+5. Fail, auto-retry, and choose a different path entirely.
+
+Without observability, debugging why an agent made a specific decision or why a task took 45 seconds is nearly impossible.
+
+### How OpenTelemetry Helps
+
+```mermaid
+graph TB
+    subgraph "Agentic Flow (Non-Deterministic)"
+        User[User Request] --> Planner[Planner Agent]
+        Planner <--> LLM[LLM Provider]
+        Planner <--> VDB[(Vector DB)]
+        
+        Planner -->|Queue| Task1[Flight Agent]
+        Planner -->|Queue| Task2[Hotel Agent]
+    end
+    
+    subgraph "Standard Microservices (Deterministic)"
+        Task1 --> API1[Flight API]
+        Task2 --> API2[Hotel API]
+        API1 --> SQL1[(SQL DB)]
+        API2 --> SQL2[(SQL DB)]
+    end
+    
+    subgraph "OpenTelemetry Backbone"
+        Planner -.-> OTel[Collector]
+        LLM -.-> OTel
+        VDB -.-> OTel
+        Task1 -.-> OTel
+        API1 -.-> OTel
+        
+        OTel --> Traces[Distributed Traces]
+    end
+    
+    classDef ai fill:#e1f5fe,stroke:#03a9f4,stroke-width:2px;
+    classDef ms fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px;
+    classDef db fill:#fff3e0,stroke:#ff9800,stroke-width:2px;
+    
+    class Planner,Task1,Task2 ai;
+    class API1,API2 ms;
+    class VDB,SQL1,SQL2 db;
+```
+
+OpenTelemetry solves the "black box" problem of AI agents through its three core signals:
+
+#### 1. Tracing the "Thought Process" (Spans)
+
+By wrapping agent steps in **Spans**, you can view the agent's thought process as a flame graph.
+
+* **Parent Span**: "Plan Trip" (Duration: 12s)
+* **Child Spans**: "LLM generation" (4s), "Vector Search" (0.5s), "Tool Execution: Flight Search" (7s).
+Tracing context (`trace_id`) is seamlessly propagated from the Python/LangChain Agent down through the message queue (Kafka/RabbitMQ) and into the standard Java/Go microservices.
+
+#### 2. Metrics for Token Usage and Costs
+
+Standard metrics track CPU and Memory. In an agentic world, OpenTelemetry `Counters` and `Histograms` are essential for tracking:
+
+* OpenTelemetry `Counter`: Total tokens consumed by the Planner Agent.
+* OpenTelemetry `Histogram`: LLM Time To First Token (TTFT).
+* OpenTelemetry `Up/Down Counter`: Number of active background agent tasks currently queued.
+
+#### 3. Structured Logging for Prompts and Outputs
+
+Standard logs say "User authenticated." Agent logs need to capture massive payloads safely.
+Using OpenTelemetry standard attributes, you log:
+
+* `gen_ai.prompt`: "Find a flight to Tokyo..."
+* `gen_ai.completion`: "I have found 3 flights..."
+* `gen_ai.system.model`: "gpt-4-turbo"
+
+### Benefits of the OTel + Agent Combo
+
+| Benefit | Description |
+|---------|-------------|
+| **Deterministic Debugging** | If an agent hallucinates, the trace proves exactly what prompt was generated and which standard API the agent subsequently called. |
+| **Standardization** | OTel's Semantic Conventions (e.g., `gen_ai.prompt.tokens`) means you don't invent your own logging format for LLMs. |
+| **Cross-Boundary Visibility** | The trace flows smoothly from the AI framework (LlamaIndex/LangChain) into your legacy Spring Boot microservice, giving a full timeline. |
+
+### Is OpenTelemetry Enough? (The LLM Observability Gap)
+
+OpenTelemetry is **necessary, but not sufficient** for LLM and Agentic workflows.
+
+Because LLMs are non-deterministic (the same input can produce different outputs), traditional observability falls short. OTel tells you exactly *what* happened, but it cannot tell you if what happened was *good*.
+
+| Domain | What it Answers | Tools Used |
+|--------|-----------------|------------|
+| **Operational Observability** | How long did the prompt take? What was the prompt? Did the API crash? How many tokens were used? | **OpenTelemetry** |
+| **Quality Observability** | Did it hallucinate? Was it toxic? Did the RAG retrieve the right context? Was the structured output valid JSON? | **Evaluation Frameworks** (LangSmith, Phoenix, TruLens) |
+
+#### The Missing Pieces
+
+To achieve true LLM Observability, the raw operational data collected by OpenTelemetry must be pipelined into **Evaluation Frameworks** (like LangSmith, Phoenix, or TruLens).
+
+```mermaid
+graph LR
+    subgraph "1. Operational Layer (OpenTelemetry)"
+        App[Agentic App] --> |Trace: Prompt, Latency| OTel[OTel Collector]
+        OTel --> DB[(Observability DB)]
+    end
+    
+    subgraph "2. Quality Layer (Evaluation Framework)"
+        DB --> |Fetch Traces| EvalEngine[Evaluation Engine]
+        EvalEngine --> |Judge Output| Judge[LLM-as-a-Judge]
+        Judge --> |Score| Dashboard[Eval Dashboard]
+    end
+    
+    classDef otel fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px;
+    classDef eval fill:#e8f5e9,stroke:#4caf50,stroke-width:2px;
+    
+    class App,OTel,DB otel;
+    class EvalEngine,Judge,Dashboard eval;
+```
+
+These frameworks use the OTel data to perform:
+
+1. **LLM-as-a-Judge**: Running the OTel-captured output through another LLM to score it for relevance, faithfulness, or toxicity.
+2. **Guardrails**: Intercepting the OTel-captured output and validating it against predefined rules (e.g., "No PII allowed") before showing it to the user.
+3. **Drift Detection**: Analyzing the OTel-captured embeddings over time to see if user topics or model responses are shifting.
+
+**Example: An Evaluation Dashboard**
+Once OpenTelemetry data is scored, it is visualized in specialized dashboards that focus on quality metrics (like Hallucination Rate and Faithfulness) alongside traditional OTel metrics (like Latency and Tokens).
+
+![LLM Evaluation Dashboard showing Hallucination Rates and Token usage](images/llm_eval_dashboard_mockup_1772866507101.png)
+
+**The Golden Rule for GenAI**: Use OpenTelemetry to gather the raw data (the strings, the latencies, the errors), and use specialized Evaluation tools to assign a quality score to that data.
+
+1. **LLM-as-a-Judge**: Running the OTel-captured output through another LLM to score it for relevance or toxicity.
+2. **Guardrails**: Intercepting the OTel-captured output and validating it against predefined rules before showing it to the user.
+3. **Drift Detection**: Analyzing the OTel-captured embeddings over time to see if user topics are shifting.
+
+---
+
 ## Next Steps
 
-- **[Traces](02_traces.md)** - Deep dive into distributed tracing
-- **[Metrics](03_metrics.md)** - Understanding metrics collection
-- **[Logs](04_logs.md)** - Structured logging with OTel
-- **[Collector](05_collector.md)** - Setting up the OTel Collector
+* **[Traces](02_traces.md)** - Deep dive into distributed tracing
+* **[Metrics](03_metrics.md)** - Understanding metrics collection
+* **[Logs](04_logs.md)** - Structured logging with OTel
+* **[Collector](05_collector.md)** - Setting up the OTel Collector

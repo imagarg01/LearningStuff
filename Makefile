@@ -195,3 +195,40 @@ advanced: scoped-advanced
 all-examples: all-scoped all-concurrency all-virtual-threads
 	@echo ""
 	@echo "✓✓✓ ALL EXAMPLES COMPLETED! ✓✓✓"
+
+# ==============================================================================
+# Observability Examples Project
+# ==============================================================================
+
+# Directory where the observability infrastructure lives
+OBSERVABILITY_DIR=src/main/java/com/ashish/observability/infra
+AGENT_JAR=opentelemetry-javaagent.jar
+
+# 1. Download the OpenTelemetry Java Agent
+obs-setup:
+	@echo "⬇️ Downloading OpenTelemetry Java Agent..."
+	@curl -L -O https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
+	@echo "✅ Download complete."
+
+# 2. Start the Observability Infrastructure (Grafana, Jaeger, Prometheus, Collector)
+obs-infra-up:
+	@echo "🐳 Starting Observability Infrastructure..."
+	cd $$(OBSERVABILITY_DIR) && docker-compose up -d
+	@echo "✅ Infrastructure running! Grafana: http://localhost:3000 | Jaeger: http://localhost:16686"
+
+# 3. Stop the Observability Infrastructure
+obs-infra-down:
+	@echo "🛑 Stopping Observability Infrastructure..."
+	cd $$(OBSERVABILITY_DIR) && docker-compose down
+
+# 4. Run the Spring Boot App WITH the OpenTelemetry Agent attached
+obs-run:
+	@echo "🚀 Starting Spring Boot App with OpenTelemetry Agent..."
+	@mvn spring-boot:run \
+	  -Dstart-class=com.ashish.observability.ObservabilityApplication \
+	  -Dspring-boot.run.jvmArguments="-javaagent:$(AGENT_JAR) -Dotel.service.name=observability-demo -Dotel.traces.exporter=otlp -Dotel.metrics.exporter=otlp -Dotel.logs.exporter=none -Dotel.exporter.otlp.endpoint=http://localhost:4317"
+
+# 5. Run the K6 Load Test and Chaos Script
+obs-load-test:
+	@echo "🔥 Running K6 Load Test (Auto, Manual, and Chaos scenarios)..."
+	k6 run src/main/java/com/ashish/observability/k6-script.js
