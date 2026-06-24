@@ -28,7 +28,7 @@ Because of that, this will be long. All I ask is that you dedicate your full att
 Let's begin.
 I – Why it's so hard to sit down and do the work
 
-The optimal state of inner experience is one in which there is order in consciousness. This happens when psychic energy—or attention—is invested in realistic goals, and when skills match the opportunities for action. The pursuit of a goal brings order in awareness because a person must concentrate attention on the task at hand and momentarily forget everything else. 
+The optimal state of inner experience is one in which there is order in consciousness. This happens when psychic energy—or attention—is invested in realistic goals, and when skills match the opportunities for action. The pursuit of a goal brings order in awareness because a person must concentrate attention on the task at hand and momentarily forget everything else.
 
 – Mihaly Csikszentmihalyi
 Your mind is a supercomputer running the game of life.
@@ -111,6 +111,7 @@ First, I felt a sense of tension with the lack of progress I was making. I knew 
 Second, that tension became unbearable. I knew that I was letting my future self down.
 Third, I disappeared. I started over from scratch. My life seemingly flipped in an instant and I entered a season of deep obsession towards a goal.
 I wanted to understand this process, so I went looking. Here's what I found.
+
 1) Being extreme changes your brain
 "Neurons that fire together, wire together."
 That's Hebb's Law, a famous saying that summarizes a neuropsychological theory related to neuroplasticity.
@@ -163,6 +164,7 @@ I tend to structure my work blocks in two ways - productivity blocks and creativ
 I work on the highest priority task for block one, first thing in the morning, then I go on a walk as a creativity block (remember the Default Mode Network in the brain). On that walk, sometimes I read, sometimes I think, other times I try to solve a problem. Then I repeat the process for a few more rounds until that day's work is done. That acts as a hard stop for thinking about work, allowing my mind to do what it does best.
 With that out of the way, here's the protocol to launch into a season of intense progress toward your goals.
 Image
+
 1) Vision & Anti Vision
 Become brutally aware of 2 things:
 What you don't want
@@ -244,3 +246,8 @@ I wish I could tell you that everyone reading this can just see success the firs
 Everything we just did is useful, but I cannot hold your hand throughout the process, nor can anyone else.
 You must go through the exact same process as every other successful person.
 You must invest in your portfolio of failures until you can afford to succeed.
+
+- What doesn't killed me make me stronger
+
+Paul Tudor Jones
+-
