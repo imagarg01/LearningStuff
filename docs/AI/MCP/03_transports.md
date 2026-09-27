@@ -4,6 +4,9 @@ MCP supports multiple transport mechanisms for client-server communication.
 
 ## Overview
 
+> [!IMPORTANT]  
+> Following the **2026-07-28 specification release**, MCP shifted fundamentally to a **stateless request/response protocol**. The older, stateful transports (Stdio streams and HTTP with SSE) have been largely replaced by stateless HTTP utilizing Header-Based Routing.
+
 ```mermaid
 graph TB
     subgraph "MCP Protocol"
@@ -11,18 +14,19 @@ graph TB
     end
     
     subgraph "Transport Options"
-        Stdio[Stdio<br/>Local Processes]
-        HTTP[Streamable HTTP<br/>Remote Servers]
+        StatelessHTTP[Stateless HTTP<br/>Serverless & Remote]
+        Legacy[Legacy: Stdio & SSE]
     end
     
-    Data --> Stdio
-    Data --> HTTP
+    Data --> StatelessHTTP
+    Data -.- Legacy
 ```
 
-| Transport | Use Case | Performance |
+| Transport | Use Case | Lifecycle |
 |-----------|----------|-------------|
-| **Stdio** | Local tools, CLI | Fastest |
-| **Streamable HTTP** | Remote servers, APIs | Network latency |
+| **Stateless HTTP** | Default for enterprise, Serverless (Lambda, Cloudflare) | Request/Response (No session) |
+| **Stdio** | Local CLI tools (Legacy/Specific) | Stateful Process Stream |
+| **HTTP + SSE** | Streaming (Legacy) | Stateful Connection |
 
 ---
 
@@ -80,41 +84,39 @@ Messages are newline-delimited JSON:
 
 ---
 
-## 2. Streamable HTTP Transport
+## 2. Stateless HTTP Transport (Modern Standard)
 
-HTTP with **Server-Sent Events (SSE)** for streaming responses.
+With the removal of persistent sessions, HTTP is utilized in a pure stateless request/response fashion. This is crucial for enterprise deployments, allowing MCP servers to run on auto-scaling infrastructure (like AWS Lambda or Kubernetes) without maintaining sticky sessions.
+
+### Header-Based Routing
+
+A key feature of the modern stateless transport is **Header-Based Routing**. Metadata is passed via headers, allowing API Gateways and load balancers to route and authorize traffic *before* it hits the MCP application logic.
+
+* `Mcp-Method`: Specifies the JSON-RPC method (e.g., `tools/call`).
+* `Mcp-Name`: Specifies the target (e.g., the tool name).
 
 ### How It Works
 
 ```mermaid
 sequenceDiagram
     participant Client
-    participant Server
+    participant Gateway as API Gateway
+    participant Server as Serverless MCP
     
-    Client->>Server: POST /message<br/>JSON-RPC request
+    Client->>Gateway: POST /mcp<br/>Headers: Mcp-Method, Mcp-Name<br/>Body: JSON-RPC
+    Gateway->>Gateway: Authorize via Registry
+    Gateway->>Server: Route request
     Server-->>Client: 200 OK<br/>JSON-RPC response
-    
-    Note over Client,Server: For streaming:
-    
-    Client->>Server: GET /sse<br/>Accept: text/event-stream
-    Server-->>Client: SSE: notifications<br/>SSE: progress<br/>SSE: results
 ```
 
 ### Characteristics
 
 | Aspect | Value |
 |--------|-------|
-| **Latency** | Network-dependent |
-| **Security** | TLS, Bearer tokens |
-| **Use Case** | Remote APIs, cloud services |
-| **Streaming** | SSE for real-time updates |
-
-### Endpoints
-
-| Endpoint | Method | Purpose |
-|----------|--------|---------|
-| `/message` | POST | Send JSON-RPC request |
-| `/sse` | GET | Subscribe to server events |
+| **Lifecycle** | Stateless Request/Response (No Session ID) |
+| **Complex Flows** | Uses **Multi Round-Trip Requests (MRTR)** instead of streams |
+| **Security** | TLS, Gateways, Header-based RBAC |
+| **Use Case** | Enterprise standard, Serverless functions |
 
 ### Request Example
 
@@ -186,24 +188,20 @@ sequenceDiagram
 
 ```mermaid
 graph TD
-    A{Local or Remote?}
-    A -->|Local| B{Process Type?}
-    A -->|Remote| C{Streaming Needed?}
+    A{Deployment Model?}
+    A -->|Enterprise / Remote| B[Stateless HTTP]
+    A -->|Local Dev / Legacy| C[Stdio]
     
-    B -->|CLI Tool| D[Stdio]
-    B -->|Long-running| D
-    
-    C -->|Yes| E[HTTP + SSE]
-    C -->|No| F[HTTP POST/Response]
+    B --> D[Deploy to API Gateway, Lambda, Kubernetes]
+    C --> E[Local CLI Tools]
 ```
 
 | Scenario | Recommended Transport |
 |----------|----------------------|
-| Local file access | Stdio |
-| Git operations | Stdio |
-| Database queries | Stdio (local) or HTTP (remote) |
-| Cloud API | HTTP + SSE |
-| Real-time data | HTTP + SSE |
+| Enterprise Skills & Registries | Stateless HTTP (Header-based routing) |
+| Serverless / Auto-scaling environments | Stateless HTTP |
+| Simple Local File Access (Dev only) | Stdio |
+| Real-time complex flows | Stateless HTTP with Multi Round-Trip Requests (MRTR) |
 
 ---
 
@@ -264,10 +262,10 @@ def sse():
 
 ## Summary
 
-| Transport | Best For | Complexity |
+| Transport | Best For | Lifecycle |
 |-----------|----------|------------|
-| **Stdio** | Local tools, fast | Low |
-| **HTTP + SSE** | Remote, streaming | Medium |
+| **Stateless HTTP** | Enterprise, Serverless, Agent Skill Delivery | Stateless |
+| **Stdio (Legacy)** | Local, isolated CLI tools | Stateful |
 
 > [!TIP]
-> Start with **Stdio** for development. Migrate to **HTTP** when you need remote access or scaling.
+> Default to **Stateless HTTP** for all new enterprise MCP servers to ensure compatibility with modern Agentic discovery registries, API gateways, and scalable infrastructure.

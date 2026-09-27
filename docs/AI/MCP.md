@@ -16,7 +16,7 @@ Programs like Claude desktop, IDEs, or AI tools that want to access data through
 
 ### MCP Client
 
-Protocol clients that maintain 1:1 connections with servers.
+Protocol clients that dispatch stateless requests to servers, often routed through enterprise registries.
 
 ### MCP Servers
 
@@ -57,19 +57,17 @@ Handles message framing, request/response linking, and high-level communication 
 
 ### Transport Layer
 
-Handles the actual communication between clients and servers. MSP supports multiple transport mechanisms:
+Handles the actual communication between clients and servers. Following the **2026-07-28 specification release**, MCP transitioned to a **stateless request/response protocol**:
 
-1. Stdio transport
+1. Stateless HTTP Transport (Default)
+- Deployed on standard scalable infrastructure (AWS Lambda, Cloudflare Workers).
+- Eliminates the need for long-lived sessions or "sticky" connections.
+- Uses **Header-Based Routing** (`Mcp-Method` and `Mcp-Name` headers) allowing gateways to route requests directly.
 
-- Uses standard input/output for communication.
-- Ideal for local processes
+2. Multi Round-Trip Requests (MRTR)
+- Replaces older stream-dependent patterns for complex interactions (like waiting for human approval) without maintaining persistent connections.
 
-2. HTTP with SSE transport
-
-- Uses Server-Send Events for server-to-client messages.
-- HTTP POST for client-to-server messages.
-
-All transports uses JSON-RPC 2.0 to exchange messages.
+(Legacy transports like stateful Stdio and HTTP with Server-Sent Events (SSE) were prominent in pre-2026 releases). All transports use JSON-RPC 2.0.
 
 ### Resources
 
@@ -178,3 +176,25 @@ Roots serve several important purposes:
 1. **Guidance**: They inform servers about relevant resources and their locations.
 2. **Clarity**: Roots make it clear which resources are part of your workspace.
 3. **Organization**: Multiple roots let you work with different resources simultaneously.
+
+## Enterprise Scale: Registries, Skills, & Discovery
+
+As an enterprise scales, it may deploy hundreds of specialized MCP servers. Loading all their schemas simultaneously into an LLM context is an anti-pattern causing context blowout and security risks. 
+
+Modern Agentic systems solve this using **MCP Registries** and **Advanced Discovery Patterns**:
+
+### 1. The MCP Registry (Service Catalog)
+Enterprises maintain a central registry of all available MCP servers. The registry acts as the "Control Plane," enforcing Role-Based Access Control (RBAC) and auditability. Because modern MCP is stateless, agents don't need to maintain active connection streams; they simply query the registry and dispatch stateless requests.
+
+### 2. Semantic Discovery
+Agents no longer need to know exact tool names (e.g., `execute_sql_query`). They search the registry using **intent** (e.g., *"I need to update a Jira ticket"*). The registry uses semantic search to return the most relevant MCP tools.
+
+### 3. Progressive Discovery
+To conserve context window tokens, MCP servers do not dump their entire catalog of capabilities at once. Instead, they expose a minimal entry point. Clients use the on-demand `server/discover` endpoint to fetch capabilities progressively. As the agent's intent narrows, the server reveals deeper, more specific tools.
+
+### 4. Delivering "Agent Skills" via MCP
+MCP serves as the delivery pipeline for **Agent Skills**:
+* **The Cognitive Interface (Instructions):** The behavioral rules on *how* to use the skill (like a `SKILL.md` file) are fetched by the agent as an **MCP Resource** or **Prompt**. This provides the agent with "procedural memory".
+* **The Execution Runtime (Code):** The deterministic action is executed via an **MCP Tool**.
+
+By combining Semantic Discovery with stateless execution, an agent can dynamically discover a required skill, read its instructions, and execute it just-in-time—without any hardcoded tool arrays.

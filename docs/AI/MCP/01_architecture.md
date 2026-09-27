@@ -159,86 +159,46 @@ Built on **JSON-RPC 2.0**, the data layer handles:
 
 ---
 
-## Lifecycle
+## Lifecycle and Capability Discovery
 
-### Connection Initialization
+> [!NOTE]  
+> As of the **2026-07-28 update**, MCP transitioned to a **stateless request/response model**. The legacy stateful handshake (e.g., `initialize`, `initialized`, `Mcp-Session-Id`) has been removed in favor of self-describing requests and on-demand discovery.
+
+### On-Demand Discovery
+
+Because connections are stateless, capability negotiation is no longer an upfront handshake. Instead, it relies on **Progressive Discovery**:
+
+1. **Self-Describing Requests:** Every request is inherently self-describing.
+2. **The `server/discover` Endpoint:** Clients can call this endpoint at any time to fetch the server's available capabilities. 
 
 ```mermaid
 sequenceDiagram
     participant Client
+    participant Registry
     participant Server
     
-    Client->>Server: initialize
-    Note over Server: Check capabilities
-    Server-->>Client: InitializeResult
+    Client->>Registry: Semantic Search ("Need Slack tool")
+    Registry-->>Client: Returns Server URI
     
-    Client->>Server: initialized (notification)
-    Note over Client,Server: Connection established
+    Client->>Server: GET /server/discover (Optional)
+    Server-->>Client: Returns available Tools, Resources, Prompts
+    
+    Client->>Server: tools/call (send_message)
+    Note over Client,Server: Stateless Request (No persistent connection)
+    Server-->>Client: Result
 ```
 
-### Initialize Request
+### Server Capabilities (Discovered On-Demand)
 
-```json
-{
-    "jsonrpc": "2.0",
-    "method": "initialize",
-    "params": {
-        "protocolVersion": "2024-11-05",
-        "capabilities": {
-            "tools": {},
-            "resources": {}
-        },
-        "clientInfo": {
-            "name": "Claude Desktop",
-            "version": "1.0.0"
-        }
-    },
-    "id": 1
-}
-```
-
-### Initialize Response
-
-```json
-{
-    "jsonrpc": "2.0",
-    "result": {
-        "protocolVersion": "2024-11-05",
-        "capabilities": {
-            "tools": {"listChanged": true},
-            "resources": {"subscribe": true}
-        },
-        "serverInfo": {
-            "name": "Slack MCP Server",
-            "version": "1.0.0"
-        }
-    },
-    "id": 1
-}
-```
-
----
-
-## Capability Negotiation
-
-Both client and server declare what they support:
-
-### Server Capabilities
+When queried, a server can reveal:
 
 | Capability | Description |
 |------------|-------------|
-| `tools` | Server provides tools |
-| `tools.listChanged` | Server notifies when tools change |
-| `resources` | Server provides resources |
-| `resources.subscribe` | Client can subscribe to changes |
-| `prompts` | Server provides prompts |
+| `tools` | Server provides deterministic functions |
+| `resources` | Server provides data or skill instructions (`SKILL.md`) |
+| `prompts` | Server provides prompt templates |
 
-### Client Capabilities
-
-| Capability | Description |
-|------------|-------------|
-| `sampling` | Client can sample from LLM |
-| `roots` | Client provides filesystem roots |
+This progressive approach prevents overwhelming the LLM's context window by only surfacing capabilities when the agent's intent dictates it.
 
 ---
 

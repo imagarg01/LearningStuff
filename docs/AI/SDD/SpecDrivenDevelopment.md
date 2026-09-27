@@ -16,13 +16,15 @@
 
 ## 1. Core Philosophy
 
-The market is currently flooded with complex AI orchestrators and tools. This framework rejects complexity and mandates **strict simplicity and clarity**.
+This framework rejects complexity and mandates **strict simplicity and clarity**.
 
-**THE PRIME DIRECTIVE:** SDD MANDATES a unified, single-source-of-truth understanding of any given change that is equally accessible to both human personnel (BAs, QAs, Devs) and AI Agents (Code Generators). Grounded context (like `agents.md` and specialized AI Skills) MUST be leveraged to explicitly eliminate hallucination and guarantee that the final output perfectly aligns with business constraints.
+**THE PRIME DIRECTIVE:** SDD MANDATES a unified, single-source-of-truth understanding of any given change that is equally accessible to both human personnel (BAs, QAs, Devs) and AI Agents (Code Generators). Grounded context (like `agents.md`, instructions, and specialized AI Skills) MUST be leveraged to explicitly eliminate hallucination and guarantee that the final output perfectly aligns with business constraints.
 
 Below, we detail this workflow to the nth level using a **first-principles approach**.
 
-**MANDATORY BOUNDARY RULE:** A Delta Spec SHALL NOT span multiple repositories. It is strictly bounded to a single repository context. If a business requirement demands full-stack changes across disparate codebases (e.g., a frontend UI and a backend microservice), the Intent Refiner Agent MUST decompose the master ticket into distinct, isolated Delta Specs per repository. Failing to enforce this boundary guarantees context pollution and non-deterministic code generation.
+![SDD](./Spec-Driven_Development_Implementation_Framework.png)
+
+**MANDATORY BOUNDARY RULE:** A Delta Spec SHALL NOT span multiple applications or bounded contexts. It is strictly bounded to a single execution context. Whether using a polyrepo or a monorepo, if a business requirement demands full-stack changes across distinct applications (e.g., a frontend UI and a backend microservice residing in the same monorepo), the Intent Refiner Agent MUST decompose the master ticket into distinct, isolated Delta Specs per application. Failing to enforce this boundary guarantees context pollution and non-deterministic code generation.
 
 ## 2. SDD Architecture Diagram
 
@@ -30,7 +32,7 @@ Below, we detail this workflow to the nth level using a **first-principles appro
 
 ---
 
-## 3. Phase 1: Intent Refinement (The Ingestion Layer)
+## 3. Stage 1: Intent Refinement (The Ingestion Layer)
 
 **FIRST PRINCIPLE:** Raw human input (e.g., a Jira ticket or user request) is strictly UNTRUSTED and inherently ambiguous. To build a deterministic system, this input MUST be transformed into unambiguous, machine-verifiable intent *before* any specification or code is generated.
 
@@ -42,19 +44,20 @@ Below, we detail this workflow to the nth level using a **first-principles appro
     1. The Agent parses the raw text of the ticket (Summary, Description, Acceptance Criteria).
     2. The Agent cross-references this against the global `Repo Spec` (`agents.md`) and the current state of the codebase.
     3. The Agent searches for two things: **Contradictions** (e.g., "The ticket asks for a new microservice, but `agents.md` mandates a monolith architecture for this domain") and **Ambiguities** (e.g., "What happens to existing records if the new constraint is applied?").
-* **The Output Artifact:** A structured JSON or structured Markdown document called `Refined_Intent`. It strips away prescriptive technical solutions and leaves only pure business requirements.
+* **The Output Artifact & Capture Location:** A structured JSON or structured Markdown document called `Refined_Intent` that strips away prescriptive technical solutions to leave pure business requirements.
+  * **The Singular Capture Rule:** Irrespective of how the `refine-intent` skill is invoked (via automated webhook, manually in Jira, or locally by a developer in their IDE), the output MUST ONLY be captured in the Issue Tracker (e.g., Jira). The Agent MUST make an API call to append the `Refined_Intent` as a formatted comment or update a dedicated custom field on the ticket. This guarantees a single, consistent source of truth and forces the Product Owner to review and approve it natively within Jira before Stage 2 can begin. Local ephemeral files are strictly forbidden to prevent fragmentation.
 * **The Feedback Loop:** If the Agent detects unresolvable ambiguities, it SHALL NOT guess. It MUST halt the pipeline immediately and push specific questions back to the Product Owner/BA (e.g., via a Jira comment). The pipeline remains strictly blocked until human clarification is explicitly provided.
 
 ---
 
-## 4. Phase 2: Multi-View Spec Generation (The Translation Layer)
+## 4. Stage 2: Multi-View Spec Generation (The Translation Layer)
 
 **FIRST PRINCIPLE:** A single source of truth MUST be projected through role-specific cognitive lenses. Forcing a Developer, a QA, and a BA to parse a monolithic 20-page Markdown document guarantees "Markdown Fatigue" and missed requirements.
 
 ### The Mechanics
 
 * **The Trigger:** Approval of the `Refined_Intent` document.
-* **The Actor:** "Spec Writer" Agent, utilizing specialized persona skills (`generate-ba-view`, `generate-qa-view`, `generate-dev-view`).
+* **The Actor:** "Spec Writer" Agent, utilizing specialized persona skills ([`generate-ba-view`](file:///Users/ashishgarg/Desktop/work/LearningStuff/.agents/skills/generate-ba-view/SKILL.md), [`generate-qa-view`](file:///Users/ashishgarg/Desktop/work/LearningStuff/.agents/skills/generate-qa-view/SKILL.md), [`generate-dev-view`](file:///Users/ashishgarg/Desktop/work/LearningStuff/.agents/skills/generate-dev-view/SKILL.md)).
 
 ### View 1: The BA View (Intent & Logic)
 
@@ -79,7 +82,7 @@ Below, we detail this workflow to the nth level using a **first-principles appro
 
 ---
 
-## 5. Phase 3: Code Generation (The Execution Layer)
+## 5. Stage 3: Code Generation (The Execution Layer)
 
 **FIRST PRINCIPLE:** Code SHALL NOT drive architecture. Code is strictly a deterministic side-effect of a perfectly defined spec.
 
@@ -96,7 +99,7 @@ Below, we detail this workflow to the nth level using a **first-principles appro
 
 ---
 
-## 6. Phase 4: Managing State Drift (The Synchronization Layer)
+## 6. Stage 4: Managing State Drift (The Synchronization Layer)
 
 **FIRST PRINCIPLE:** Truth MUST remain singular. If the codebase deviates from the Spec, the pipeline MUST explicitly fail or trigger an automated self-healing loop. A stale Spec is strictly worse than having no Spec at all.
 
@@ -110,7 +113,7 @@ To manage this, we define two types of Specs:
 * **The Problem:** During Phase 3 (Execution), a Developer realizes the API contract proposed in the Dev View won't work and manually changes it in the code. Now the Spec and Code are out of sync.
 * **The Trigger:** A strict CI pipeline gate or pre-commit hook.
 * **The AST Diffing Mandate:** To remain truly spec-driven, confidence in the Spec-Sync process must be absolute. Feeding raw `git diffs` into an LLM for massive refactors guarantees context-window blowout and hallucination. Therefore, the pipeline MUST parse the diff using an Abstract Syntax Tree (AST) analyzer (e.g., `tree-sitter`). Only the structural, semantic contract changes (e.g., "Method signature modified from `int` to `string`", "Database column `user_id` added") SHALL be passed to the Spec-Sync Agent. Raw implementation details are strictly filtered out.
-* **The Actor:** "Spec-Sync" Agent Skill.
+* **The Actor:** [`spec-sync`](file:///Users/ashishgarg/Desktop/work/LearningStuff/.agents/skills/spec-sync/SKILL.md) Agent Skill.
 * **Bi-Directional Updates:**
   * If a developer alters an API signature or adds a new database column not in the Spec, the Spec-Sync Agent pauses the build.
   * It reverse-engineers the intent behind the code change.
@@ -207,16 +210,16 @@ To transition this philosophy into a working system, the following artifacts and
 
 ### 2. The Ingestion Layer Skills
 
-* [x] **Create `refine-intent` Skill**: Write the prompt instructing an LLM to take a raw ticket, cross-reference `agents.md`, identify contradictions, and format the `Refined_Intent` artifact.
+* [x] **Create [`refine-intent`](file:///Users/ashishgarg/Desktop/work/LearningStuff/.agents/skills/refine-intent/SKILL.md) Skill**: Write the prompt instructing an LLM to take a raw ticket, cross-reference `agents.md`, identify contradictions, and format the `Refined_Intent` artifact directly into Jira.
 * [ ] **Configure Ingestion Trigger**: Setup a Jira webhook or a local CLI command to fetch a ticket and pass it to the `refine-intent` skill.
 
 ### 3. The Translation Layer Skills
 
-* [ ] **Create `generate-ba-view` Skill**: Write the prompt to output state machines and Mermaid.js diagrams from the `Refined_Intent`.
-* [ ] **Create `generate-qa-view` Skill**: Write the prompt to generate exhaustive Gherkin (Given/When/Then) scenarios, forcing the Agent to consider edge cases.
-* [ ] **Create `generate-dev-view` Skill**: Write the prompt to translate business logic into specific API contracts, database schema changes, and `[NEW]/[MODIFY]` file lists based on `agents.md`.
+* [x] **Create [`generate-ba-view`](file:///Users/ashishgarg/Desktop/work/LearningStuff/.agents/skills/generate-ba-view/SKILL.md) Skill**: Outputs state machines and Mermaid.js diagrams strictly from the `Refined_Intent`.
+* [x] **Create [`generate-qa-view`](file:///Users/ashishgarg/Desktop/work/LearningStuff/.agents/skills/generate-qa-view/SKILL.md) Skill**: Generates exhaustive Gherkin (Given/When/Then) scenarios constrained by the BA's flow, forcing the Agent to identify edge cases via the Anti-Complacency Gate.
+* [x] **Create [`generate-dev-view`](file:///Users/ashishgarg/Desktop/work/LearningStuff/.agents/skills/generate-dev-view/SKILL.md) Skill**: Translates the Gherkin scenarios and BA flow into specific API contracts, database schema changes, and `[NEW]/[MODIFY]` file lists based on `agents.md` using DDD principles.
 
 ### 4. The Synchronization Layer
 
-* [ ] **Create `spec-sync` Skill**: Write the prompt that takes a git diff and reverse-engineers the intent back into an updated Delta Spec.
-* [ ] **Configure Sync Trigger**: Implement a pre-commit hook or CI step that triggers the `spec-sync` skill if a Developer modifies a contract defined in the Delta Spec.
+* [x] **Create [`spec-sync`](file:///Users/ashishgarg/Desktop/work/LearningStuff/.agents/skills/spec-sync/SKILL.md) Skill**: Analyzes a structural JSON AST diff and reverse-engineers the intent back into an updated Delta Spec proposal for human approval.
+* [x] **Configure Sync Trigger**: Implement a pre-commit hook or CI step that triggers the `spec-sync` skill if a Developer modifies a contract defined in the Delta Spec.

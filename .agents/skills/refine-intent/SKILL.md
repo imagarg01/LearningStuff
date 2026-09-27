@@ -39,9 +39,11 @@ When this tool is invoked, you must perform the following steps:
 3. **Analyze for Ambiguities:** Identify any edge cases or missing context in the business logic (e.g., unhandled error states, missing user personas).
 4. **Distill Pure Intent:** Strip away any prescriptive technical solutions from the request. Extract *only* what the business is trying to achieve.
 
-### Output Validation (The Refined Intent Payload)
+### Output Capture (The Singular Capture Rule)
 
-You must return your analysis as a structured JSON object exactly matching this schema. This ensures downstream agents can parse it deterministically.
+You MUST capture this analysis as a structured JSON object exactly matching the schema below. 
+
+**CRITICAL RULE:** The output MUST ONLY be captured in the original Issue Tracker (e.g., as a formatted comment or custom field update on the Jira ticket). You are strictly forbidden from creating local ephemeral files (e.g., `intent.json`) for the output to prevent fragmentation of the single source of truth.
 
 ```json
 {
