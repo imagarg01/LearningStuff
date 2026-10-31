@@ -4,7 +4,11 @@
 
 International Gemmological Institute (India) Ltd (IGIL) presents a compelling, albeit complex, structural arbitrage opportunity within the global diamond and jewelry value chain. Unlike upstream miners (e.g., De Beers, Alrosa) who face geological constraints and capital-intensive extraction costs, or downstream retailers (e.g., Signet, Titan) who grapple with inventory obsolescence and real estate overheads, IGIL operates as a capital-light "Gatekeeper of Trust." The mechanism of its business model is not merely service provision but the monetization of information asymmetry. In a market where the distinction between a natural diamond (ND) and a lab-grown diamond (LGD) is invisible to the naked eye, and where slight variations in grade can alter value by orders of magnitude, the certification report becomes the essential currency of trade.
 
-IGIL’s recent corporate restructuring—specifically the "reverse inversion" where the Indian listed entity acquired the global parent operations in Belgium and the Netherlands—centralizes the cash flows of the world’s second-largest certification body into the Indian equity market.1 This creates a unique geographic arbitrage: revenue is generated globally in hard currencies (USD, EUR, HKD), while the primary cost base (gemological labor and processing infrastructure) is anchored in India, specifically the Surat-Mumbai corridor, which processes over 90% of the world’s diamond volume.4
+IGIL’s corporate restructuring—specifically the "reverse inversion" where the Indian listed entity acquired 100% of the global operations in Belgium (**International Gemmological Institute BV** for **$69.76M**) and the Netherlands (**IGI Netherlands B.V.** for **$88.44M**, totaling **~$158.2M / ~₹1,300 Cr**) from Blackstone—was **completed on December 20–24, 2024** immediately following the IPO listing on December 20, 2024.1 These subsidiaries became **visible on the Consolidated Balance Sheet as of December 31, 2024 (Q4 CY24)**, with their full P&L consolidated across all four quarters of **CY25**. Additionally, in **mid-February 2026**, IGIL (via IGI USA) acquired 100% of New York-based **American Gemological Laboratories (AGL)** for **$13.2M (~₹121 Cr)** to expand into colored gemstone certification, visible on the books from the **June 2026 quarter (Q1 FY27)** onward.
+
+> **Forensic Reality Check — Does This Give Protection From a Falling Rupee?**  
+> * **Revenue & Cost Currency Split:** Contrary to common perception, **India accounts for ~75%–76% of consolidated revenue** (and ~84% of operating profit), while **Outside India (Belgium, Netherlands, US) accounts for ~24%–25% of revenue**. Why? Because over 90% of the world's diamonds are cut, polished, *and certified* in the Surat-Mumbai corridor before export, where Indian manufacturers are billed in **INR**. Meanwhile, the 24%–25% overseas revenue earned in hard currencies (USD, EUR) also carries local European/US gemologist salaries and lab overheads in USD/EUR (yielding lower ~20–25% EBITDA margins overseas vs. ~65–70% in India).  
+> * **Direct vs. Indirect Rupee Protection:** Therefore, **direct P&L translation gain from a falling Rupee is modest** (~1%–1.5% boost to consolidated EBITDA for every 5% INR depreciation, coming only from the net margin of the 25% overseas revenue). However, **indirect competitive protection is strong**: because rival GIA's cost base is heavily USD-denominated while 75%+ of IGIL's grading workforce is paid in INR, a weaker Rupee makes IGIL's India-based grading structurally cheaper in USD terms for global clients, widening its cost moat.4
 
 The central investment thesis is predicated on the "Volume-Value Decoupling" driven by the disruption of Lab-Grown Diamonds. While LGDs are deflationary in terms of asset value (prices have fallen significantly), they are inflationary in terms of unit volume. The lower price point of LGDs democratizes access to "diamond" jewelry, expanding the Total Addressable Market (TAM) of stones that require certification.6 Since IGIL’s revenue mechanism is fee-based per report rather than ad valorem (percentage of value), a crash in LGD prices is net-neutral or even positive for IGIL, provided the volume elasticity holds and the Average Realized Price (ARP) per report remains defensible.
 
@@ -36,47 +40,49 @@ The LGD chain operates on the physics of Moore’s Law and manufacturing scaling
 
 **3\. The Growth Algorithm: Deconstructing the Revenue Equation**
 
-The consolidated revenue growth of IGIL is not a monolithic number. It is the output of a multi-variable equation. We dissect this algorithm to understand the sustainability of the reported 21% YoY revenue growth in Q3 CY25.15
+The consolidated revenue growth of IGIL is the output of a multi-variable equation. Following its transition from a Calendar Year (Jan–Dec) to a Financial Year (Apr–Mar) reporting cycle in 2026, we dissect the latest trajectory across **Full Year CY25**, **Q4 CY25**, and **Q1 FY27 (Quarter ended June 30, 2026)**:
 
-Growth = (Natural Diamond Volume + Lab Grown Volume) x {ARP}  {Mix_Jewelry} x {Geo_Arb}
+$$\text{Growth} = (\text{Natural Diamond Volume} + \text{Lab Grown Volume}) \times \text{ARP} \times \text{Mix}_{\text{Jewelry/AGL}} \times \text{Geo\_Arb}$$
 
-### **3.1 Volume Dynamics: The Asymmetry of LGD**
+### **3.1 Volume Dynamics: The Asymmetry of LGD (Updated to Latest Quarterly Results)**
 
-The most powerful lever in the current cycle is volume, specifically within the LGD segment.
+The most powerful lever in the current cycle is volume, specifically within the LGD and studded jewelry segments:
 
-* **Data Evidence:** In Q1 CY25, LGD loose stone revenue grew by 35% QoQ and 9% YoY. In contrast, Natural Diamond loose stone revenue grew by 37% QoQ but only 1% YoY.13 This stark divergence highlights that while the natural market is recovering from a low base, the structural growth is entirely driven by LGDs.  
-* **Mechanism of Growth:** The mechanism driving LGD volume is "Price Elasticity of Demand." As the per-carat price of LGDs falls at the retail level, the unit velocity increases. Consumers who previously could not afford a 1-carat stone enter the market. IGIL’s model captures this unit growth. In Q3 CY25, total certification volumes surged 26% YoY to 3.45 million reports.15  
-* **The "Screening" Volume:** Beyond full grading reports, IGIL processes millions of small stones (melee) for "screening." This is a high-volume, low-margin firewall service. As LGD production ramps up in China and India, the risk of contamination in natural parcels increases, necessitating 100% screening for large jewelry houses. This creates a "defensive volume" floor for IGIL.4
+* **Full Year CY25 Trajectory:** Total certification volumes grew **+21.1% YoY to 12.81 million reports** (up from 10.58 million in CY24), driving consolidated revenue up **+17% YoY to ₹1,229.1 Crore** and EBITDA up **+23% YoY to ₹736.7 Crore** (59.94% margin).
+* **Q4 CY25 (Dec 2025 Quarter):** Certification volume reached **3.21 million reports (+11% YoY)**, with Revenue from Operations rising **+21% YoY to ₹319.7 Crore** and EBITDA growing **+26% YoY to ₹191.3 Crore (~59.9% margin)**.
+* **Latest Quarter — Q1 FY27 (Quarter Ended June 30, 2026):** Volume accelerated to **3.56 million reports (+17% YoY** vs. 3.03 million YoY). Revenue from Operations surged **+23% YoY to ₹370.8 Crore**, while Operating EBITDA (ex-other income) jumped **+29% YoY to ₹223.8 Crore (60.4% EBITDA margin, up +270 bps YoY)**.
+* **Mechanism of Growth:** The mechanism driving LGD volume is "Price Elasticity of Demand." As per-carat retail prices of LGDs fall, unit velocity increases as consumers enter the fashion and self-gifting segments.
+* **The "Screening" Volume:** Beyond full grading reports, IGIL processes millions of small stones (melee) for "screening"—a high-volume firewall service ensuring natural parcels are not salted with synthetics.4
 
-### **3.2 Average Realized Price (ARP) Mechanics**
+### **3.2 Average Realized Price (ARP) Mechanics (Updated: The 2026 Upward Inflection)**
 
-The ARP acts as the multiplier on volume. It represents the pricing power of the "Trust" product.
+The ARP acts as the multiplier on volume and represents the pricing power and product mix of the "Trust" product.
 
-* **Current Metrics:** The consolidated ARP for Q1 CY25 stood at INR 950 (\~$11.30) per report.13  
-* **Trend Analysis:** ARP witnessed a 12% YoY decline from INR 1,081 in Q1 CY24, primarily due to pricing adjustments in the LGD segment initiated in April 2024 to defend market share. However, a 7% QoQ recovery from Q4 CY24 (INR 889\) indicates stabilization.13  
-* **Pricing Mechanism:** IGIL charges based on the complexity of the service (carat size, full 4C grading vs. basic dossier). The stabilization suggests that while LGD asset prices are crashing, the *service fee* for certifying them has found a floor. This is a critical validation of the business model’s resilience to underlying commodity deflation. The "Service Floor" exists because the labor time required to grade a diamond is independent of its market value; it takes the same amount of gemologist time to grade a $200 LGD as a $5,000 ND.
+* **Historical Trend & Stabilization:** Consolidated ARP declined in early 2024 due to LGD price adjustments, averaging **₹952 in CY24** and **₹927 across full-year CY25**.
+* **Recent Inflection (Q4 CY25 & Q1 FY27):** ARP recovered strongly to **₹950 in Q4 CY25 (+10.8% YoY** vs. ₹859 in Q4 CY24) and jumped to **₹1,010 per report in Q1 FY27 / June 2026 Quarter (+5% YoY** vs. ₹963 YoY).
+* **Why ARP Bounced Back Above ₹1,000:** Two factors drove this recovery: (1) higher mix of larger-carat loose LGD stones and finished studded jewelry certification, and (2) the consolidation of **American Gemological Laboratories (AGL)** from Feb 2026, which commands premium fees for high-value colored gemstone provenance reports.
+* **Pricing Mechanism:** IGIL charges based on complexity and carat weight. The rebound in ARP from ₹927 (CY25) to ₹1,010 (Q1 FY27) validates that the *service fee* has found a floor and can expand via mix upgrades even as underlying LGD commodity prices fall.
 
-### **3.3 Mix Effect: The Downstream Shift**
+### **3.3 Mix Effect: The Downstream Shift & Colored Stones (AGL)**
 
-IGIL is actively engineering a mix shift from "Loose Stones" (Midstream) to "Finished Jewelry" (Retail).
+IGIL is actively engineering a mix shift from "Loose Stones" (Midstream) to "Finished Jewelry" (Retail) and "Colored Gemstones" (via AGL).
 
-* **Strategic Shift:** Revenue from LGD Jewelry certification grew a staggering 87% YoY in Q1 CY25, while ND Jewelry grew 21% YoY.13  
-* **Mechanism:** Certifying finished jewelry is "stickier." It integrates IGIL into the retailer’s point-of-sale workflow. A consumer buying a finished ring wants a "Credit Card" style certificate that authenticates the entire piece. This insulates IGIL from the volatility of the loose stone trading market (the "bourses") and aligns it with retail consumption patterns, which are generally less volatile than midstream stocking cycles.  
-* **Revenue Quality:** Jewelry certification often commands a higher aggregate fee per item compared to loose melee stones, improving the "quality" of revenue.4
+* **Strategic Shift:** Finished jewelry certification and colored gemstone grading are significantly "stickier" and less commoditized than loose diamond grading.
+* **Mechanism:** Certifying finished jewelry integrates IGIL into the retailer’s point-of-sale workflow via "Credit Card" style certificates that authenticate the entire piece. Meanwhile, the **$13.2M acquisition of AGL (Feb 2026)** gives IGIL a premier US foothold in colored gemstones (rubies, emeralds, sapphires), where margins and ARP are substantially higher than small LGD stones.
 
-### **3.4 Geographic Arbitrage: The "Reverse Inversion"**
+### **3.4 Geographic & Cost Structure Reality: India vs. Global Subsidiaries**
 
-The acquisition of the global operations (IGIL Belgium and Netherlands) by the Indian entity is a sophisticated financial engineering play.
+The Dec 2024 consolidation of IGI Belgium and IGI Netherlands under IGIL India created a unified global structure, though investors must understand the true geographic split:
 
-* **Revenue Geography:** As of June 2025, 63.1% of revenue is generated "Outside India," while 36.9% is domestic.16  
-* **Cost Geography:** The vast majority of the labor force (gemologists and graders) is located in India.  
-* **The Arbitrage:** By centralizing the back-end processing in India while maintaining front-end client intake in Antwerp, New York, and Dubai, IGIL leverages the labor cost differential. A gemologist in Surat costs significantly less than one in Antwerp, yet the certification fee charged to a global client in Antwerp is in Euros or USD. This structural disconnect between revenue currency (Hard) and cost currency (Soft) provides a persistent margin tailwind, assuming the INR does not appreciate significantly against the USD/EUR.1
+* **Actual Revenue Geography:** **India generates ~75%–76% of consolidated revenue** (billed in INR in Surat/Mumbai, where 90%+ of global diamonds are processed), while **Outside India (Belgium, Netherlands, USA) generates ~24%–25% of revenue** (in USD/EUR).
+* **Cost & Margin Geography:** Because India holds the vast majority of the gemologist workforce at Indian salary levels (~22.7% employee cost-to-revenue in CY25, down from 25.2% in CY24), standalone Indian operations enjoy **~65–70% EBITDA margins**, whereas the overseas subsidiaries operate at **~20–25% EBITDA margins** due to higher US/European wage and lease costs.
+* **The Real Arbitrage:** The primary arbitrage is **not** a passive currency translation windfall, but an **operational offshoring/hub advantage**—processing and certifying the world's diamond supply inside low-cost Surat/Mumbai labs before the stones are shipped to US/European retailers.
 
 ## ---
 
 **4\. Operational Mechanism: The "In-Factory" Moat**
 
-Understanding *how* IGIL processes 3.45 million reports a quarter is key to assessing its scalability and barriers to entry. IGIL utilizes a hybrid operational model that differentiates it from competitors like the Gemological Institute of America (GIA).
+Understanding *how* IGIL processes **3.56 million reports a quarter (~13–14 million annualized run-rate)** is key to assessing its scalability and barriers to entry. IGIL utilizes a hybrid operational model that differentiates it from competitors like the Gemological Institute of America (GIA).
 
 ### **4.1 The Central Lab Model vs. The In-Factory Model**
 
@@ -98,34 +104,33 @@ IGIL’s financial profile reveals a "High Gross / High EBITDA" structure typica
 
 ### **5.1 Gross Margin: The Labor Arbitrage**
 
-* **Profile:** Gross margins are exceptionally high (reported near \~99% in some cuts) because the "Cost of Goods Sold" is technically zero—there are no raw materials.18 The true direct cost is the *Gemologist Labor*, which is often categorized under "Employee Benefit Expenses" in Indian accounting standards for service firms.  
+* **Profile:** Gross margins are exceptionally high (reported near \~99% in some cuts) because the "Cost of Goods Sold" is technically zero—there are no raw materials.18 The true direct cost is the *Gemologist Labor*, which is categorized under "Employee Benefit Expenses" (**22.7% of revenue in CY25**, improved from 25.2% in CY24).
 * **Lever:** The primary lever is **Gemologist Utilization**. Since salaries are semi-fixed, profitability depends on the throughput rate (Reports per Gemologist Hour). The "In-Factory" model maximizes this by ensuring a steady stream of stones without logistical gaps.
 
 ### **5.2 Operating Margin (EBITDA) Bridge**
 
-* **Metrics:** EBITDA margins for 9M CY25 improved to 60%, up from 57% in the previous period.19  
+* **Metrics:** Consolidated EBITDA margin expanded to **59.94% in Full Year CY25** (₹736.7 Cr EBITDA on ₹1,229.1 Cr Revenue, up from 56.94% in CY24), and further expanded to **60.4% in Q1 FY27 / June 2026 Quarter** (₹223.8 Cr EBITDA on ₹370.8 Cr Revenue, up +270 bps YoY).
 * **Drivers of Expansion:**  
-  1. **Operating Leverage:** With a fixed cost base (labs, technology, core staff), the 21% revenue growth flowed efficiently to the bottom line. The 20% growth in EBITDA tracks closely with revenue, suggesting a stable cost structure.15  
-  2. **Mix Benefit:** The shift toward LGD jewelry, which allows for batch processing, likely aids margin efficiency.  
-* **Cost Risks:** The primary risk to EBITDA is wage inflation in the skilled gemologist pool. As the industry grows, demand for trained graders increases, potentially driving up the "per-unit labor cost."
+  1. **Operating Leverage:** Employee costs fell from 25.2% to 22.7% of revenue as volume scaled to 12.81M reports in CY25 and 3.56M in Q1 FY27.  
+  2. **Mix Benefit:** Recovery in ARP to ₹1,010 in Q1 FY27 via LGD jewelry and AGL colored stone integration flowed directly to EBITDA.  
+* **Cost Risks:** The primary risk to EBITDA is wage inflation in the skilled gemologist pool or pricing concessions if LGD wholesale prices fall further.
 
-### **5.3 Cash Flow & Working Capital: The Red Flag**
+### **5.3 Cash Flow & Working Capital: The Monitorable**
 
-While the P\&L is robust, the Balance Sheet shows signs of strain in the working capital cycle.
+While the P\&L is robust (PAT margin expanded to **43.2% in CY25** from 40.6% in CY24), the Balance Sheet working capital cycle requires ongoing vigilance.
 
-* **Working Capital Deterioration:** Working capital days have effectively doubled from 58.3 days to 113 days.10  
-* **Mechanism of Strain:** This metric suggests that IGIL is extending longer credit terms to its clients. Given the current crisis in the midstream (inventory overhang and falling polished prices), manufacturers are facing a liquidity crunch. IGIL, to maintain volume and market share, is likely acting as a "shock absorber" by allowing clients to delay payment.  
-* **Implication:** This degrades the quality of earnings (EBITDA to OCF conversion). While not an immediate solvency threat given the high margins, a continued expansion of receivables could lead to bad debt write-offs if a major client faces insolvency. This is a critical monitorable for investors.
+* **Working Capital & Receivables:** Accounts receivable turnover stands at roughly **5.2x to 6.1x annually (~60–70 receivable days)**, while broader working capital days had earlier expanded toward 113 days during the peak of the Surat midstream crisis.10  
+* **Mechanism of Strain:** Because IGIL bills large B2B factory clients on monthly/quarterly cycles, stress in the Surat polishing midstream requires close tracking of Receivable Days and CFO-to-EBITDA conversion.
 
-**Table 1: The Margin Tree Mechanism**
+**Table 1: The Margin Tree Mechanism (Updated to CY25 & Q1 FY27 Run-Rate)**
 
-| Level | Metric | Mechanism / Lever | Trend / Status |
+| Level | Metric | Mechanism / Lever | Latest Trend / Status |
 | :---- | :---- | :---- | :---- |
-| **L1** | **Revenue** | Vol (3.45M) $\\times$ ARP (INR 950\) | **Growing** (Driven by LGD Volume) |
-| **L2** | **Gross Profit** | Rev $-$ Direct Costs (Nil materials) | **\~99%** (Service Model) |
-| **L3** | **EBITDA** | GP $-$ (Employee Costs \+ Infra) | **60%** (High Op Leverage) |
-| **L4** | **PAT** | EBITDA $-$ (Depr \+ Tax \+ Interest) | **44%** (Efficient Tax/Cap Structure) |
-| **L5** | **Op. Cash Flow** | EBITDA $-$ $\\Delta$Working Capital | **Strained** (Rising Receivables) |
+| **L1** | **Revenue** | **CY25:** 12.81M Vol $\times$ ₹927 ARP = ₹1,229.1 Cr<br>**Q1 FY27 (Jun '26):** 3.56M Vol $\times$ ₹1,010 ARP = ₹370.8 Cr | **+17% YoY (CY25) / +23% YoY (Q1 FY27)** |
+| **L2** | **Gross Profit** | Rev $-$ Direct Materials (Nil materials) | **~99%** (Pure Service Model) |
+| **L3** | **EBITDA** | GP $-$ (Employee Cost ~22.7% + Lab Infra) | **59.9% (CY25) $\rightarrow$ 60.4% (Q1 FY27)** |
+| **L4** | **PAT** | EBITDA $-$ (Depr + Tax + Interest) | **43.2% PAT Margin in CY25** (Up from 40.6%) |
+| **L5** | **Op. Cash Flow** | EBITDA $-$ Tax $-$ $\Delta$Working Capital | **60–70 Debtor Days (5.2x–6.1x Turnover)** |
 
 ## ---
 
@@ -133,13 +138,13 @@ While the P\&L is robust, the Balance Sheet shows signs of strain in the working
 
 To assess the long-term viability, we construct a theoretical Unit Economic model for a single certification report.
 
-### **6.1 Unit P\&L (Estimated)**
+### **6.1 Unit P\&L (Updated to Q1 FY27 / June 2026 Run-Rate)**
 
-* **Unit Revenue (ARP):** INR 950 (\~$11.30).13  
-* **Unit Direct Labor:** Estimated at INR 200–250. This assumes a gemologist grading \~3-4 stones per hour at an average skilled wage in India.  
-* **Unit Overhead (Tech/Rent):** Estimated at INR 100–150.  
-* **Unit EBITDA:** \~INR 550–600 (approx. 60% margin).  
-* **Contribution Margin:** \>70%.
+* **Unit Revenue (ARP):** **INR 1,010** in Q1 FY27 (recovered from INR 927 in full-year CY25 and INR 950 in Q4 CY25).
+* **Unit Direct Labor:** Estimated at **INR 210–230** (~22.7% of revenue, down from 25.2% in CY24 via operating leverage).
+* **Unit Overhead (Tech/Rent/Other Opex):** Estimated at **INR 170–180**.
+* **Unit EBITDA:** **~INR 610** (**60.4% EBITDA margin** in Q1 FY27).
+* **Contribution Margin:** **>75%**.
 
 **Insight:** The marginal cost of grading the *next* diamond is extremely low. Once the lab is open and the gemologist is seated, the incremental cost is negligible. This creates an intense incentive to chase volume, even at slightly lower ARPs, to maximize total contribution dollars.
 
@@ -178,8 +183,8 @@ We model the impact of critical variables on IGIL’s profitability to identify 
 | :---- | :---- | :---- | :---- |
 | **LGD Volume** | \+10% | **\+12% EBITDA** | **Operating Leverage:** Fixed costs are covered; incremental volume is pure profit. |
 | **ARP (Pricing)** | \-10% | **\-12% EBITDA** | **Direct Hit:** No cost offset. A price war with GIA/GSI is the biggest risk to profitability. |
-| **INR/USD Exchange** | INR Depreciates 5% | **\+3-4% EBITDA** | **Geo-Arbitrage:** Revenue is USD/EUR heavy; Cost is INR heavy. A weaker Rupee boosts margins. |
-| **Wage Inflation** | \+10% | **\-2% EBITDA** | **Cost Pressure:** Gemologist salaries are the main opex. Efficiency gains must offset this. |
+| **INR/USD Exchange** | INR Depreciates 5% | **\+1% to +1.5% Direct EBITDA (plus Indirect Cost Moat)** | **Nuanced FX Impact:** ~75–76% of revenue is billed in INR in India; only ~24–25% is overseas (USD/EUR) with local USD/EUR costs. Direct translation benefit is modest, but a weaker INR makes IGIL's Indian labor cost cheaper vs. USD-based rival GIA. |
+| **Wage Inflation** | \+10% | **\-2.3% EBITDA** | **Cost Pressure:** Gemologist salaries are ~22.7% of revenue. Efficiency gains must offset this. |
 | **LGD Retail Price** | Crash (-50%) | **Neutral / Positive** | **Volume Elasticity:** Lower prices drive higher unit volume. IGIL fees are fixed per report, not ad valorem. |
 
 **Critical Insight:** The most counter-intuitive finding is the sensitivity to LGD retail prices. A crash in LGD asset values is *not* negative for IGIL, provided the stones remain valuable enough to warrant a \~$12 certificate. The risk threshold is "Commoditization": if LGDs become so cheap (e.g., $10) that certification cost exceeds value, volume will evaporate. Currently, with LGD jewelry growing 87%, we are far from that cliff.13

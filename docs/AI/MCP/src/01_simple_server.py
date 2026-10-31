@@ -65,7 +65,10 @@ class SimpleMCPServer:
         request_id = request.get("id")
         
         try:
-            if method == "initialize":
+            if method == "server/discover":
+                result = self._handle_discover(params)
+            elif method == "initialize":
+                # Legacy pre-2026 fallback
                 result = self._handle_initialize(params)
             elif method == "tools/list":
                 result = self._handle_list_tools()
@@ -79,8 +82,27 @@ class SimpleMCPServer:
         except Exception as e:
             return self._error_response(request_id, -32000, str(e))
     
+    def _handle_discover(self, params: dict) -> dict:
+        """Handle stateless server/discover request (2026-07-28 spec)."""
+        return {
+            "resultType": "complete",
+            "supportedVersions": ["2026-07-28"],
+            "capabilities": {
+                "tools": {}
+            },
+            "_meta": {
+                "io.modelcontextprotocol/serverInfo": {
+                    "name": self.name,
+                    "version": self.version
+                }
+            },
+            "instructions": "Simple stateless MCP demo server providing greeting and math tools.",
+            "ttlMs": 3600000,
+            "cacheScope": "public"
+        }
+
     def _handle_initialize(self, params: dict) -> dict:
-        """Handle initialize request."""
+        """Handle legacy initialize request (pre-2026 compatibility)."""
         return {
             "protocolVersion": "2024-11-05",
             "capabilities": {
@@ -93,9 +115,11 @@ class SimpleMCPServer:
         }
     
     def _handle_list_tools(self) -> dict:
-        """Handle tools/list request."""
+        """Handle tools/list request with cacheable ttlMs."""
         return {
-            "tools": [asdict(tool) for tool in self.tools.values()]
+            "tools": [asdict(tool) for tool in self.tools.values()],
+            "ttlMs": 3600000,
+            "cacheScope": "public"
         }
     
     def _handle_call_tool(self, params: dict) -> dict:
@@ -205,16 +229,17 @@ def simulate_mcp_session():
     print("MCP Simple Server Demo")
     print("=" * 70)
     
-    # 1. Initialize
-    print("\n📡 Request: initialize")
+    # 1. Stateless Capability Discovery (2026-07-28 server/discover)
+    print("\n📡 Request: server/discover (2026-07-28 Stateless Discovery)")
     print("-" * 50)
     response = server.handle_request({
         "jsonrpc": "2.0",
-        "method": "initialize",
-        "params": {
-            "protocolVersion": "2024-11-05",
-            "capabilities": {"tools": {}},
-            "clientInfo": {"name": "Demo Client", "version": "1.0.0"}
+        "method": "server/discover",
+        "params": {},
+        "_meta": {
+            "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+            "io.modelcontextprotocol/clientInfo": {"name": "Demo Client", "version": "1.0.0"},
+            "io.modelcontextprotocol/clientCapabilities": {}
         },
         "id": 1
     })

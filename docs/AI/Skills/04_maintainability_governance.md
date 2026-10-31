@@ -16,8 +16,9 @@ You cannot simply delete an Agent Skill from the registry. Long-running asynchro
   `{"status": "error", "message": "This tool is deprecated. Please use 'v2_search_tool' instead."}`
   This allows active agents to gracefully recover and adapt.
 
-## Telemetry-Driven Refactoring
+## Telemetry-Driven Refactoring (`SEP-414` OpenTelemetry & `mcp.*` Conventions)
 
-If an Agent frequently fails to use a skill correctly (e.g., constantly hallucinating a parameter), the fault usually lies in the skill's natural language description, not the model.
+If an Agent frequently fails to use a skill correctly (e.g., constantly hallucinating a parameter), the fault usually lies in the skill's natural language description (`SKILL.md` or tool schema), not the model.
 
-* **Mandate:** Implement hierarchical tracing (e.g., LangSmith, Phoenix). Create dashboards tracking the "LLM Parsing Failure Rate" per skill. When a skill crosses a failure threshold, engineering must rewrite the `description` fields in the JSON schema to clarify constraints for the LLM.
+* **Mandate:** Implement distributed tracing using MCP's native **OpenTelemetry propagation (`SEP-414`)**—passing unprefixed `traceparent`, `tracestate`, and `baggage` (containing `skill.uri` and the manifest's `skill.digest=sha256:...`) inside `params._meta` alongside OpenTelemetry GenAI semantic conventions (`mcp.method.name`, `mcp.resource.uri`, `gen_ai.tool.name`).
+* **Actionable Metrics:** Create dashboards tracking the **Tool Validation Error Rate (`isError: true`)** correlated with each `SKILL.md` `sha256` digest. When a skill crosses a failure threshold, engineering must refine the `SKILL.md` instructions or JSON Schema `description` fields and verify improvement against the new manifest digest.

@@ -102,25 +102,27 @@ Two transports for different needs.
 
 ### 🔧 6. Developer-Friendly
 
-- **SDKs**: Python, TypeScript, Kotlin, C#
+- **SDKs**: Official Tier-1 SDKs across Python, TypeScript, Go, Java, Kotlin, C#, and Rust (over 1B+ combined downloads)
 - **Inspector**: Debug tool for development
-- **JSON-RPC**: Standard, well-understood protocol
+- **JSON-RPC 2.0 & JSON Schema 2020-12**: Standard, well-understood contracts
 
 ---
 
 ## ❌ Cons (Disadvantages)
 
-### 🆕 1. Evolving Specification
+### 🆕 1. Rapidly Evolving Specification
 
-MCP is actively developed; breaking changes possible.
+MCP has evolved rapidly from stateful sessions in 2024 to a stateless request/response core in `2026-07-28`.
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 2024-10-07 | Oct 2024 | Initial |
-| 2024-11-05 | Nov 2024 | Capability negotiation |
-| 2025-XX-XX | TBD | Streaming improvements |
+| Version | Date | Major Specification Changes |
+|---------|------|-----------------------------|
+| `2024-11-05` | Nov 2024 | Initial specification: stateful sessions, `initialize` handshake, Stdio & HTTP+SSE |
+| `2025-03-26` | Mar 2025 | OAuth 2.1 authorization framework, Streamable HTTP, Tool Annotations, Audio content |
+| `2025-06-18` | Jun 2025 | Structured Tool Outputs (`outputSchema`, `structuredContent`), Elicitation, Resource Links, RFC 9728 |
+| `2025-11-25` | Nov 2025 | OIDC Discovery 1.0, Client ID Metadata Documents, Icons metadata, URL-mode Elicitation, Experimental Tasks |
+| `2026-07-28` | Jul 2026 | **Stateless Protocol Core** (removed `initialize` & `Mcp-Session-Id`), Mandatory `server/discover`, Multi Round-Trip Requests (MRTR), Header-Based Routing (`Mcp-Method`, `Mcp-Name`), Cacheable List Results (`ttlMs`), Formal Extensions (`tasks`, `MCP Apps`), JSON Schema 2020-12, Deprecation of `Roots`/`Sampling`/`Logging` |
 
-**Mitigation**: Pin to specific protocol version.
+**Mitigation**: Declare `_meta["io.modelcontextprotocol/protocolVersion"]` and use `server/discover` to negotiate `supportedVersions`.
 
 ---
 
@@ -138,33 +140,34 @@ You must build/deploy an MCP server for each integration.
 
 ---
 
-### 📊 3. No Built-in State Management
+### 📊 3. Stateless Core Requires Explicit State Passing
 
-MCP is **stateless** — servers don't remember between calls.
+As of `2026-07-28`, MCP is **stateless by design**—servers do not retain in-memory session state across requests so they can scale behind plain round-robin load balancers.
 
 ```mermaid
 graph LR
-    C1[Call 1] --> S[Server]
-    C2[Call 2] --> S
-    Note[No shared state]
+    C1["Call 1 (Instance A)"] --> S[Load Balancer]
+    C2["Call 2 + requestState (Instance B)"] --> S
+    Note["Stateless Core: State travels via MRTR requestState or Tasks Extension"]
 ```
 
-**Mitigation**: Implement state in your server if needed.
+**Mitigation**: Use **Multi Round-Trip Requests (MRTR)** (`requestState` tokens) for multi-step interactive flows, the **Tasks Extension (`io.modelcontextprotocol/tasks`)** for durable async jobs, or external backing stores (Redis/DB).
 
 ---
 
-### 🚀 4. Adoption Curve
+### 🚀 4. Broad Platform Ecosystem & Version Alignment
 
-Not all AI platforms support MCP yet.
+While all major AI platforms now support MCP, different hosts may support different extension sets (`tasks`, `MCP Apps`) or protocol revisions.
 
 | Platform | MCP Support |
 |----------|-------------|
-| Claude | ✅ Full |
-| ChatGPT | ✅ Desktop |
-| Gemini | 🔄 Coming |
-| Others | ❓ Varies |
+| **Claude (Desktop, Code, API)** | ✅ Full (`2026-07-28` + Extensions) |
+| **OpenAI (ChatGPT, Agents SDK)** | ✅ Full |
+| **Google DeepMind (Gemini, Antigravity)** | ✅ Full |
+| **IDEs (VS Code, Cursor, Windsurf, JetBrains)** | ✅ Full |
+| **Cloud Infrastructure (Cloudflare, AWS)** | ✅ Native Stateless HTTP & Gateways |
 
-**Mitigation**: Focus on Claude/ChatGPT for now.
+**Mitigation**: Check `capabilities` and `extensions` via `server/discover`.
 
 ---
 
@@ -182,13 +185,13 @@ graph LR
 
 ---
 
-### 📡 6. Transport Limitations
+### 📡 6. Transport Considerations
 
-| Limitation | Impact |
-|------------|--------|
-| Stdio local-only | Can't scale remotely |
-| HTTP needs server | Deployment overhead |
-| No WebSocket | Limited bidirectional |
+| Consideration | Impact |
+|---------------|--------|
+| **Stdio is local-only** | Cannot scale remotely; used for local CLI subprocesses |
+| **Stateless HTTP requires OAuth 2.1 / Gateway** | Production deployments need RFC 9728 / OIDC auth configuration |
+| **Legacy SSE deprecated** | Older pre-2026 SSE servers should be migrated to Stateless HTTP + MRTR |
 
 ---
 
@@ -196,12 +199,13 @@ graph LR
 
 | Scenario | Use MCP? |
 |----------|----------|
-| AI needs to call APIs | ✅ Yes |
-| AI needs file access | ✅ Yes |
-| AI needs database | ✅ Yes |
-| Agent-to-agent chat | ❌ Use A2A |
-| Commerce checkout | ❌ Use UCP |
-| Dynamic UI | ❌ Use A2UI |
+| AI needs to call APIs | ✅ Yes (`tools/call`) |
+| AI needs file / DB access | ✅ Yes (`resources/read` & `tools/call`) |
+| Long-running background job | ✅ Yes (`io.modelcontextprotocol/tasks` extension) |
+| Server-rendered tool UI (forms/dashboards) | ✅ Yes (`MCP Apps` / `ui://` extension) |
+| Agent-to-agent collaboration | ❌ Use A2A |
+| Commerce checkout protocol | ❌ Use UCP |
+| Generative agent-synthesized UI | ❌ Use A2UI |
 
 ---
 

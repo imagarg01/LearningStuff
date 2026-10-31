@@ -60,11 +60,12 @@ graph TB
 
 | Feature | Description |
 |---------|-------------|
-| **Open Standard** | Apache 2.0 license, community-driven |
-| **JSON-RPC 2.0** | Standard request/response protocol |
-| **Three Primitives** | Tools, Resources, Prompts |
-| **Two Transports** | Stdio (local), HTTP (remote) |
-| **Bidirectional** | Server and client can initiate |
+| **Open Standard** | Apache 2.0 license, Linux Foundation / AAIF governed |
+| **JSON-RPC 2.0** | Self-describing stateless request/response protocol (`2026-07-28`) |
+| **Three Core Primitives** | Tools, Resources, Prompts |
+| **First-Class Extensions** | Skills (`io.modelcontextprotocol/skills`), Tasks (`io.modelcontextprotocol/tasks`), MCP Apps (`ui://`) |
+| **Two Primary Transports** | Stateless HTTP (remote/enterprise), Stdio (local) |
+| **Multi Round-Trip (MRTR)** | Stateless human-in-the-loop & client input via `input_required` + `requestState` |
 
 ## What MCP Enables
 
@@ -72,7 +73,7 @@ graph TB
 |----------|---------|
 | **Personal AI** | Agent accesses Google Calendar + Notion |
 | **Code Generation** | Claude Code uses Figma designs |
-| **Enterprise** | Chatbots query multiple databases |
+| **Enterprise** | Chatbots query multiple databases behind API gateways |
 | **Creative** | AI creates 3D designs in Blender |
 
 ## Core Concepts at a Glance
@@ -82,30 +83,35 @@ graph TB
 ```mermaid
 graph LR
     subgraph "MCP Architecture"
-        Host[MCP Host<br/>Claude Desktop]
-        Client[MCP Client<br/>Connection Manager]
-        Server[MCP Server<br/>Tool Provider]
+        Host[MCP Host<br/>Claude Desktop / IDE]
+        Client[MCP Client<br/>Stateless Dispatcher]
+        Server[MCP Server<br/>Tool & Context Provider]
     end
     
     Host --> Client
-    Client <--> Server
+    Client <-->|"Stateless JSON-RPC"| Server
 ```
 
 | Participant | Role | Example |
 |-------------|------|---------|
-| **Host** | AI application | Claude Desktop, VS Code |
-| **Client** | Connection manager | Built into host |
-| **Server** | Tool/data provider | Slack, GitHub, local files |
+| **Host** | AI application | Claude Desktop, VS Code, Cursor |
+| **Client** | Discovery & request dispatcher | Built into host |
+| **Server** | Tool/data/UI provider | Slack, GitHub, local files |
 
-### Primitives
+### Primitives & Extensions
 
-| Primitive | Purpose | Direction |
-|-----------|---------|-----------|
-| **Tools** | Functions the AI can call | Server → AI |
-| **Resources** | Data the AI can read | Server → AI |
-| **Prompts** | Templates for interaction | Server → AI |
+| Capability | Purpose | Direction |
+|------------|---------|-----------|
+| **Tools** | Deterministic functions the AI can call | Server → AI |
+| **Resources** | Data, files, or `SKILL.md` the AI can read | Server → AI |
+| **Prompts** | Reusable templates for interaction | Server → AI |
+| **Skills (Extension)** | Discover & load `SKILL.md` workflows (`skills/list`, `skills/get`, `skill://`) | Server → AI |
+| **Tasks (Extension)** | Async long-running operations (`io.modelcontextprotocol/tasks`) | Server ↔ Client |
+| **MCP Apps (Extension)** | Server-rendered interactive UIs (`ui://`) | Server → Host UI |
 
-### Example: Tool Call
+### Example: Stateless Tool Call (`2026-07-28`)
+
+Every request in `2026-07-28` is self-describing via `_meta` (eliminating stateful session handshakes):
 
 ```json
 {
@@ -116,6 +122,14 @@ graph LR
         "arguments": {
             "channel": "#general",
             "message": "Hello from AI!"
+        },
+        "_meta": {
+            "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+            "io.modelcontextprotocol/clientInfo": {
+                "name": "claude-desktop",
+                "version": "2.0.0"
+            },
+            "io.modelcontextprotocol/clientCapabilities": {}
         }
     },
     "id": 1
@@ -126,17 +140,18 @@ graph LR
 
 | Transport | Use Case | Characteristics |
 |-----------|----------|-----------------|
-| **Stdio** | Local processes | Fast, no network |
-| **HTTP + SSE** | Remote servers | Streaming support |
+| **Stateless HTTP** | Remote & Enterprise servers | Header-based routing (`Mcp-Method`, `Mcp-Name`), horizontally scalable, OAuth 2.1 / OIDC |
+| **Stdio** | Local CLI subprocesses | Fast, process-isolated, newline-delimited JSON |
+| **HTTP + SSE (Legacy)** | Pre-2026 remote servers | Superseded by Stateless HTTP & Multi Round-Trip Requests (MRTR) |
 
 ## Protocol Relationships
 
 ```mermaid
 graph TD
     subgraph "AI Agent Protocol Stack"
-        MCP[MCP<br/>Tools & Context]
+        MCP[MCP<br/>Tools, Context & MCP Apps]
         A2A[A2A<br/>Agent-to-Agent]
-        A2UI[A2UI<br/>UI Generation]
+        A2UI[A2UI<br/>Generative UI]
         UCP[UCP<br/>Commerce]
     end
     
@@ -145,9 +160,9 @@ graph TD
     A2A --> A2UI
 ```
 
-- **MCP**: Connect AI to tools and data
+- **MCP**: Connect AI to tools, data, durable tasks, and server-provided UIs (MCP Apps)
 - **A2A**: Connect AI agents to each other
-- **A2UI**: Render UI from AI responses
+- **A2UI**: Render generative UI from AI responses
 - **UCP**: Commerce-specific operations
 
 ## Quick Start
@@ -164,8 +179,9 @@ python my_mcp_server.py
 
 | Document | Description |
 |----------|-------------|
-| [01_architecture.md](./01_architecture.md) | Host, Client, Server details |
-| [02_primitives.md](./02_primitives.md) | Tools, Resources, Prompts |
-| [03_transports.md](./03_transports.md) | Stdio, HTTP, SSE |
-| [04_building_servers.md](./04_building_servers.md) | Server implementation |
-| [05_pros_and_cons.md](./05_pros_and_cons.md) | Analysis |
+| [01_architecture.md](./01_architecture.md) | Stateless Core, `server/discover`, MRTR, Host/Client/Server |
+| [02_primitives.md](./02_primitives.md) | Tools (`outputSchema`, annotations), Resources, Prompts, Extensions |
+| [03_transports.md](./03_transports.md) | Stateless HTTP (`Mcp-Method`, `Mcp-Name`), OAuth 2.1/OIDC, Stdio |
+| [04_building_servers.md](./04_building_servers.md) | Server implementation guide |
+| [05_pros_and_cons.md](./05_pros_and_cons.md) | Specification evolution & architectural trade-offs |
+| [06_mcp_app.md](./06_mcp_app.md) | MCP Apps (`ui://` interactive UI extension) |

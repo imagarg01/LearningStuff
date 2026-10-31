@@ -70,7 +70,9 @@ class MCPServer:
         request_id = request.get("id")
         
         try:
-            if method == "initialize":
+            if method == "server/discover":
+                result = self._handle_discover(params)
+            elif method == "initialize":
                 result = self._handle_initialize(params)
             elif method == "tools/list":
                 result = self._handle_list_tools()
@@ -88,9 +90,24 @@ class MCPServer:
         except Exception as e:
             return self._error_response(request_id, -32000, str(e))
     
+    def _handle_discover(self, params: dict) -> dict:
+        return {
+            "resultType": "complete",
+            "supportedVersions": ["2026-07-28"],
+            "capabilities": {
+                "tools": {},
+                "resources": {}
+            },
+            "_meta": {
+                "io.modelcontextprotocol/serverInfo": {"name": self.name, "version": self.version}
+            },
+            "ttlMs": 3600000,
+            "cacheScope": "public"
+        }
+
     def _handle_initialize(self, params: dict) -> dict:
         return {
-            "protocolVersion": "2024-11-05",
+            "protocolVersion": "2026-07-28",
             "capabilities": {
                 "tools": {"listChanged": False},
                 "resources": {"subscribe": False}
@@ -146,15 +163,16 @@ class MCPServer:
 def create_app_server():
     server = MCPServer("mcp-app-demo", "1.0.0")
     
-    # 1. Define the UI Resource URI
-    ui_uri = "internal://ui/feedback-form"
+    # 1. Define the standardized 2026-07-28 UI Resource URI (ui:// scheme)
+    ui_uri = "ui://feedback/feedback-form.html"
     
-    # 2. Register the Tool with the UI link
+    # 2. Register the Tool with the UI link and visibility control
     server.register_tool(
         Tool(
             name="submit_feedback",
             description="Submit user feedback",
             inputSchema={
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
                 "type": "object",
                 "properties": {
                     "category": {"type": "string", "enum": ["bug", "feature", "other"]},
@@ -164,20 +182,26 @@ def create_app_server():
             },
             _meta={
                 "ui": {
-                    "resourceUri": ui_uri
+                    "resourceUri": ui_uri,
+                    "visibility": ["model", "app"]
                 }
             }
         ),
         lambda args: f"Received {args['category']} feedback: {args['details']}"
     )
     
-    # 3. Register the Resource that provides the HTML UI
+    # 3. Register the Resource that provides the HTML UI (text/html;profile=mcp-app)
     html_content = """
     <!DOCTYPE html>
     <html>
     <head>
         <style>
-            body { font-family: sans-serif; padding: 20px; }
+            body {
+                font-family: sans-serif;
+                padding: 20px;
+                background: var(--color-background-primary, #ffffff);
+                color: var(--color-text-primary, #111111);
+            }
             .form-group { margin-bottom: 15px; }
             label { display: block; margin-bottom: 5px; }
             input, select, textarea { width: 100%; padding: 8px; }
@@ -202,17 +226,16 @@ def create_app_server():
             <button type="submit">Submit</button>
         </form>
         <script>
-            // In a real MCP App, you would use the @mcp-ui/client library
-            // to send this data back to the host.
-            // client.callTool("submit_feedback", formData);
+            // In a real MCP App, the sandboxed iframe communicates with the host
+            // via JSON-RPC postMessage bridge to invoke tools.
         </script>
     </body>
     </html>
     """
     
     server.register_resource(
-        Resource(uri=ui_uri, name="Feedback Form UI", mimeType="text/html"),
-        lambda: ResourceContent(uri=ui_uri, mimeType="text/html", text=html_content)
+        Resource(uri=ui_uri, name="Feedback Form UI", mimeType="text/html;profile=mcp-app"),
+        lambda: ResourceContent(uri=ui_uri, mimeType="text/html;profile=mcp-app", text=html_content)
     )
     
     return server
@@ -220,13 +243,13 @@ def create_app_server():
 def simulate_session():
     server = create_app_server()
     print("=" * 70)
-    print("MCP App (UI) Demo")
+    print("MCP App (UI) Demo (2026-07-28 Spec)")
     print("=" * 70)
     
-    # 1. Initialize
-    print("\n📡 Request: initialize")
-    server.handle_request({"jsonrpc": "2.0", "method": "initialize", "id": 1})
-    print("✓ Server initialized")
+    # 1. Discover Capabilities
+    print("\n📡 Request: server/discover")
+    server.handle_request({"jsonrpc": "2.0", "method": "server/discover", "id": 1})
+    print("✓ Server capabilities discovered (stateless)")
 
     # 2. List Tools (Client sees the _meta tag)
     print("\n📋 Request: tools/list")

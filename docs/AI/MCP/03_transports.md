@@ -90,96 +90,148 @@ With the removal of persistent sessions, HTTP is utilized in a pure stateless re
 
 ### Header-Based Routing
 
-A key feature of the modern stateless transport is **Header-Based Routing**. Metadata is passed via headers, allowing API Gateways and load balancers to route and authorize traffic *before* it hits the MCP application logic.
+A key feature of the `2026-07-28` stateless transport is **Header-Based Routing**. Protocol version and target metadata are elevated to HTTP headers, allowing API Gateways and load balancers to inspect, route, and authorize traffic *before* parsing the JSON-RPC body:
 
-* `Mcp-Method`: Specifies the JSON-RPC method (e.g., `tools/call`).
-* `Mcp-Name`: Specifies the target (e.g., the tool name).
+* `MCP-Protocol-Version`: Declares the protocol revision (e.g., `2026-07-28`).
+* `Mcp-Method`: Specifies the JSON-RPC method being invoked (e.g., `tools/call`, `server/discover`).
+* `Mcp-Name`: Specifies the target primitive name (e.g., tool name `search_database` or prompt name).
 
 ### How It Works
 
 ```mermaid
 sequenceDiagram
     participant Client
-    participant Gateway as API Gateway
-    participant Server as Serverless MCP
+    participant Gateway as API Gateway / Load Balancer
+    participant Server as Stateless MCP Server
     
-    Client->>Gateway: POST /mcp<br/>Headers: Mcp-Method, Mcp-Name<br/>Body: JSON-RPC
-    Gateway->>Gateway: Authorize via Registry
-    Gateway->>Server: Route request
-    Server-->>Client: 200 OK<br/>JSON-RPC response
+    Client->>Gateway: POST /mcp<br/>Headers: MCP-Protocol-Version, Mcp-Method, Mcp-Name<br/>Body: Self-describing JSON-RPC + _meta
+    Gateway->>Gateway: Enforce RBAC & OAuth 2.1 Policy via Headers
+    Gateway->>Server: Route to any available instance (Round-Robin)
+    Server-->>Client: 200 OK<br/>JSON-RPC Response (complete or input_required)
 ```
 
 ### Characteristics
 
 | Aspect | Value |
 |--------|-------|
-| **Lifecycle** | Stateless Request/Response (No Session ID) |
-| **Complex Flows** | Uses **Multi Round-Trip Requests (MRTR)** instead of streams |
-| **Security** | TLS, Gateways, Header-based RBAC |
-| **Use Case** | Enterprise standard, Serverless functions |
+| **Lifecycle** | Stateless Request/Response (No `initialize` or `Mcp-Session-Id`) |
+| **Complex Flows** | Uses **Multi Round-Trip Requests (MRTR)** (`input_required` + `requestState`) |
+| **Caching** | List responses carry `ttlMs` and `cacheScope` |
+| **Security** | TLS, OAuth 2.1 / OIDC Discovery, Header-based Gateway RBAC |
+| **Use Case** | Enterprise standard, Serverless functions, Auto-scaling clusters |
 
-### Request Example
+### Stateless HTTP Request Example (`2026-07-28`)
 
 ```http
-POST /message HTTP/1.1
+POST /mcp HTTP/1.1
 Host: mcp.example.com
 Content-Type: application/json
-Authorization: Bearer <token>
+Authorization: Bearer <access_token>
+MCP-Protocol-Version: 2026-07-28
+Mcp-Method: tools/call
+Mcp-Name: search_database
 
 {
     "jsonrpc": "2.0",
     "method": "tools/call",
     "params": {
         "name": "search_database",
-        "arguments": {"query": "users"}
+        "arguments": {"query": "users"},
+        "_meta": {
+            "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+            "io.modelcontextprotocol/clientInfo": {
+                "name": "enterprise-host",
+                "version": "2.1.0"
+            },
+            "io.modelcontextprotocol/clientCapabilities": {},
+            "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+            "baggage": "skill.name=user-support,userId=alice"
+        }
     },
     "id": 1
 }
 ```
 
-### SSE Stream Example
+### Multi Round-Trip Request (MRTR) Response Example
+
+Instead of holding open an SSE stream when user input is needed, the HTTP response returns immediately with `resultType: "input_required"` and an opaque `requestState` token:
 
 ```http
-GET /sse HTTP/1.1
-Host: mcp.example.com
-Accept: text/event-stream
-Authorization: Bearer <token>
-```
+HTTP/1.1 200 OK
+Content-Type: application/json
 
-```
-event: message
-data: {"jsonrpc":"2.0","method":"notifications/progress","params":{"progress":50}}
-
-event: message
-data: {"jsonrpc":"2.0","result":{"content":[...]},"id":1}
+{
+    "jsonrpc": "2.0",
+    "result": {
+        "resultType": "input_required",
+        "requestState": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..state_token",
+        "inputRequests": {
+            "approval": {
+                "method": "elicitation/create",
+                "params": {
+                    "mode": "form",
+                    "message": "Approve query on sensitive table 'users'?",
+                    "requestedSchema": {
+                        "type": "object",
+                        "properties": {
+                            "confirm": {"type": "boolean"}
+                        },
+                        "required": ["confirm"]
+                    }
+                }
+            }
+        }
+    },
+    "id": 1
+}
 ```
 
 ---
 
-## Authentication
+## Authentication & Authorization (OAuth 2.1 & OIDC)
 
-### HTTP Transport Auth
+Following the **`2025-11-25`** and **`2026-07-28`** specifications, remote HTTP MCP servers standardize on **OAuth 2.1** and **OpenID Connect (OIDC) Discovery 1.0**:
 
-| Method | Header | Use Case |
-|--------|--------|----------|
-| **Bearer Token** | `Authorization: Bearer <token>` | OAuth tokens |
-| **API Key** | `X-API-Key: <key>` | Simple auth |
-| **Custom** | Custom headers | Enterprise SSO |
+| Standard / Mechanism | Specification Role |
+|----------------------|--------------------|
+| **Protected Resource Metadata (RFC 9728)** | MCP servers expose `/.well-known/oauth-protected-resource` so clients can discover the authorization server(s) and supported scopes. |
+| **Authorization Server Discovery** | Supports both OAuth 2.0 Authorization Server Metadata (RFC 8414) and **OpenID Connect Discovery 1.0** (`/.well-known/openid-configuration`). |
+| **Client ID Metadata Documents (SEP-991)** | Clients can use URL-based Client ID Metadata Documents for dynamic, zero-touch client registration. |
+| **Incremental Scope Consent (SEP-835)** | Servers can return `401 Unauthorized` or `403 Forbidden` with a `WWW-Authenticate` header specifying required scopes for step-up authorization. |
 
-### OAuth 2.0 Flow
+### OAuth 2.1 + RFC 9728 Discovery & Step-Up Consent Flow (`SEP-835`)
 
 ```mermaid
 sequenceDiagram
-    participant Client
-    participant Auth as Auth Server
+    participant Client as MCP Client
+    participant Gateway as API Gateway (RBAC)
     participant MCP as MCP Server
+    participant Auth as OAuth 2.1 / OIDC Server
     
-    Client->>Auth: Authorization request
-    Auth-->>Client: Access token
+    Client->>Gateway: 1. POST /mcp (Unauthenticated)
+    Gateway-->>Client: 2. 401 Unauthorized (WWW-Authenticate: Bearer resource_metadata="...")
     
-    Client->>MCP: Request + Bearer token
-    MCP->>MCP: Validate token
-    MCP-->>Client: Response
+    Client->>MCP: 3. GET /.well-known/oauth-protected-resource
+    MCP-->>Client: 4. Authorization Server URL & Supported Scopes
+    
+    Client->>Auth: 5. GET /.well-known/openid-configuration
+    Auth-->>Client: 6. OIDC Token & Authorization Endpoints
+    
+    Client->>Auth: 7. OAuth 2.1 PKCE Flow (scope="mcp:read")
+    Auth-->>Client: 8. Access Token (scope="mcp:read")
+    
+    Client->>Gateway: 9. POST /mcp (Mcp-Method: skills/list, Bearer <token>)
+    Gateway->>MCP: 10. Forward Authorized Request
+    MCP-->>Client: 11. 200 OK (Role-filtered Skills Catalog)
+
+    Note over Client,Auth: Step-Up Authorization (SEP-835) for Privileged Tool
+    Client->>Gateway: 12. POST /mcp (Mcp-Method: tools/call, Mcp-Name: drop_table)
+    Gateway-->>Client: 13. 403 Forbidden (WWW-Authenticate: Bearer error="insufficient_scope", scope="mcp:admin")
+    Client->>Auth: 14. Incremental Scope Consent (scope="mcp:admin")
+    Auth-->>Client: 15. Upgraded Access Token
+    Client->>Gateway: 16. Retry POST /mcp with Upgraded Token
+    Gateway->>MCP: 17. Forward to Server
+    MCP-->>Client: 18. 200 OK (JSON-RPC Response)
 ```
 
 ---
@@ -190,31 +242,32 @@ sequenceDiagram
 graph TD
     A{Deployment Model?}
     A -->|Enterprise / Remote| B[Stateless HTTP]
-    A -->|Local Dev / Legacy| C[Stdio]
+    A -->|Local Dev / CLI| C[Stdio]
     
     B --> D[Deploy to API Gateway, Lambda, Kubernetes]
-    C --> E[Local CLI Tools]
+    C --> E[Local Subprocess Tools]
 ```
 
 | Scenario | Recommended Transport |
 |----------|----------------------|
-| Enterprise Skills & Registries | Stateless HTTP (Header-based routing) |
+| Enterprise Skills & Registries | Stateless HTTP (`Mcp-Method`, `Mcp-Name` headers) |
 | Serverless / Auto-scaling environments | Stateless HTTP |
-| Simple Local File Access (Dev only) | Stdio |
-| Real-time complex flows | Stateless HTTP with Multi Round-Trip Requests (MRTR) |
+| Simple Local File Access / CLI | Stdio |
+| Interactive Human-in-the-Loop Flows | Stateless HTTP with Multi Round-Trip Requests (MRTR) |
+| Long-Running Async Jobs | Stateless HTTP with Tasks Extension (`io.modelcontextprotocol/tasks`) |
 
 ---
 
 ## Transport Comparison
 
-| Feature | Stdio | HTTP + SSE |
-|---------|-------|------------|
-| **Setup** | Spawn process | HTTP client |
-| **Latency** | ~0ms | Network RTT |
-| **Streaming** | stdout | SSE |
-| **Auth** | N/A (local) | Bearer, API key |
-| **Firewall** | No issues | Port access |
-| **Scalability** | 1:1 | N:1 possible |
+| Feature | Stdio (Local) | Stateless HTTP (`2026-07-28`) | HTTP + SSE (Legacy Pre-2026) |
+|---------|---------------|-------------------------------|------------------------------|
+| **Setup** | Spawn subprocess | Standard HTTP POST client | Dual endpoints (`/sse` + `/message`) |
+| **Session State** | Process-bound | **Fully Stateless** (No session ID) | Stateful (`Mcp-Session-Id`) |
+| **Load Balancing** | N/A (1:1 local) | **Standard Round-Robin** | Required sticky sessions |
+| **Gateway Routing** | N/A | Native via `Mcp-Method` & `Mcp-Name` | Required deep JSON body inspection |
+| **Client Input (Elicitation)** | Bidirectional stdio | **Multi Round-Trip Requests (MRTR)** | Server-initiated SSE events |
+| **Authentication** | OS process isolation | **OAuth 2.1 / OIDC (RFC 9728)** | Custom Bearer / API Key |
 
 ---
 
@@ -237,25 +290,28 @@ for line in sys.stdin:
     print(json.dumps(response), flush=True)
 ```
 
-### HTTP Server (Python)
+### Stateless HTTP Server (Python)
 
 ```python
-from flask import Flask, request, Response
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-@app.route("/message", methods=["POST"])
-def message():
-    rpc_request = request.json
-    result = handle_request(rpc_request)
-    return result
+@app.route("/mcp", methods=["POST"])
+def mcp_endpoint():
+    # Inspect 2026-07-28 routing headers
+    protocol_version = request.headers.get("MCP-Protocol-Version", "2026-07-28")
+    mcp_method = request.headers.get("Mcp-Method")
+    mcp_name = request.headers.get("Mcp-Name")
 
-@app.route("/sse")
-def sse():
-    def generate():
-        while True:
-            yield f"event: message\ndata: {json.dumps(notification)}\n\n"
-    return Response(generate(), mimetype="text/event-stream")
+    rpc_request = request.get_json()
+    result = handle_stateless_request(
+        rpc_request,
+        protocol_version=protocol_version,
+        mcp_method=mcp_method,
+        mcp_name=mcp_name,
+    )
+    return jsonify(result)
 ```
 
 ---
@@ -263,9 +319,9 @@ def sse():
 ## Summary
 
 | Transport | Best For | Lifecycle |
-|-----------|----------|------------|
-| **Stateless HTTP** | Enterprise, Serverless, Agent Skill Delivery | Stateless |
-| **Stdio (Legacy)** | Local, isolated CLI tools | Stateful |
+|-----------|----------|-----------|
+| **Stateless HTTP** | Enterprise, Serverless, Gateways, Agent Skill Delivery | Stateless (`2026-07-28`) |
+| **Stdio** | Local, isolated CLI tools | Process-bound |
 
 > [!TIP]
-> Default to **Stateless HTTP** for all new enterprise MCP servers to ensure compatibility with modern Agentic discovery registries, API gateways, and scalable infrastructure.
+> Default to **Stateless HTTP** for all remote and enterprise MCP servers to take advantage of Header-Based Routing (`Mcp-Method`, `Mcp-Name`), `ttlMs` response caching, Multi Round-Trip Requests (MRTR), and standard round-robin load balancing.

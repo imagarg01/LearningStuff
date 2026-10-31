@@ -1,10 +1,10 @@
-# MCP Apps (MCP-UI)
+# MCP Apps (Interactive UI Extension)
 
-MCP Apps (formerly MCP-UI) is a protocol extension that allows MCP servers to provide rich, interactive User Interfaces (UI) for their tools. Instead of relying solely on text-based interactions, an AI model can display a graphical interface—like a form, dashboard, or interactive chart—directly within the host application.
+**MCP Apps** (formalized as a first-class extension in the **`2026-07-28` specification**, evolving from MCP-UI) allows MCP servers to deliver rich, interactive, server-rendered User Interfaces (HTML/CSS/JS) directly inline within host applications. Instead of relying solely on text-based interactions, a tool can present a form, interactive dashboard, chart, or multi-step widget inside a sandboxed host iframe.
 
 ## Overview
 
-The core idea is simple: A **Tool** can declare that it has an associated **Resource** which contains a UI definition (HTML/JS). The Host Application (e.g., Claude Desktop or a custom client) can fetch this resource and render it in a safe, sandboxed environment (usually an iframe).
+A **Tool** declares an associated **UI Resource** using the standardized **`ui://` URI scheme** inside its `_meta.ui` property. The Host Application fetches the `ui://` resource (served with MIME type `text/html;profile=mcp-app`) and renders it inside a sandboxed iframe with synchronized host theme variables.
 
 ```mermaid
 graph TD
@@ -12,42 +12,72 @@ graph TD
     Server[MCP Server]
     
     Client -->|"1. tools/list"| Server
-    Server -->|"2. Tool Definition + _meta.ui.resourceUri"| Client
-    Client -->|"3. resources/read (Fetch UI)"| Server
-    Server -->|"4. HTML Content"| Client
-    Client -->|"5. Renders UI"| User
+    Server -->|"2. Tool Definition + _meta.ui.resourceUri (ui://...)"| Client
+    Client -->|"3. resources/read (Fetch ui:// resource)"| Server
+    Server -->|"4. HTML Bundle (text/html;profile=mcp-app)"| Client
+    Client -->|"5. Renders Sandboxed UI with Host Theme CSS"| User
 ```
 
-## How It Works
+## How It Works (`2026-07-28` Specification)
 
-### 1. The Tool Definition
+### 1. The Tool Definition & Visibility Controls
 
-When a server lists its tools, it can include a special `_meta` property in the tool definition. This property contains a `ui` object with a `resourceUri` field.
+When a server lists its tools, it includes a `_meta.ui` object specifying:
+- `resourceUri`: A `ui://` URI pointing to the UI resource.
+- `visibility`: Controls whether the tool is visible to the LLM (`"model"`), the UI iframe (`"app"`), or both (`["model", "app"]`). Setting `"visibility": ["app"]` allows servers to expose internal helper tools (e.g., UI state polling or form validation) that only the rendered UI can invoke, keeping the LLM's tool context clean.
 
 ```json
 {
   "name": "create_ticket",
+  "title": "Create Support Ticket",
   "description": "Create a new support ticket",
-  "inputSchema": { ... },
+  "inputSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "category": { "type": "string", "enum": ["bug", "feature", "billing"] },
+      "details": { "type": "string" }
+    },
+    "required": ["category", "details"]
+  },
   "_meta": {
     "ui": {
-      "resourceUri": "internal://ui/create_ticket"
+      "resourceUri": "ui://tickets/create-ticket.html",
+      "visibility": ["model", "app"]
     }
   }
 }
 ```
 
-### 2. The UI Resource
+#### App-Only Helper Tool Example (`visibility: ["app"]`)
 
-The URI specified in `_meta.ui.resourceUri` points to a standard MCP **Resource**. When the client requests this resource, the server returns the HTML content for the UI.
+```json
+{
+  "name": "validate_ticket_ draft",
+  "description": "Internal UI helper to validate ticket fields before submission",
+  "inputSchema": { ... },
+  "_meta": {
+    "ui": {
+      "resourceUri": "ui://tickets/create-ticket.html",
+      "visibility": ["app"]
+    }
+  }
+}
+```
+
+### 2. The `ui://` Resource (`text/html;profile=mcp-app`)
+
+The URI specified in `_meta.ui.resourceUri` uses the `ui://` scheme. When the client requests this resource via `resources/read`, the server returns the bundled HTML/JS content with `mimeType: "text/html;profile=mcp-app"`.
 
 **Request:**
 
 ```json
 {
+  "jsonrpc": "2.0",
+  "id": 3,
   "method": "resources/read",
   "params": {
-    "uri": "internal://ui/create_ticket"
+    "uri": "ui://tickets/create-ticket.html"
   }
 }
 ```
@@ -56,25 +86,25 @@ The URI specified in `_meta.ui.resourceUri` points to a standard MCP **Resource*
 
 ```json
 {
+  "jsonrpc": "2.0",
+  "id": 3,
   "result": {
     "contents": [{
-      "uri": "internal://ui/create_ticket",
-      "mimeType": "text/html",
+      "uri": "ui://tickets/create-ticket.html",
+      "mimeType": "text/html;profile=mcp-app",
       "text": "<!DOCTYPE html><html><body><form>...</form></body></html>"
     }]
   }
 }
 ```
 
-### 3. Rendering and Communication
+### 3. Rendering, Host Theming, and Communication
 
-The host application renders the returned HTML. This UI can interact with the host using a standardized JavaScript API (often provided by libraries like `@mcp-ui/client`).
+The host application renders the returned HTML inside a sandboxed `iframe` and bridges communication via JSON-RPC `postMessage`:
 
-The UI can:
-
-* **Trigger Actions**: Ask the host to execute the tool associated with the UI.
-* **Read State**: Access data from the server.
-* **Update Context**: Send information back to the chat context.
+* **Host Theme Integration**: The host injects standardized CSS custom properties (such as `--color-background-primary`, `--color-text-primary`, and typography variables) so the MCP App automatically adapts to light/dark mode and matches the host UI.
+* **Trigger Actions**: The UI can call tools on the server (including `visibility: ["app"]` tools) through the host bridge.
+* **Read State & Update Context**: The UI can inspect tool results (`structuredContent`) and push updated context back to the conversation.
 
 ## Security Model
 
