@@ -79,9 +79,8 @@ graph TD
     F -->|Next Day's Query| E[Agent dynamically injects Rule]
 ```
 
-1.  **Implicit Negative Feedback:** A user asks the agent to generate an email. The agent does so. The user copies the text, heavily deletes the middle paragraph, and sends it.
-2.  **Telemetry Capture:** Your LangSmith/OTel pipeline detects the heavy client-side edits. It flags the LangSmith Trace ID as "Failed Intent."
-3.  **Dynamic Generation:** An internal asynchronous job reads the failed trace, compares the Agent output to the human edit, and asks an Evaluation LLM to write a generic "Rule".
-4.  **The Fix:** This rule is stored. The system has self-healed based on telemetry.
+1.  **Implicit Negative Feedback & `SEP-1303` / `MRTR` Signals:** Whenever a production trace exhibits a tool self-correction loop ($\text{TAF} > 1.30$ due to `isError: true`), a human rejection on an MCP `MRTR` (`input_required`) approval prompt, or heavy user edits, the `SEP-414` OpenTelemetry collector flags the trace.
+2.  **Automated Trace-to-Fixture Compilation:** Instead of only injecting ad-hoc rules into a vector DB, the **Continuous Eval Flywheel** ([03_maintaining_evals.md](../Evals/03_maintaining_evals.md)) automatically scrubs PII, freezes the read-tool sandbox snapshot, and compiles the failure into a deterministic **Golden Eval Fixture** pinned to the skill's `sha256` manifest digest.
+3.  **Telemetry-Driven Skill Refactoring:** Engineering updates the `SKILL.md` instructions or offloads the brittle logic into the MCP tool handler, verifies that the new fixture passes across the Model-Agnostic Matrix ([06_skill_delivery_factory.md](../Skills/06_skill_delivery_factory.md)), and promotes the new `skill.digest` via an OTel canary gate.
 
 > **Next Path:** Proceed to [Practical Implementation](05_Practical_Implementation.md).

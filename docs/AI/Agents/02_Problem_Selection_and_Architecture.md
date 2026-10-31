@@ -58,8 +58,14 @@ stateDiagram-v2
     *   *If* output is plain text -> Route to **End**.
 3.  **Node: `Tool_Executor`:** Dynamically invokes the requested tool API, appends the result to the array, and loops back.
 
-### Handling Failure States Natively
-If `Tool_Executor` throws an `HTTP 500` error, you aggressively capture the exception, append the literal Python traceback to the Message array, and route back to `Agent_Reasoner`. **The LLM is now aware the tool failed and will logically attempt a workaround.**
+### Handling Failure States Natively (MCP `SEP-1303` Failing Forward)
+> [!WARNING]
+> **Anti-Pattern:** Never pass raw Python stack traces (`Traceback (most recent call last)...`) or unhandled HTTP 500 dumps back into the LLM's message array. Raw tracebacks waste tokens, leak internal implementation details, and cause smaller models to hallucinate or loop infinitely.
+
+Instead, follow the **MCP `SEP-1303` Failing Forward** standard (detailed in [Skills Execution Architecture](../Skills/02_execution_architecture.md)):
+1. Catch validation and execution errors inside the deterministic tool boundary.
+2. Return a structured `CallToolResult` with **`isError: true`** and a concise **Semantic Recovery Hint** (e.g., `"Invalid date '10/31/2026'. Expected ISO-8601 format 'YYYY-MM-DD'. Please retry."`).
+3. **Cognitive Offloading:** Keep tool `inputSchema` flat ($\le 2$ nesting levels) and push all date math, business `if/else` branching, and multi-table joins into the deterministic MCP tool handler rather than asking the LLM to orchestrate 4 micro-tools in a row.
 
 ## 2.4 Shortcomings of the LangGraph DAG Paradigm
 While LangGraph provides safety, it has severe limitations:

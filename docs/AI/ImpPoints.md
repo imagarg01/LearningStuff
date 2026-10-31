@@ -1,3 +1,28 @@
-# Principles
+# The 12 First-Principles of Production AI Engineering
 
-- When building applications with LLMs, we recommend finding the simplest solution possible, and only increasing complexity when needed. This might mean not building agentic systems at all.
+> **Master Navigation:** See [00_Master_Story_and_Index.md](./00_Master_Story_and_Index.md) for the complete 7-Act architectural story connecting every document and code suite in `docs/AI/`.
+
+1. **Earn Your Complexity (The Simplicity Principle):**
+   When building applications with LLMs, always start with the simplest deterministic workflow (single call, prompt chain, or router) and only graduate to autonomous multi-step agents when the problem genuinely requires dynamic control flow. *(See [LLM.md](./LLM.md) & [Agents/02_Problem_Selection_and_Architecture.md](./Agents/02_Problem_Selection_and_Architecture.md)).*
+2. **Defeat the Two Fundamental Laws of Entropy:**
+   Production AI is hard because **(1) Input is unbounded** (open-world entropy & adversarial XPIA) and **(2) The Model is a generative probabilistic machine** ($\text{Pass}^k = p^k$ variance & $P(\text{Trajectory}) = p^N$ compounding decision collapse). Wrap the probabilistic core in a **Deterministic Harness (The 5-Layer Funnel)**. *(See [Agents/08_Production_Grade_Agent_Architecture.md](./Agents/08_Production_Grade_Agent_Architecture.md)).*
+3. **Never Parse LLM Strings with Regex — Use Type-Safe Boundary Contracts:**
+   Constrain stochastic generation into strict typed ASTs using **BAML Schema-Aligned Parsing (SAP)** or Constrained Decoding so every decision node emits a validated structural contract before any downstream code executes. *(See [BAML/WhatIsBAML.md](./BAML/WhatIsBAML.md) & [Agents/10_Companion_Primitives_BAML_KV_A2A_A2UI_Safety_DSPy.md](./Agents/10_Companion_Primitives_BAML_KV_A2A_A2UI_Safety_DSPy.md)).*
+4. **Respect Transformer KV-Cache Physics:**
+   Causal attention only caches identical token prefixes. Structure prompts into **4 Prefix-Stable Zones** (Immutable Global Prefix $\rightarrow$ Skill Playbook $\rightarrow$ Append-Only History $\rightarrow$ Volatile Tail) and never inject dynamic timestamps or random UUIDs at the top of the system prompt. *(See [ContextEngineering.md](./ContextEngineering.md)).*
+5. **Treat Skills as Lazy-Loaded Cognitive Software (`TAF` & `CAR`):**
+   Keep Tier-1 Skill Discovery headers $\le 50$ tokens, enforce Token Amplification Factor $\text{TAF} \le 3.5\times$ and Context Utilization $\text{CAR} \ge 0.60$, and **offload deterministic math, parsing, and policy thresholds into `scripts/`** so smaller, cheaper models achieve frontier parity. *(See [Skills/skill.md](./Skills/skill.md) & [Skills/06_skill_delivery_factory.md](./Skills/06_skill_delivery_factory.md)).*
+6. **Separate the Three Standardized Protocols (`MCP` vs. `A2A` vs. `A2UI`):**
+   Use **MCP** for vertical Agent-to-Tool execution, **A2A** for horizontal opaque Agent-to-Agent delegation across boundaries, and **A2UI** for declarative Agent-to-Human generative UI streaming. *(See [MCP/MCP.md](./MCP/MCP.md) & [Agents/10_Companion_Primitives_BAML_KV_A2A_A2UI_Safety_DSPy.md](./Agents/10_Companion_Primitives_BAML_KV_A2A_A2UI_Safety_DSPy.md)).*
+7. **Partition State from Context & Use Durable Saga Checkpointing:**
+   Context is an ephemeral prompt projection; State is an immutable persisted checkpoint. Every side-effecting tool must carry an `idempotency_key` and a **Compensating Action** so bad decisions can be time-travel rewound (`rewind_and_fork`) without double-charging external APIs. *(See [Agents/09_Durable_State_Memory_and_Persona_Architecture.md](./Agents/09_Durable_State_Memory_and_Persona_Architecture.md)).*
+8. **Store Bi-Temporal Facts & Compact Episodic Receipts (CoALA Memory):**
+   Never dump raw tool logs into cross-run memory. Store compact **Episodic Run Receipts** and track evolving facts in a **Bi-Temporal Semantic Graph** (`valid_from/to`, `tx_from/to`) that supersedes contradicted facts rather than deleting history. *(See [Memory.md](./Memory.md) & [Context_Graph/ContextGraph.md](./Context_Graph/ContextGraph.md)).*
+9. **Never Enforce Identity or Permissions in the Prompt (Dual-Plane Persona):**
+   Prompts are advisory; tokens are cryptographic. Separate the **Cognitive Plane** (style/verbosity injected into the prompt) from the **Execution Plane** (**RFC 8693 OBO Token Exchange** intersecting User $\cap$ Agent $\cap$ Intent scopes at the MCP Gateway). *(See [Agents/09_Durable_State_Memory_and_Persona_Architecture.md](./Agents/09_Durable_State_Memory_and_Persona_Architecture.md)).*
+10. **Enforce CaMeL Data-Flow Isolation Against Indirect Prompt Injection (XPIA):**
+    Tag all external RAG chunks and tool outputs as `UNTRUSTED` taint sources. Never allow an `UNTRUSTED` provenance tag to control a privileged tool sink's arguments without an explicit policy or human approval gate. *(See [Safety/AI_Guardrails.md](./Safety/AI_Guardrails.md)).*
+11. **Test the Evaluator & Measure $\text{Pass}^k$, Not Just $\text{Pass}@k$:**
+    In agentic systems, a 90% single-step accuracy collapses across 10 steps ($0.90^{10} \approx 34.8\%$). Gate releases on $\text{Pass}^3 \ge 0.85$ across Replayable Markov Cassettes, verify your evaluators via **Mutation Testing (MS $\ge 0.85$)**, and correct LLM Judge bias via the **Rogan-Gladen estimator** ($\hat{p} = \frac{\hat{p}_{\text{obs}} + q_0 - 1}{q_1 + q_0 - 1}$). *(See [Evals/00_overview.md](./Evals/00_overview.md) & [Evals/05_unified_agent_mcp_skill_eval_pipeline.md](./Evals/05_unified_agent_mcp_skill_eval_pipeline.md)).*
+12. **Shift Left into Spec-Driven Development (SDD):**
+    Code is a compiled downstream artifact; the **Specification (`Intent` $\rightarrow$ `BA View` $\rightarrow$ `QA Gherkin View` $\rightarrow$ `Dev Blueprint`)** is the primary source of truth, continuously reconciled against AST drift via `spec-sync`. *(See [SDD/SpecDrivenDevelopment.md](./SDD/SpecDrivenDevelopment.md) & [AINativeSDLC.md](./AINativeSDLC.md)).*

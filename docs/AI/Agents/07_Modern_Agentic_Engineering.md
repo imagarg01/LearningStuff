@@ -72,3 +72,6 @@ Enterprise environments possess massive surfaces (thousands of APIs, databases, 
 * **Context Preservation:** Keeps the LLM focused on the current sub-task, vastly reducing hallucinations.
 * **Security & Blast Radius:** The agent only has access to Snowflake *when it explicitly needs to access Snowflake*. If hijacked via prompt injection at a different stage, the agent lacks the tools to do damage.
 * **Scalability:** It is the only way a single Agentic System can scale to an enterprise with hundreds of disparate data silos.
+* **Standardized Protocol Implementation (`SEP-2640`):** See [Skills Implementation & Discovery (`io.modelcontextprotocol/skills`)](../Skills/05_implementation_discovery.md) for how MCP `2026-07-28` implements this 3-tier funnel over Stateless HTTP using `skills/list` (Level-1 YAML frontmatter), `resources/read` (JIT `SKILL.md` + lazy `references/*`), and cryptographic `sha256` manifest verification.
+
+> **Next Path:** Proceed to the Capstone Guide: [08. Production-Grade Agent Architecture: Taming Unbounded Input & The Generative Machine](08_Production_Grade_Agent_Architecture.md).

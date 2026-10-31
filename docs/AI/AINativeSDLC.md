@@ -25,7 +25,7 @@ Areas where AI can be integrated into the SDLC:
 
 With AI integration, we all be following V model, where each phase of development is directly associated with a corresponding testing phase. This ensures that every aspect of the software is validated against its requirements, leading to higher quality and reliability.
 
-![V Model](/images/VModel.png)
+![V Model](./images/VModel.png)
 
 In this diagram, you can see three phases:
 
@@ -82,3 +82,28 @@ Moving from theory to practice, here is the modern AI-Native stack:
 
 - **Codeium / Copilot**: Auto-generate unit tests from functions.
   - *Prompt*: "Generate pytest cases for this class, covering edge cases."
+
+---
+
+## 5. Evolution to 2026: Spec-Driven Development (SDD) & The Skill Delivery Factory
+
+As AI coding agents matured from IDE autocomplete to autonomous multi-file execution, the V-Model evolved into **Spec-Driven Development (SDD)**—where human engineers own the left and right tops of the "V" (Intent Specification & Acceptance Verification) while specialized AI Skills execute the bottom of the "V":
+
+```
+Raw Requirement ──► [1. refine-intent] ──► [2. generate-ba-view] ──► [3. generate-qa-view] ──► [4. generate-dev-view] ──► Code & Tests
+                        ▲                                                                                                      │
+                        └────────────────────────────── [5. spec-sync (AST Drift Reconciler)] ◄────────────────────────────────┘
+```
+
+### Connected Architecture & Playbooks in This Repository
+* **Master Narrative Index:** [00_Master_Story_and_Index.md](./00_Master_Story_and_Index.md)
+* **Spec-Driven Development Deep-Dive:** [SDD/SpecDrivenDevelopment.md](./SDD/SpecDrivenDevelopment.md)
+* **Executable Repository SDD Skills (`.agents/skills/`):**
+  1. [`refine-intent`](../../.agents/skills/refine-intent/SKILL.md) — Clarifies business intent and flags ambiguities against `AGENTS.md`
+  2. [`generate-ba-view`](../../.agents/skills/generate-ba-view/SKILL.md) — Produces state transitions and Mermaid diagrams
+  3. [`generate-qa-view`](../../.agents/skills/generate-qa-view/SKILL.md) — Generates exhaustive BDD/Gherkin scenarios (Anti-Complacency Gate)
+  4. [`generate-dev-view`](../../.agents/skills/generate-dev-view/SKILL.md) — Maps business rules to concrete codebase classes and signatures
+  5. [`spec-sync`](../../.agents/skills/spec-sync/SKILL.md) — Reconciles AST code drift back into the specification
+* **The CI/CD Factory for AI Primitives:**
+  * [06_skill_delivery_factory.md](./Skills/06_skill_delivery_factory.md) — The 6-Stage testable delivery pipeline for Skills
+  * [05_unified_agent_mcp_skill_eval_pipeline.md](./Evals/05_unified_agent_mcp_skill_eval_pipeline.md) — The Unified `Agent + MCP + Skill + Eval` Delivery & Observability Flywheel

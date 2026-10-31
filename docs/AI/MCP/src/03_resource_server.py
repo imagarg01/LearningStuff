@@ -1,27 +1,34 @@
 """
-MCP Example 03: Resource Server
-===============================
-An MCP server providing resources (data that AI can read).
-
-This example demonstrates:
-1. File-based resources
-2. Dynamic resources (database simulation)
-3. Resource subscriptions
-4. Multiple MIME types
+MCP Example 03: Resource Server, URI Templates & Cacheable Catalogs
+===================================================================
+Demonstrates MCP resource capabilities (2026-07-28):
+1. Static resources (`resources/list`) with `ttlMs` and `cacheScope`
+2. Dynamic RFC 6570 Resource Templates (`resources/templates/list`)
+3. Reading text & binary (`blob`) resources (`resources/read`)
+4. Lightweight `resource_link` references returned from tools
 """
 
 import json
-import os
 from dataclasses import dataclass, asdict
 from typing import Optional
-from pathlib import Path
 
 
 @dataclass
 class Resource:
-    """An MCP resource definition."""
+    """An MCP static resource definition."""
     uri: str
     name: str
+    title: str
+    mimeType: str
+    description: Optional[str] = None
+
+
+@dataclass
+class ResourceTemplate:
+    """An MCP RFC 6570 dynamic URI template definition."""
+    uriTemplate: str
+    name: str
+    title: str
     mimeType: str
     description: Optional[str] = None
 
@@ -37,303 +44,143 @@ class ResourceContents:
 
 class ResourceServer:
     """
-    MCP server focused on resource management.
-    
-    Resource types:
-    - file:// - Local files
-    - config:// - Configuration data
-    - db:// - Database queries
-    - api:// - API responses
+    MCP server focused on static resources, RFC 6570 URI templates, and ttlMs caching.
     """
-    
+
     def __init__(self):
         self.name = "resource-demo-server"
-        self.version = "1.0.0"
-        self.subscriptions: set[str] = set()
-        
-        # Simulated data stores
+        self.version = "2.0.0"
+
         self._config = {
             "app": {
-                "name": "Demo Application",
+                "name": "Demo Enterprise App",
                 "version": "2.0.0",
-                "debug": False,
-                "features": ["auth", "analytics", "export"]
-            },
-            "database": {
-                "host": "localhost",
-                "port": 5432,
-                "name": "demo_db"
+                "stateless": True,
+                "features": ["oauth2.1", "mrtr", "skills-sep-2640", "otel-sep-414"]
             }
         }
-        
-        self._database = {
-            "users": [
-                {"id": 1, "username": "alice", "role": "admin", "active": True},
-                {"id": 2, "username": "bob", "role": "user", "active": True},
-                {"id": 3, "username": "charlie", "role": "user", "active": False},
-            ],
-            "settings": [
-                {"key": "theme", "value": "dark"},
-                {"key": "language", "value": "en"},
-                {"key": "notifications", "value": "true"},
-            ]
+
+        self._users = {
+            "1": {"id": "1", "username": "alice", "role": "admin", "department": "engineering"},
+            "2": {"id": "2", "username": "bob", "role": "analyst", "department": "finance"},
         }
-    
-    def list_resources(self) -> list[dict]:
-        """Return all available resources."""
+
+    def list_resources(self) -> dict:
+        """Return static resources with 2026-07-28 ttlMs caching metadata."""
         resources = [
-            # Configuration resources
             Resource(
                 uri="config://app",
-                name="Application Config",
+                name="app_config",
+                title="Application Configuration",
                 mimeType="application/json",
-                description="Main application configuration"
+                description="Main stateless application configuration"
             ),
-            Resource(
-                uri="config://database",
-                name="Database Config",
-                mimeType="application/json",
-                description="Database connection settings"
-            ),
-            
-            # Database resources
-            Resource(
-                uri="db://users",
-                name="Users Table",
-                mimeType="application/json",
-                description="All user records"
-            ),
-            Resource(
-                uri="db://users/active",
-                name="Active Users",
-                mimeType="application/json",
-                description="Only active user records"
-            ),
-            Resource(
-                uri="db://settings",
-                name="Settings",
-                mimeType="application/json",
-                description="Application settings"
-            ),
-            
-            # API resources (simulated)
             Resource(
                 uri="api://status",
-                name="System Status",
+                name="system_status",
+                title="Live System Health",
                 mimeType="application/json",
-                description="Current system status"
-            ),
-            
-            # Template resources
-            Resource(
-                uri="template://email/welcome",
-                name="Welcome Email",
-                mimeType="text/html",
-                description="Welcome email template"
-            ),
-            Resource(
-                uri="template://report/summary",
-                name="Summary Report",
-                mimeType="text/markdown",
-                description="Summary report template"
+                description="Current cluster health status"
             ),
         ]
-        
-        return [asdict(r) for r in resources]
-    
+        return {
+            "resources": [asdict(r) for r in resources],
+            "ttlMs": 600000,
+            "cacheScope": "public"
+        }
+
+    def list_resource_templates(self) -> dict:
+        """Return RFC 6570 parameterized URI templates (resources/templates/list)."""
+        templates = [
+            ResourceTemplate(
+                uriTemplate="db://users/{userId}/profile",
+                name="user_profile_by_id",
+                title="User Profile by ID",
+                mimeType="application/json",
+                description="Fetch a specific user's profile record by userId"
+            )
+        ]
+        return {
+            "resourceTemplates": [asdict(t) for t in templates],
+            "ttlMs": 3600000,
+            "cacheScope": "public"
+        }
+
     def read_resource(self, uri: str) -> dict:
-        """Read a resource and return its contents."""
-        
-        if uri.startswith("config://"):
-            return self._read_config(uri)
-        elif uri.startswith("db://"):
-            return self._read_database(uri)
-        elif uri.startswith("api://"):
-            return self._read_api(uri)
-        elif uri.startswith("template://"):
-            return self._read_template(uri)
+        """Read a static or template-resolved resource URI."""
+        if uri == "config://app":
+            return asdict(ResourceContents(
+                uri=uri,
+                mimeType="application/json",
+                text=json.dumps(self._config["app"], indent=2)
+            ))
+        elif uri == "api://status":
+            return asdict(ResourceContents(
+                uri=uri,
+                mimeType="application/json",
+                text=json.dumps({"status": "healthy", "protocolVersion": "2026-07-28"}, indent=2)
+            ))
+        elif uri.startswith("db://users/") and uri.endswith("/profile"):
+            user_id = uri.split("/")[3]
+            user = self._users.get(user_id)
+            if not user:
+                raise ValueError(f"User not found: {user_id}")
+            return asdict(ResourceContents(
+                uri=uri,
+                mimeType="application/json",
+                text=json.dumps(user, indent=2)
+            ))
         else:
             raise ValueError(f"Unknown resource URI: {uri}")
-    
-    def subscribe(self, uri: str) -> dict:
-        """Subscribe to resource changes."""
-        self.subscriptions.add(uri)
-        return {"subscribed": True, "uri": uri}
-    
-    def unsubscribe(self, uri: str) -> dict:
-        """Unsubscribe from resource changes."""
-        self.subscriptions.discard(uri)
-        return {"subscribed": False, "uri": uri}
-    
-    # Resource handlers
-    
-    def _read_config(self, uri: str) -> dict:
-        """Read configuration resource."""
-        key = uri.replace("config://", "")
-        
-        if key not in self._config:
-            raise ValueError(f"Config not found: {key}")
-        
-        return asdict(ResourceContents(
-            uri=uri,
-            mimeType="application/json",
-            text=json.dumps(self._config[key], indent=2)
-        ))
-    
-    def _read_database(self, uri: str) -> dict:
-        """Read database resource."""
-        path = uri.replace("db://", "")
-        parts = path.split("/")
-        table = parts[0]
-        
-        if table not in self._database:
-            raise ValueError(f"Table not found: {table}")
-        
-        data = self._database[table]
-        
-        # Apply filters
-        if len(parts) > 1:
-            filter_key = parts[1]
-            if filter_key == "active":
-                data = [r for r in data if r.get("active", True)]
-        
-        return asdict(ResourceContents(
-            uri=uri,
-            mimeType="application/json",
-            text=json.dumps(data, indent=2)
-        ))
-    
-    def _read_api(self, uri: str) -> dict:
-        """Read API resource (simulated)."""
-        endpoint = uri.replace("api://", "")
-        
-        if endpoint == "status":
-            data = {
-                "status": "healthy",
-                "uptime_seconds": 86400,
-                "version": "2.0.0",
-                "services": {
-                    "database": "connected",
-                    "cache": "connected",
-                    "queue": "connected"
+
+    def create_resource_link_result(self, user_id: str) -> dict:
+        """Demonstrate returning a lightweight `resource_link` from a tool call."""
+        user = self._users.get(user_id)
+        return {
+            "content": [
+                {
+                    "type": "text",
+                    "text": f"Found user '{user['username']}'. Read the linked resource for full profile."
+                },
+                {
+                    "type": "resource_link",
+                    "uri": f"db://users/{user_id}/profile",
+                    "name": f"Profile: {user['username']}",
+                    "mimeType": "application/json"
                 }
-            }
-        else:
-            raise ValueError(f"Unknown API endpoint: {endpoint}")
-        
-        return asdict(ResourceContents(
-            uri=uri,
-            mimeType="application/json",
-            text=json.dumps(data, indent=2)
-        ))
-    
-    def _read_template(self, uri: str) -> dict:
-        """Read template resource."""
-        path = uri.replace("template://", "")
-        
-        templates = {
-            "email/welcome": {
-                "mimeType": "text/html",
-                "content": """<!DOCTYPE html>
-<html>
-<head><title>Welcome!</title></head>
-<body>
-    <h1>Welcome to Our Platform!</h1>
-    <p>Hello {{username}},</p>
-    <p>Thank you for joining us.</p>
-</body>
-</html>"""
-            },
-            "report/summary": {
-                "mimeType": "text/markdown",
-                "content": """# Summary Report
-
-## Overview
-Generated on: {{date}}
-
-## Metrics
-- Total Users: {{user_count}}
-- Active Sessions: {{session_count}}
-
-## Recommendations
-1. Review inactive accounts
-2. Optimize database queries
-"""
-            }
+            ],
+            "isError": False
         }
-        
-        if path not in templates:
-            raise ValueError(f"Template not found: {path}")
-        
-        template = templates[path]
-        return asdict(ResourceContents(
-            uri=uri,
-            mimeType=template["mimeType"],
-            text=template["content"]
-        ))
 
-
-# =============================================================================
-# Demo
-# =============================================================================
 
 def run_demo():
-    """Demonstrate the resource server."""
-    
+    """Demonstrate the 2026-07-28 resource server."""
     server = ResourceServer()
-    
+
     print("=" * 70)
-    print("MCP Resource Server Demo")
+    print("MCP Example 03: Resources, URI Templates & Resource Links (2026-07-28)")
     print("=" * 70)
-    
-    # List all resources
-    print("\n📚 Available Resources:")
-    print("-" * 50)
-    for resource in server.list_resources():
-        print(f"  [{resource['mimeType']:20}] {resource['uri']}")
-        print(f"                         └─ {resource.get('description', '')}")
-    
-    # Read resources
-    print("\n" + "=" * 70)
-    print("📖 Reading Resources")
-    print("=" * 70)
-    
-    # 1. Config
-    print("\n[config://app]")
-    result = server.read_resource("config://app")
-    print(result["text"])
-    
-    # 2. Database - all users
-    print("\n[db://users]")
-    result = server.read_resource("db://users")
-    print(result["text"])
-    
-    # 3. Database - active users only
-    print("\n[db://users/active]")
-    result = server.read_resource("db://users/active")
-    print(result["text"])
-    
-    # 4. API status
-    print("\n[api://status]")
-    result = server.read_resource("api://status")
-    print(result["text"])
-    
-    # 5. Template
-    print("\n[template://report/summary]")
-    result = server.read_resource("template://report/summary")
-    print(result["text"])
-    
-    # Subscriptions
-    print("\n" + "=" * 70)
-    print("🔔 Resource Subscriptions")
-    print("=" * 70)
-    
-    print("\nSubscribing to config://app...")
-    result = server.subscribe("config://app")
-    print(f"  → {result}")
-    
-    print(f"\nActive subscriptions: {server.subscriptions}")
-    
+
+    # 1. List static resources (with ttlMs)
+    print("\n📚 1. Request: resources/list (with ttlMs caching)")
+    print("-" * 55)
+    print(json.dumps(server.list_resources(), indent=2))
+
+    # 2. List RFC 6570 resource templates
+    print("\n🧩 2. Request: resources/templates/list (RFC 6570 URI Templates)")
+    print("-" * 55)
+    print(json.dumps(server.list_resource_templates(), indent=2))
+
+    # 3. Read a parameterized URI template instance
+    print("\n📖 3. Request: resources/read (db://users/1/profile)")
+    print("-" * 55)
+    print(json.dumps(server.read_resource("db://users/1/profile"), indent=2))
+
+    # 4. Demonstrate resource_link content type
+    print("\n🔗 4. Tool Result with `resource_link` Pointer")
+    print("-" * 55)
+    print(json.dumps(server.create_resource_link_result("2"), indent=2))
+
     print("\n" + "=" * 70)
     print("✅ Resource demo complete!")
 

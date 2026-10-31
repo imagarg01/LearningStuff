@@ -77,8 +77,13 @@ def execute_database_tool(state: AgentState):
             return {"messages": [f"Error querying DB: {str(e)}"]}
 ```
 
-### Shortcomings of Current Observability
-*   **Data Masking Failure:** If your Agent is processing PII (e.g., medical records), LangSmith and OTel will automatically transmit that raw output trace to your dashboards. You must write aggressive middleware sanitizers to scrub `state["messages"]`.
+### Shortcomings of Current Observability & How Enterprise MCP + Evals Solve Them
+*   **Data Masking Failure:** If your Agent is processing PII (e.g., medical records), LangSmith and OTel will automatically transmit that raw output trace to your dashboards. You must write aggressive middleware sanitizers to scrub `state["messages"]` before compiling traces into eval fixtures (see [Continuous Eval Flywheel](../Evals/03_maintaining_evals.md)).
 *   **Log Bloat:** A single ReAct loop can generate 15 nested spans. Running thousands of parallel agents will overwhelm traditional Prometheus setups financially.
+*   **Uncalibrated Judges & Vanity Evals:** Relying solely on an uncalibrated LLM-as-a-Judge (`1-5` score) creates false confidence. In production architectures, replace generic PRM/ORM prose grading with the **4-Layer Unified Eval Matrix** ([Unified Agent+Skill+MCP+Eval Pipeline](../Evals/05_unified_agent_mcp_skill_eval_pipeline.md)):
+    1. **Layer 1 (Skill Routing):** Deterministic confusion matrix against `skills/list` (`SEP-2640`).
+    2. **Layer 2 (Cognitive AST & Provenance):** Model-agnostic Canonical Tool-Call AST assertions + Zero-Trust Argument Provenance ($\text{Pass}^3 \ge 95\%$).
+    3. **Layer 3 (MCP Actuation & $\text{TAF}$):** Property-based fuzzing (`SEP-1303`) and Token Amplification Factor ($\text{TAF} \le 1.25$) tracked via W3C `traceparent` and `baggage: skill.digest=sha256:...` (`SEP-414`).
+    4. **Layer 4 (World-State & Calibrated Judge):** Stateful MCP sandbox post-condition checks + **Meta-Eval Mutation Testing** ($\ge 90\%$ kill score) and **Rogan-Gladen bias-corrected** boolean rubrics.
 
 > **Next Path:** Proceed to [Maintenance and Productionization](04_Maintenance_and_Productionization.md).

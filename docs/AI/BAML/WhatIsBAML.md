@@ -67,3 +67,12 @@ If you are building a complex **Agent system** where one Agent calls 5 different
 
 * **Without BAML**: You write 50 lines of Python `try/except` blocks handling `JSONDecodeError`.
 * **With BAML**: You define `function GetToolArgs(...) -> ToolArgs` and call it. If it fails, BAML handles the retry logic defined in your configuration.
+
+---
+
+## 5. Deep-Dive: Logit Masking vs. Schema-Aligned Parsing in Production Agents
+
+See **[10. Companion Primitives — Constrained Decoding & BAML Think-Then-Parse](../Agents/10_Companion_Primitives_BAML_KV_A2A_A2UI_Safety_DSPy.md)** (and runnable demo [`../Agents/examples/06_companion_primitives_suite.py`](../Agents/examples/06_companion_primitives_suite.py)) for:
+* How token-level Finite State Machine (FSM) logit masking works vs. BAML's Rust-based **Schema-Aligned Parser (SAP)**.
+* Why forcing "Format-First" JSON from token 1 without a `reasoning_scratchpad` field degrades reasoning accuracy by 15–30%.
+* How BAML's TypeScript-like schema syntax cuts **Stage-1 Discovery Token Tax** by 60–75% compared to verbose JSON Schema Draft 2020-12.

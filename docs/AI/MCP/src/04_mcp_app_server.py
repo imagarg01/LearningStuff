@@ -166,7 +166,7 @@ def create_app_server():
     # 1. Define the standardized 2026-07-28 UI Resource URI (ui:// scheme)
     ui_uri = "ui://feedback/feedback-form.html"
     
-    # 2. Register the Tool with the UI link and visibility control
+    # 2. Register the primary Tool visible to both Model and App UI
     server.register_tool(
         Tool(
             name="submit_feedback",
@@ -188,6 +188,27 @@ def create_app_server():
             }
         ),
         lambda args: f"Received {args['category']} feedback: {args['details']}"
+    )
+
+    # 3. Register an App-Only Helper Tool (visibility: ["app"] — hidden from LLM context!)
+    server.register_tool(
+        Tool(
+            name="validate_feedback_draft",
+            description="Internal UI helper to validate draft character count in real time",
+            inputSchema={
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "type": "object",
+                "properties": {"details": {"type": "string"}},
+                "required": ["details"]
+            },
+            _meta={
+                "ui": {
+                    "resourceUri": ui_uri,
+                    "visibility": ["app"]
+                }
+            }
+        ),
+        lambda args: f"Draft valid ({len(args['details'])} chars)"
     )
     
     # 3. Register the Resource that provides the HTML UI (text/html;profile=mcp-app)

@@ -46,21 +46,42 @@ A Toeknizer is a tool that converts text into tokens and gives you the correspon
 
 ### Self Attention
 
-ToDo
+Self-Attention allows every token in a sequence to look at every other token and compute a context-aware representation. Each input token embedding $x_i$ is projected into three vectors using learned weight matrices:
+- **Query ($Q = X W_Q$)**: What this token is looking for.
+- **Key ($K = X W_K$)**: What this token offers as an index/label.
+- **Value ($V = X W_V$)**: The actual information payload to aggregate.
+
+$$\text{Attention}(Q, K, V) = \text{softmax}\!\left(\frac{Q K^T}{\sqrt{d_k}}\right) V$$
+
+Dividing by $\sqrt{d_k}$ prevents dot products from growing too large in high dimensions (which would push Softmax into regions with vanishingly small gradients). In autoregressive (decoder-only) LLMs, a **causal lower-triangular mask** sets future token scores to $-\infty$ so token $i$ can only attend to tokens $\le i$.
 
 ### Softmax
 
-ToDo
+Softmax converts a vector of raw, unbounded scores (**logits** $z_1, \dots, z_V$) into a valid probability distribution where every value is in $(0, 1)$ and the sum equals $1$:
+
+$$\text{softmax}(z_i) = \frac{e^{z_i / T}}{\sum_{j=1}^{V} e^{z_j / T}}$$
+
+where $T$ is the **Temperature** hyperparameter ($T \to 0$ makes the distribution greedy/deterministic; $T > 1$ flattens the distribution for higher creativity/entropy).
 
 ### Residual Connections
 
+Introduced in ResNet and critical for deep Transformers: instead of computing $y = F(x)$, each sub-layer computes $y = x + F(x)$. By creating an "identity highway" for gradients to flow backward directly to earlier layers without multiplying through dozens of weight matrices, residual connections prevent the **vanishing gradient problem** in deep (32 to 120+ layer) networks.
+
 ### Layer Normalization
+
+Normalizes the activations across the feature dimension for each individual token independently (mostly using **Pre-RMSNorm** in modern LLMs like Llama-3 and Qwen), stabilizing hidden state magnitudes across layers and accelerating training convergence.
 
 ### Dropout
 
+A regularization technique during training that randomly zeroes out a fraction $p$ of neuron activations on each forward pass, preventing co-adaptation and overfitting. *(Note: Modern frontier LLM pre-training on trillions of tokens rarely uses dropout, relying instead on massive data diversity and weight decay).*
+
 ### Multi head Attention
 
+Instead of computing attention once over the full embedding dimension $d_{\text{model}}$, Multi-Head Attention (MHA) splits $Q, K, V$ into $h$ parallel heads of size $d_k = d_{\text{model}} / h$. One head can attend to syntactic verb-object relationships, another to pronominal coreference, and another to punctuation boundaries. Modern LLMs use **Grouped-Query Attention (GQA)** or **Multi-head Latent Attention (MLA)** to share Key/Value heads across multiple Query heads, slashing the **KV-Cache memory footprint** during inference.
+
 ### Positional encoding and embeddings
+
+Because Self-Attention processes all tokens in parallel rather than sequentially like an RNN, it is permutation-invariant without position information. Positional encodings inject token order into the model. Modern LLMs use **RoPE (Rotary Position Embeddings)**, which rotates the Query and Key vectors in complex space by an angle proportional to their token index, naturally encoding **relative token distance** $(m - n)$ in the dot product $q_m^T k_n$.
 
 ## The GPT architecture
 
@@ -437,3 +458,13 @@ seq2seq contains an encode that processes inputs and a decoder that generates ou
 4. **Ethical and Legal Concerns**: The deployment of AI agents raises ethical and legal issues, including concerns about privacy, accountability, and the potential for misuse or harm.
 
 5. **Bias and Fairness**: AI agents can inherit biases from their training data or design, leading to unfair or discriminatory outcomes.
+
+---
+
+## Story Navigation (Act I: The Probabilistic Machine)
+
+* **Master Narrative Index:** [00_Master_Story_and_Index.md](./00_Master_Story_and_Index.md)
+* **Next in Act I:** [LLM.md](./LLM.md) (From Transformers to Workflows, Agentic AI, and Hallucination Taxonomy)
+* **Connected Production Primitives:**
+  * How causal self-attention & GQA dictate prompt caching: [ContextEngineering.md](./ContextEngineering.md) & [10_Companion_Primitives (KV-Cache Physics)](./Agents/10_Companion_Primitives_BAML_KV_A2A_A2UI_Safety_DSPy.md)
+  * Why the "Loop until you solve it" pattern suffers from $p^N$ decision collapse: [08_Production_Grade_Agent_Architecture.md](./Agents/08_Production_Grade_Agent_Architecture.md)

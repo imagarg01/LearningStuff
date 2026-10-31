@@ -34,14 +34,33 @@ You cannot improve what you cannot measure. Evals provide a hill-climbing metric
 
 The development lifecycle of an AI product should revolve around evals:
 
-1. **Prototype**: Build a basic prompt/agent.
-2. **Capture**: Log real-world inputs and bad outputs.
-3. **Create Eval**: Turn those logs into a test case.
-4. **Iterate**: Tweak the prompt/code to pass the eval.
-5. **Repeat**: Continuously expand the eval suite.
+1. **Prototype**: Build a basic prompt/agent, skill (`SKILL.md`), and MCP tool.
+2. **Verify the Eval (Meta-Eval)**: Run fault-injection mutation testing and judge calibration so you can trust your metrics.
+3. **Gate CI/CD**: Run the 4-layer Eval Matrix across Routing, Canonical Tool AST, MCP Fuzzing, and Stateful World-State post-conditions.
+4. **Capture Live Telemetry**: Stream production OpenTelemetry (`SEP-414`) spans correlated to `skill.digest` (`SEP-2640`).
+5. **Auto-Compile Fixtures**: Turn production retry loops (`SEP-1303`) and human rejections (`MRTR`) into deterministic regression fixtures.
 
-## See Also
+## Table of Contents
 
-For deep dives into specific domains:
+1. **[Types of Evals (The Evaluation Pyramid)](./01_types_of_evals.md)**
+   * Unit, Integration, End-to-End, and Offline vs. Online Evals.
+2. **[Building and Running Evals](./02_building_evals.md)**
+   * Golden/Synthetic/Log Datasets, Deterministic vs. LLM-Judge Metrics, and Tooling.
+3. **[Measuring Eval Quality (Meta-Evaluation) & Continuous Maintenance](./03_maintaining_evals.md)** *(Updated)*
+   * **Mutation Testing for Evals** (Defect Injection Score), **Judge Calibration** ($\text{TPR}$, $\text{TNR}$, Cohen's $\kappa$, & **Rogan-Gladen Bias Correction**), **Eval Noise Floor**, **Saturation Pruning**, and the **Closed-Loop OTel (`SEP-414`) $\rightarrow$ Eval Fixture Flywheel**.
+4. **[Measuring Semantic & Intent Coverage](./04_measuring_coverage.md)**
+   * Intent Taxonomy Coverage, Embedding Drift, and Red-Teaming.
+5. **[The Unified Puzzle: Agent + Skill + MCP + Eval Pipeline](./05_unified_agent_mcp_skill_eval_pipeline.md)** *(New)*
+   * How **Agent**, **Skill (`SEP-2640`)**, **MCP (`2026-07-28`)**, and **Eval (`SEP-414`)** interlock as a single 4-layer control system with unified lineage keys and automated self-healing.
 
+## See Also & Runnable Code (`src/`)
+
+- **Agent Skills Architecture & Delivery Factory**: [AI Agent Skills Guide](../Skills/skill.md) & [The Skill Delivery Factory](../Skills/06_skill_delivery_factory.md)
+- **Model Context Protocol (MCP)**: [MCP Overview](../MCP/00_overview.md)
 - **RAG + Evals**: [RAG Evaluation Strategies & Tools](../RAG_Strategies/RAGEvaluation.md)
+- **Runnable Examples (`make all` in `docs/AI/Evals/`)**:
+  - [`src/simple_eval.py`](./src/simple_eval.py) — Basic deterministic JSON tool-call eval
+  - [`src/llm_judge_eval.py`](./src/llm_judge_eval.py) — Basic LLM-as-a-Judge eval
+  - [`src/03_meta_eval_quality_checker.py`](./src/03_meta_eval_quality_checker.py) — Measuring Eval Quality (Mutation Kill Rate, Judge Calibration $\text{TPR}/\text{TNR}/\kappa$, & Rogan-Gladen Bias Correction)
+  - [`src/04_continuous_eval_flywheel.py`](./src/04_continuous_eval_flywheel.py) — Continuous Eval Updating (`SEP-414` OTel Anomaly Mining $\rightarrow$ PII Scrubbing $\rightarrow$ Golden Fixture Compilation & Saturation Pruning)
+  - [`src/05_unified_agent_mcp_skill_eval_pipeline.py`](./src/05_unified_agent_mcp_skill_eval_pipeline.py) — Complete End-to-End `Agent + Skill + MCP + Eval` closed-loop pipeline

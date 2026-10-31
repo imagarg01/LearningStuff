@@ -37,8 +37,27 @@ There are several types of memory that can be employed in AI systems, including:
 
 - **Internal Memory**: Internal memory refers to information that is stored within the AI system, such as short-term memory, long-term memory, or working memory.
 
-- **Semantic Memory**: Semantic memory refers to information that is stored in a way that is meaningful to the AI system, such as facts, rules, or heuristics.
+- **Semantic Memory**: Semantic memory refers to declarative, timeless or temporal facts, domain rules, and user preferences stored in a structured way (e.g., Knowledge Graphs or vector stores).
 
-- **Episodic Memory**: Episodic memory refers to information that is stored for a specific task or interaction, such as memorizing a conversation or a specific
+- **Episodic Memory**: Episodic memory refers to timestamped records of specific past interactions, experiences, or execution traces—such as memorizing a specific past conversation, a failed tool execution receipt, or how a similar incident was resolved last week.
 
-- **Semantic Episodic Memory**: Semantic episodic memory refers to information that is stored in a way that is meaningful to the AI system, such as facts, rules, or heuristics.
+- **Procedural Memory**: Procedural memory encodes *how* to perform multi-step tasks and workflows—such as compiled prompts, standard operating playbooks (`SKILL.md`), and deterministic tool-calling recipes.
+
+---
+
+## Production Deep-Dive: The CoALA 4-Store Memory Architecture & Bi-Temporal Facts
+
+In modern enterprise agents (following the **CoALA — Cognitive Architectures for Language Agents** taxonomy), memory is not a single vector database; it is partitioned into **four distinct stores** with strict lifecycle rules:
+
+| CoALA Memory Tier | Cognitive Role | Production Implementation in This Repo |
+| :--- | :--- | :--- |
+| **1. Working Memory** | Active scratchpad for the current turn ($T_k$) | **4-Zone KV-Cache Prefix-Stable Context** ([ContextEngineering.md](./ContextEngineering.md)) |
+| **2. Episodic Memory** | Compact receipts of past runs ("What happened when?") | **Structured Run Receipts** (stores final decision, key evidence IDs, and failure lessons—never raw intermediate tool noise) |
+| **3. Semantic Memory** | Evolving world/user facts ("What is true?") | **Bi-Temporal Knowledge Graph** (`valid_from`, `valid_to`, `tx_from`, `tx_to`—superseding contradicted facts instead of deleting them) |
+| **4. Procedural Memory** | Playbooks & skills ("How do we do X?") | **Progressive Disclosure Skills** ([Skills/skill.md](./Skills/skill.md) & `SKILL.md`) |
+
+* **See Full Architectural Blueprint & Runnable Code:**
+  * [09_Durable_State_Memory_and_Persona_Architecture.md](./Agents/09_Durable_State_Memory_and_Persona_Architecture.md) (Section 2: CoALA Cross-Run Memory & Bi-Temporal Graph)
+  * [`examples/05_stateful_decision_recovery_and_persona.py`](./Agents/examples/05_stateful_decision_recovery_and_persona.py) (Runnable `BiTemporalSemanticGraph` + `EpisodicReceiptStore`)
+  * [Context_Graph/ContextGraph.md](./Context_Graph/ContextGraph.md) (Why Agents need Organizational Decision Lineage & Context Graphs)
+  * **Master Narrative Index:** [00_Master_Story_and_Index.md](./00_Master_Story_and_Index.md)

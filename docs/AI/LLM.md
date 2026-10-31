@@ -45,12 +45,11 @@ within the dynamic agentic system.
 Agentic AI indpendently research, schedule tasks, or optimize a workflow to meet a user's goal. Workflows are not agentic AI.
 There are different kind of workflows:
 
-1. Prompt chaining: A sequence of prompts that build on each other to achieve a complex task. It should be used when the task can be easiliy decomposed into fixed subtasks.
-   It is not agentic AI, but it can be used as a building block for agentic AI. A trade off of latency for higher accuracy, for making each LLM call an easier task.
-2. Routing:
-3. Parllelization:
-4. Orchestrator-workers:
-5. Evaluator-optimizer:
+1. **Prompt Chaining**: A sequence of prompts that build on each other to achieve a complex task. It should be used when the task can be easily decomposed into fixed subtasks. It is not agentic AI, but it can be used as a building block for agentic AI. It trades off latency for higher accuracy by making each LLM call a focused, verifiable subtask.
+2. **Routing**: Classifies an incoming input and directs it to a specialized downstream prompt, model tier (e.g., SLM vs. Frontier LLM), or deterministic handler. Prevents prompt bloat and optimizes cost/latency by separating distinct intents early.
+3. **Parallelization (Sectioning & Voting)**: Splits a task into independent subtasks executed concurrently (**Sectioning**, e.g., running guardrail checks in parallel with core generation) or runs the same prompt multiple times to aggregate consensus (**Voting** / self-consistency).
+4. **Orchestrator-Workers**: A central LLM dynamically breaks down an unpredictable task, delegates subtasks to specialized worker LLMs/subagents (e.g., analyzing multiple files across a repository), and synthesizes their results. Unlike static Parallelization, the subtasks are not predefined in code.
+5. **Evaluator-Optimizer**: One LLM call generates a draft solution while a second evaluator (deterministic verifier or LLM-as-a-Judge) critiques it against explicit rubric criteria in an iterative feedback loop until quality thresholds are met.
 
 ## Types of AI Agents
 
@@ -81,7 +80,7 @@ LLMs also have important limitations:
 - **Resource Intensive**: They require significant computational resources for training and inference, making them less accessible for smaller applications or devices.
 
 
-## Hanllucinations
+## Hallucinations
 
 Hallucinations refer to instances where a language model generates information that is false, misleading, or not grounded in reality. This can occur even when the model is confident in its output. Hallucinations can manifest in various ways, such as fabricating facts, misrepresenting data, or generating nonsensical text.
 
@@ -94,3 +93,16 @@ Hallucinations refer to instances where a language model generates information t
 
 - **Pre-training Data Issues**: Volume of pre-training is enormous. Data crawled from public internet is noisy, contains inaccuracies, and may include biased or misleading information. As model incorrectly learns from this data, it can produce hallucinated outputs.
 - **Fine-tuning New Knowledge**: When LLMs are fine-tuned on new datasets, especially if the datasets are small or not representative, the model may generate outputs that are not aligned with its original training data.
+
+---
+
+## Story Navigation (Act I $\rightarrow$ Act II & Act V)
+
+* **Master Narrative Index:** [00_Master_Story_and_Index.md](./00_Master_Story_and_Index.md)
+* **Previous Chapter:** [Basics.md](./Basics.md) (Neural Networks, Embeddings, Tokenizers, Self-Attention)
+* **Next Act (Act II — Shaping the Input & Constraining the Output):**
+  * [PromptEngineering.md](./PromptEngineering.md) — Reasoning patterns (CoT, ReAct)
+  * [BAML/WhatIsBAML.md](./BAML/WhatIsBAML.md) — Turning generative text into type-safe structural contracts via Schema-Aligned Parsing (SAP)
+  * [Advanced/DSPy_Intro.md](./Advanced/DSPy_Intro.md) — Compiling prompts mathematically (`MIPROv2` / `GEPA`)
+* **Deep-Dive into Agentic Architectures (Act V):**
+  * [Agents/00_Learning_Path_Index.md](./Agents/00_Learning_Path_Index.md) & [Agents/02_Problem_Selection_and_Architecture.md](./Agents/02_Problem_Selection_and_Architecture.md)

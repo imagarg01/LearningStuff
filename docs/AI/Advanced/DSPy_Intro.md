@@ -120,6 +120,12 @@ This is the "Compiler". The Optimizer runs your program against a training set, 
 
 ---
 
+## 6. Connecting DSPy to Markov Decision Cassettes & The 4-Layer Eval Matrix
+
+See **[10. Companion Primitives — Closing the Loop with DSPy](../Agents/10_Companion_Primitives_BAML_KV_A2A_A2UI_Safety_DSPy.md)** (and [`../Agents/examples/06_companion_primitives_suite.py`](../Agents/examples/06_companion_primitives_suite.py)) for how to connect DSPy's `MIPROv2` / `BootstrapFewShot` optimizer directly to your **Markov Decision Cassettes** ([Module 09](../Agents/09_Durable_State_Memory_and_Persona_Architecture.md)) and **4-Layer Unified Eval Metric** ($\text{Pass}^3 \times 1/\text{TAF}$) to automatically re-compile `SKILL.md` decision nodes when migrating from Frontier to Flash/SLM models.
+
+---
+
 ## 6. How to Measure Success
 
 In DSPy, "Measurement" drives "Optimization".

@@ -185,3 +185,4 @@ python my_mcp_server.py
 | [04_building_servers.md](./04_building_servers.md) | Server implementation guide |
 | [05_pros_and_cons.md](./05_pros_and_cons.md) | Specification evolution & architectural trade-offs |
 | [06_mcp_app.md](./06_mcp_app.md) | MCP Apps (`ui://` interactive UI extension) |
+| [src/README.md](./src/README.md) | Runnable Python 3 reference examples (`01`–`05`) & how to run |
