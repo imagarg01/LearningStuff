@@ -1,10 +1,15 @@
 # **Strategic Vision 2030: Industrializing Trust in the Global Gemological Infrastructure**
 
+**Report Suite Navigation:**  
+📍 **[1. Master Summary](./Summary.md)** | 📊 **[2. Forensic, Valuation & Timing Upgrade](./Forensic-Valuation-And-Timing-Upgrade.md)** | ⚙️ **[3. Financial & Unit Economics Framework](./Financial%20Analysis%20Framework%20For%20IGIL.md)** | 🔗 **[4. Value Chain & In-Factory Moat](./Gemmological%20Institute%20Value%20Chain%20Analysis.md)** | 🚀 **[5. Vision 2030 Strategy & AI Roadmap (You Are Here)](./Gemmological%20Institute%20Strategy%20Report%20Creation.md)**
+
+---
+
 ## **Executive Summary: The Mechanism of Value Creation**
 
-The International Gemmological Institute (IGI) has entered a definitive phase of corporate maturation, marked by its transition from a family-owned European entity to a Blackstone-backed, publicly listed powerhouse in the Indian capital markets. This strategic evolution is not merely a change in ownership structure but a fundamental pivot in the operational mechanism of the global diamond trade. As of late 2024 and entering 2025, IGI operates as the central clearinghouse for trust in the Laboratory Grown Diamond (LGD) sector, commanding a dominant 65% global market share by volume 1 and approximately 50% of the total diamond certification market in India.3 The organization’s financial engine is robust, characterized by an EBITDA margin profile of 57-60% 2 and a Return on Capital Employed (ROCE) of 48%.5
+The International Gemmological Institute (IGI) has entered a definitive phase of corporate maturation, marked by its transition from a family-owned European entity to a Blackstone-backed, publicly listed powerhouse in the Indian capital markets (`NSE: IGIL` | `BSE: 544311`). This strategic evolution is not merely a change in ownership structure but a fundamental pivot in the operational mechanism of the global diamond trade. IGI operates as the central clearinghouse for trust in the Laboratory Grown Diamond (LGD) sector, commanding a dominant **~65% global market share by volume** 1, **~33% overall global certification share**, and **~50% of the total diamond certification market in India**.3 The organization’s financial engine is exceptionally robust: as of **Q2 & H1 FY27 (Ended September 30, 2026)**, consolidated **EBITDA margins expanded to 60.9%–61.4%** (up from 56.9% in CY24 and 59.9% in CY25)2, with **Return on Capital Employed (ROCE) reaching 69.2% and Return on Equity (ROE) at 55.8%**.5 *(See **[Master Summary](./Summary.md)** and **[Forensic, Valuation & Timing Upgrade](./Forensic-Valuation-And-Timing-Upgrade.md)** for the latest cross-validated quarterly financials).*
 
-The core thesis of this strategy report posits that IGI’s future value creation will not stem solely from the linear growth of diamond volumes, but from the industrialization of the certification process itself. The "mechanism over narrative" approach reveals that IGI is effectively a technology-enabled logistics and data verification platform. It functions as a tax on the trade flow of gemstones, where the "tax" is the certification fee paid for market liquidity. With the acquisition of IGI Belgium and IGI Netherlands now consolidated under the Indian entity 4, the operational roadmap for the next decade focuses on three pillars: maintaining LGD dominance through volume-based unit economics, aggressively penetrating the natural diamond midstream via superior turnaround times, and establishing a data-driven moat that insulates the business from labor inflation and subjective grading risks.
+The core thesis of this strategy report posits that IGI’s future value creation will not stem solely from the linear growth of diamond volumes, but from the industrialization of the certification process itself. The "mechanism over narrative" approach reveals that IGI is effectively a technology-enabled logistics and data verification platform. It functions as a tax on the trade flow of gemstones, where the "tax" is the certification fee paid for market liquidity. With the acquisition of **IGI Belgium and IGI Netherlands** (completed Dec 20–24, 2024 for ~$158.2M)4, **American Gemological Laboratories (AGL, New York)** (completed Feb 2026 for $13.2M), and **IGI Botswana** (consolidated Sep 2026) now unified under the Indian parent entity, the operational roadmap for the next decade focuses on three pillars: maintaining LGD dominance through volume-based unit economics, aggressively penetrating the studded jewelry, colored gemstone, and natural diamond midstream via superior turnaround times, and establishing a data-driven moat that insulates the business from labor inflation and subjective grading risks.
 
 This report provides a granular analysis of the unit economics, competitive landscape, and capital allocation frameworks required to sustain a 15-20% annualized revenue growth rate 6 while navigating the geopolitical headwinds of G7 sanctions 7 and the technological disruption of AI-based grading.8
 
@@ -98,7 +103,7 @@ Historically, IGI’s moat was its physical capacity—the ability to grade mill
 
 ### **3.1 The Data Flywheel Moat**
 
-IGI processes over 7 million stones annually.8 This volume generates a proprietary dataset of spectral analyses, images, and grading outcomes that is unrivaled in the LGD sector. This data is the new moat. By feeding this data into the "SwiftCert" AI engines 8, IGI creates a feedback loop:
+IGI now processes **12.81 million stones in CY25 and ~16 million annualized in FY27 (7.91 million reports in H1 FY27 alone; 4.35 million in Q2 FY27)**.8 This volume generates a proprietary dataset of spectral analyses, images, and grading outcomes that is unrivaled in the LGD sector. This data is the new moat. By feeding this data into the "SwiftCert" AI engines 8, IGI creates a feedback loop:
 
 1. **More Volume** $\\rightarrow$ **More Training Data**  
 2. **More Training Data** $\\rightarrow$ **More Accurate/Faster AI**  
@@ -173,8 +178,8 @@ Approximately 20% of free cash flow should be allocated to R\&D. This includes:
 
 IGI has a history of exceptional capital return. In CY2021, the company paid a dividend of 37,500% 1, and in the lead-up to the IPO, significant dividends were distributed. The post-IPO policy is expected to remain shareholder-friendly, given the high cash conversion of the business model.
 
-* **Policy:** A target payout ratio of 30-40% of PAT.  
-* **Mechanism:** The Board declared an interim dividend of ₹2.44 per share in early 2025\.17 This signals a commitment to returning excess cash to shareholders, reinforcing the stock's yield attractiveness.
+* **Policy:** A target payout ratio of 30-50% of PAT.  
+* **Mechanism:** The Board declared interim dividends of **₹2.44 per share** in Feb 2025 (122% of ₹2 face value) and **₹2.55 per share** in 2026 (127.5% of face value).17 This signals a consistent commitment to returning excess cash to shareholders, reinforcing the stock's yield attractiveness. *(See **[Forensic, Valuation & Timing Upgrade — Section 6B](./Forensic-Valuation-And-Timing-Upgrade.md#b-10-year-stock-price--dividend-projections-2026-rightarrow-2036)** for 10-year dividend compounding math).*
 
 **Table 4: Capital Allocation Framework (Post-IPO)**
 
