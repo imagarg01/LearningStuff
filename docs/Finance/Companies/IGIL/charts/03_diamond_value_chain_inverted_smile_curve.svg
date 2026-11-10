@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 500" width="100%" height="100%" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="igilTower" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <linearGradient id="otherBar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1050" height="500" rx="14" fill="url(#bgGrad3)" stroke="#334155" stroke-width="1.5"/>
+
+  <text x="36" y="42" fill="#f8fafc" font-size="20" font-weight="700">The "Inverted Smile Curve": Why IGIL Captures 61.4% EBITDA Margins in the Middle of the Chain</text>
+  <text x="36" y="64" fill="#94a3b8" font-size="13">While miners, LGD growers, and Surat polishers bear heavy capex and inventory risk for 2%–30% margins, IGIL taxes information asymmetry with zero inventory risk.</text>
+
+  <!-- Grid Lines -->
+  <g stroke="#334155" stroke-width="1">
+    <line x1="85" y1="400" x2="985" y2="400"/>
+    <line x1="85" y1="320" x2="985" y2="320" stroke-dasharray="3,3"/>
+    <line x1="85" y1="240" x2="985" y2="240" stroke-dasharray="3,3"/>
+    <line x1="85" y1="160" x2="985" y2="160" stroke-dasharray="3,3"/>
+  </g>
+  <text x="75" y="404" fill="#94a3b8" font-size="11" text-anchor="end">0%</text>
+  <text x="75" y="324" fill="#94a3b8" font-size="11" text-anchor="end">20%</text>
+  <text x="75" y="244" fill="#94a3b8" font-size="11" text-anchor="end">40%</text>
+  <text x="75" y="164" fill="#94a3b8" font-size="11" text-anchor="end">60%</text>
+  <text x="30" y="260" fill="#cbd5e1" font-size="12" font-weight="700" transform="rotate(-90 30,260)" text-anchor="middle">EBITDA Margin Profile (%)</text>
+
+  <!-- Stage 1: Upstream Natural Mining -->
+  <rect x="125" y="328" width="110" height="72" rx="5" fill="url(#otherBar)" stroke="#64748b"/>
+  <text x="180" y="318" fill="#e2e8f0" font-size="13" font-weight="700" text-anchor="middle">16% – 20%</text>
+  <text x="180" y="422" fill="#f8fafc" font-size="12" font-weight="700" text-anchor="middle">1. Upstream Mining</text>
+  <text x="180" y="438" fill="#94a3b8" font-size="10.5" text-anchor="middle">(De Beers, Alrosa)</text>
+  <text x="180" y="454" fill="#f87171" font-size="10" text-anchor="middle">Heavy Capex &amp; Sanctions</text>
+
+  <!-- Stage 2: Upstream LGD Growers -->
+  <rect x="295" y="288" width="110" height="112" rx="5" fill="url(#otherBar)" stroke="#64748b"/>
+  <text x="350" y="278" fill="#e2e8f0" font-size="13" font-weight="700" text-anchor="middle">20% – 35%</text>
+  <text x="350" y="422" fill="#f8fafc" font-size="12" font-weight="700" text-anchor="middle">2. LGD Growers</text>
+  <text x="350" y="438" fill="#94a3b8" font-size="10.5" text-anchor="middle">(CVD / HPHT Reactors)</text>
+  <text x="350" y="454" fill="#f87171" font-size="10" text-anchor="middle">Deflating Stone Prices</text>
+
+  <!-- Stage 3: Midstream Cutting & Polishing -->
+  <rect x="465" y="384" width="110" height="16" rx="3" fill="#ef4444" fill-opacity="0.7" stroke="#f87171"/>
+  <text x="520" y="374" fill="#fca5a5" font-size="13" font-weight="700" text-anchor="middle">2% – 5%</text>
+  <text x="520" y="422" fill="#f8fafc" font-size="12" font-weight="700" text-anchor="middle">3. Surat Polishers</text>
+  <text x="520" y="438" fill="#94a3b8" font-size="10.5" text-anchor="middle">("Hostage Payers")</text>
+  <text x="520" y="454" fill="#f87171" font-size="10" text-anchor="middle">Zero Pricing Power</text>
+
+  <!-- Stage 4: IGIL Certification Toll-Gate -->
+  <rect x="635" y="154" width="130" height="246" rx="6" fill="url(#igilTower)" stroke="#34d399" stroke-width="2"/>
+  <text x="700" y="125" fill="#6ee7b7" font-size="15" font-weight="800" text-anchor="middle">61.4% EBITDA</text>
+  <text x="700" y="143" fill="#a7f3d0" font-size="11" font-weight="600" text-anchor="middle">(69.2% ROCE | ~68% India)</text>
+  <text x="700" y="245" fill="#ecfdf5" font-size="11" font-weight="700" text-anchor="middle">Zero Inventory</text>
+  <text x="700" y="262" fill="#ecfdf5" font-size="11" font-weight="700" text-anchor="middle">Zero Raw Material</text>
+  <text x="700" y="279" fill="#fde047" font-size="11" font-weight="700" text-anchor="middle">~65% LGD Share</text>
+  <text x="700" y="296" fill="#ecfdf5" font-size="10.5" text-anchor="middle">In-Factory Lock-In</text>
+  <text x="700" y="422" fill="#6ee7b7" font-size="12.5" font-weight="800" text-anchor="middle">4. IGIL (Gatekeeper)</text>
+  <text x="700" y="438" fill="#34d399" font-size="10.5" font-weight="600" text-anchor="middle">Mandatory Toll on Trust</text>
+  <text x="700" y="454" fill="#a7f3d0" font-size="10" text-anchor="middle">46.7% PAT Margin (Q2'27)</text>
+
+  <!-- Stage 5: Downstream Retail -->
+  <rect x="825" y="360" width="110" height="40" rx="5" fill="url(#otherBar)" stroke="#64748b"/>
+  <text x="880" y="350" fill="#e2e8f0" font-size="13" font-weight="700" text-anchor="middle">8% – 12%</text>
+  <text x="880" y="422" fill="#f8fafc" font-size="12" font-weight="700" text-anchor="middle">5. Jewelry Retail</text>
+  <text x="880" y="438" fill="#94a3b8" font-size="10.5" text-anchor="middle">("The Kingmakers")</text>
+  <text x="880" y="454" fill="#cbd5e1" font-size="10" text-anchor="middle">Titan, Kalyan, Signet</text>
+
+  <!-- Connecting Curve Showing the Inverted Smile -->
+  <path d="M 180,328 Q 350,288 520,384 L 700,154 L 880,360" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="5,4"/>
+</svg>

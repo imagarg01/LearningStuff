@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 490" width="100%" height="100%" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad5" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1050" height="490" rx="14" fill="url(#bgGrad5)" stroke="#334155" stroke-width="1.5"/>
+
+  <text x="36" y="42" fill="#f8fafc" font-size="20" font-weight="700">The 90.82% Institutional Lock-Up &amp; Dec 2027 SEBI 75% MPS Catalyst (43.21 Cr Shares)</text>
+  <text x="36" y="64" fill="#94a3b8" font-size="13">As of Q2 FY27 (Sep 30, 2026), only 9.18% of IGIL is in public/retail hands—creating a tight float today and a passive index inclusion catalyst in 2027.</text>
+
+  <!-- Horizontal Stacked Bar of 100% Ownership -->
+  <text x="50" y="102" fill="#e2e8f0" font-size="13" font-weight="700">1. Current Shareholding Structure (Q2 FY27 / Sep 30, 2026 — Total: 43.21 Crore Shares)</text>
+
+  <rect x="50" y="114" width="727" height="54" rx="6" fill="#3b82f6" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="413" y="138" fill="#ffffff" font-size="14" font-weight="800" text-anchor="middle">Promoter: Blackstone (BCP Asia II TopCo) — 76.55% (33.08 Cr Shares | 0% Pledged)</text>
+  <text x="413" y="156" fill="#dbeafe" font-size="11" text-anchor="middle">Must reduce below 75.00% by Dec 19, 2027 (SEBI 3-Yr MPS Rule)</text>
+
+  <rect x="779" y="114" width="84" height="54" rx="4" fill="#10b981" stroke="#34d399" stroke-width="1.5"/>
+  <text x="821" y="138" fill="#ffffff" font-size="12" font-weight="800" text-anchor="middle">FIIs: 8.80%</text>
+  <text x="821" y="154" fill="#d1fae5" font-size="10" text-anchor="middle">(3.80 Cr)</text>
+
+  <rect x="865" y="114" width="52" height="54" rx="4" fill="#8b5cf6" stroke="#c4b5fd" stroke-width="1.5"/>
+  <text x="891" y="138" fill="#ffffff" font-size="11" font-weight="800" text-anchor="middle">DIIs</text>
+  <text x="891" y="154" fill="#ede9fe" font-size="10" font-weight="700" text-anchor="middle">5.47%</text>
+
+  <rect x="919" y="114" width="81" height="54" rx="4" fill="#f59e0b" stroke="#fde047" stroke-width="1.5"/>
+  <text x="959" y="138" fill="#0f172a" font-size="11.5" font-weight="800" text-anchor="middle">Retail Float</text>
+  <text x="959" y="154" fill="#0f172a" font-size="11" font-weight="800" text-anchor="middle">Only 9.18%!</text>
+
+  <!-- Bracket showing 90.82% Institutional Lock-up -->
+  <path d="M 50,176 L 50,186 L 917,186 L 917,176" fill="none" stroke="#34d399" stroke-width="2"/>
+  <rect x="340" y="177" width="280" height="22" rx="4" fill="#064e3b" stroke="#10b981"/>
+  <text x="480" y="192" fill="#6ee7b7" font-size="11.5" font-weight="800" text-anchor="middle">90.82% Locked in Institutional Hands (39.24 Cr Sh)</text>
+
+  <!-- Bottom Two Cards: Left = Marquee Public Institutional Register | Right = Dec 2027 MPS Catalyst Flow -->
+  <rect x="50" y="218" width="465" height="240" rx="10" fill="#0f172a" fill-opacity="0.7" stroke="#334155"/>
+  <text x="68" y="245" fill="#6ee7b7" font-size="13.5" font-weight="700">2. Marquee Sovereign, Endowment &amp; MF Register (&gt;1%)</text>
+  <text x="68" y="264" fill="#94a3b8" font-size="10.8">These 5–10 year holders lock up ~22% of the entire non-promoter public float:</text>
+
+  <!-- Pill 1: ICICI Pru -->
+  <rect x="68" y="280" width="428" height="34" rx="6" fill="#1e293b" stroke="#8b5cf6"/>
+  <text x="80" y="301" fill="#f8fafc" font-size="11" font-weight="700">ICICI Prudential Mutual Fund</text>
+  <text x="484" y="301" fill="#c4b5fd" font-size="11" font-weight="700" text-anchor="end">1.67%+ Stake (DII Anchor)</text>
+
+  <!-- Pill 2: GIC Singapore -->
+  <rect x="68" y="322" width="428" height="34" rx="6" fill="#1e293b" stroke="#10b981"/>
+  <text x="80" y="343" fill="#f8fafc" font-size="11" font-weight="700">Government of Singapore (GIC)</text>
+  <text x="484" y="343" fill="#6ee7b7" font-size="11" font-weight="700" text-anchor="end">1.32% Stake (Sovereign Wealth)</text>
+
+  <!-- Pill 3: ADIA -->
+  <rect x="68" y="364" width="428" height="34" rx="6" fill="#1e293b" stroke="#10b981"/>
+  <text x="80" y="385" fill="#f8fafc" font-size="11" font-weight="700">Abu Dhabi Inv. Authority (ADIA)</text>
+  <text x="484" y="385" fill="#6ee7b7" font-size="11" font-weight="700" text-anchor="end">1.11% Stake (Sovereign Wealth)</text>
+
+  <!-- Pill 4: MIT Endowment -->
+  <rect x="68" y="406" width="428" height="34" rx="6" fill="#1e293b" stroke="#38bdf8"/>
+  <text x="80" y="427" fill="#f8fafc" font-size="11" font-weight="700">MIT Endowment + Norway GPFA</text>
+  <text x="484" y="427" fill="#7dd3fc" font-size="11" font-weight="700" text-anchor="end">1.00%+ Stake (US Endowment)</text>
+
+  <!-- Right Card: Game Theory of the Dec 2027 MPS Block Deal -->
+  <rect x="530" y="218" width="470" height="240" rx="10" fill="#0f172a" fill-opacity="0.7" stroke="#334155"/>
+  <text x="548" y="245" fill="#fde047" font-size="13.5" font-weight="700">3. The Dec 2027 SEBI 75% MPS &amp; Index Inclusion Catalyst</text>
+
+  <rect x="548" y="264" width="434" height="48" rx="6" fill="#1e293b" stroke="#3b82f6"/>
+  <text x="562" y="284" fill="#93c5fd" font-size="11.5" font-weight="700">Step 1: Alignment Window (₹415 &#8594; ₹480–₹520+)</text>
+  <text x="562" y="301" fill="#cbd5e1" font-size="10.3">Blackstone wants maximum EBITDA, high dividends &amp; higher stock price before selling.</text>
+
+  <rect x="548" y="326" width="434" height="48" rx="6" fill="#1e293b" stroke="#f59e0b"/>
+  <text x="562" y="346" fill="#fde047" font-size="11.5" font-weight="700">Step 2: 10%–15% Institutional Block Deal (Before Dec 19, 2027)</text>
+  <text x="562" y="363" fill="#cbd5e1" font-size="9.6">Instead of 1.55%, PE typically places a 10%–15% block (~₹2,200–3,000 Cr) with FIIs/DIIs.</text>
+
+  <rect x="548" y="388" width="434" height="52" rx="6" fill="#064e3b" stroke="#10b981"/>
+  <text x="562" y="408" fill="#6ee7b7" font-size="11.5" font-weight="700">Step 3: Free Float Jumps &gt;50% &#8594; Passive MSCI / FTSE / Nifty Buying!</text>
+  <text x="562" y="425" fill="#ecfdf5" font-size="9.6">Dropping below 75% promoter holding unlocks mandatory passive index inflows &amp; 35x+ P/E.</text>
+</svg>

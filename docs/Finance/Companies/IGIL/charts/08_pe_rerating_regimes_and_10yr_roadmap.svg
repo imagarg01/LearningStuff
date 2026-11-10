@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 510" width="100%" height="100%" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad8" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arrowG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <rect width="1050" height="510" rx="14" fill="url(#bgGrad8)" stroke="#334155" stroke-width="1.5"/>
+
+  <text x="36" y="40" fill="#f8fafc" font-size="20" font-weight="700">P/E Re-Rating Probability Tree (2026–2028) &amp; 10-Year Compounding Roadmap (2026–2036)</text>
+  <text x="36" y="62" fill="#94a3b8" font-size="13">Mapping the 3 near-term P/E multiple regimes off Upgraded FY27E EPS (₹16.80) / FY28E EPS (₹19.80) and the 3-Phase "Buy &amp; Verify" decade roadmap.</text>
+
+  <!-- TOP HALF: 3 P/E Re-Rating Regimes (2026 -> 2028) -->
+  <text x="40" y="92" fill="#e2e8f0" font-size="13.5" font-weight="700">Part A: Probability-Weighted P/E Re-Rating Regimes (2026 &#8594; 2028)</text>
+
+  <!-- Current Box (Left) -->
+  <rect x="40" y="135" width="215" height="98" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+  <text x="147" y="158" fill="#7dd3fc" font-size="12.5" font-weight="800" text-anchor="middle">TODAY (Nov 2026 @ ~₹415)</text>
+  <text x="147" y="177" fill="#f8fafc" font-size="11" font-weight="600" text-anchor="middle">• ~27x TTM P/E</text>
+  <text x="147" y="194" fill="#6ee7b7" font-size="11" font-weight="700" text-anchor="middle">• ~24.5x FY27E P/E (EPS ₹16.8)</text>
+  <text x="147" y="211" fill="#fde047" font-size="11" font-weight="700" text-anchor="middle">• ~20.8x FY28E P/E (EPS ₹19.8)</text>
+  <text x="147" y="226" fill="#94a3b8" font-size="9.5" text-anchor="middle">(Up +30% from ₹320 Stage 1 Base)</text>
+
+  <!-- Connectors from Today to 3 Regimes -->
+  <path d="M 255,165 L 320,132" fill="none" stroke="#10b981" stroke-width="2.5"/>
+  <path d="M 255,184 L 320,204" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
+  <path d="M 255,205 L 320,276" fill="none" stroke="#f59e0b" stroke-width="2"/>
+
+  <!-- Regime 1: Base Re-Rating (65-70% Prob) -->
+  <rect x="325" y="102" width="685" height="60" rx="7" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+  <text x="342" y="122" fill="#6ee7b7" font-size="12" font-weight="800">1. Base Re-Rating Regime — 65% to 70% Probability (Already in Motion)</text>
+  <text x="342" y="138" fill="#ecfdf5" font-size="10">• <tspan fill="#fde047" font-weight="700">28x–32x Trailing P/E (25x–29x FY28E):</tspan> Driven by Q1 (+5%) &amp; Q2 (+4%) ARP</text>
+  <text x="342" y="152" fill="#ecfdf5" font-size="10">  rebound + 61.4% EBITDA margin + LGD Studded Jewelry (+47% YoY in Q2).</text>
+  <rect x="835" y="111" width="160" height="42" rx="5" fill="#047857" stroke="#34d399"/>
+  <text x="915" y="130" fill="#ffffff" font-size="13" font-weight="800" text-anchor="middle">₹500 – ₹580</text>
+  <text x="915" y="145" fill="#a7f3d0" font-size="9.5" font-weight="600" text-anchor="middle">(+20% to +40% vs ₹415)</text>
+
+  <!-- Regime 2: Bull Re-Rating (20-25% Prob) -->
+  <rect x="325" y="172" width="685" height="60" rx="7" fill="#1e293b" stroke="#3b82f6" stroke-width="1.8"/>
+  <text x="342" y="192" fill="#93c5fd" font-size="12" font-weight="800">2. Bull Re-Rating ("The CRISIL / Post-MPS Multiple") — 20% to 25% Probability</text>
+  <text x="342" y="208" fill="#cbd5e1" font-size="10">• <tspan fill="#7dd3fc" font-weight="700">35x–40x Trailing P/E (32x–36x FY28E):</tspan> Triggered after Blackstone's 10%–15% MPS</text>
+  <text x="342" y="222" fill="#cbd5e1" font-size="10">  block deal unlocks &gt;50% Free Float &amp; passive MSCI / FTSE / Nifty inflows.</text>
+  <rect x="835" y="181" width="160" height="42" rx="5" fill="#1d4ed8" stroke="#60a5fa"/>
+  <text x="915" y="200" fill="#ffffff" font-size="13" font-weight="800" text-anchor="middle">₹680 – ₹780+</text>
+  <text x="915" y="215" fill="#dbeafe" font-size="9.5" font-weight="600" text-anchor="middle">(+64% to +88% vs ₹415)</text>
+
+  <!-- Regime 3: Capped Multiple (15% Prob) -->
+  <rect x="325" y="242" width="685" height="60" rx="7" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="342" y="262" fill="#fde047" font-size="12" font-weight="800">3. Supply-Capped Multiple (No P/E Expansion) — 15% Probability</text>
+  <text x="342" y="278" fill="#cbd5e1" font-size="10">• <tspan fill="#fde68a" font-weight="700">20x–24x P/E Cap:</tspan> Heavy PE block supply caps P/E at 22x–24x, <tspan fill="#6ee7b7" font-weight="700">yet 20%+ EPS</tspan></text>
+  <text x="342" y="292" fill="#cbd5e1" font-size="10">  <tspan fill="#6ee7b7" font-weight="700">compounding alone still lifts stock to ₹450–₹480!</tspan></text>
+  <rect x="835" y="251" width="160" height="42" rx="5" fill="#78350f" stroke="#f59e0b"/>
+  <text x="915" y="270" fill="#fef3c7" font-size="13" font-weight="800" text-anchor="middle">₹450 – ₹480</text>
+  <text x="915" y="285" fill="#fde68a" font-size="9.5" font-weight="600" text-anchor="middle">(Protected by EPS Growth)</text>
+
+  <!-- Divider -->
+  <line x1="40" y1="322" x2="1010" y2="322" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- BOTTOM HALF: 3-Phase 10-Year Checkpoint Roadmap (2026 -> 2036) -->
+  <text x="40" y="348" fill="#e2e8f0" font-size="13.5" font-weight="700">Part B: The 10-Year "Buy &amp; Verify" Compounding Roadmap (2026 &#8594; 2036)</text>
+
+  <!-- Phase 1 -->
+  <rect x="40" y="364" width="295" height="122" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.8"/>
+  <text x="56" y="388" fill="#6ee7b7" font-size="13" font-weight="800">PHASE 1: 2026 – 2028</text>
+  <text x="56" y="408" fill="#ffffff" font-size="14" font-weight="800">Target: ₹500 – ₹650</text>
+  <text x="56" y="428" fill="#cbd5e1" font-size="10.5">• H1 FY27 Earnings Surge (+37% PAT)</text>
+  <text x="56" y="444" fill="#cbd5e1" font-size="10.5">• Stage 2 Breakout above ₹417 IPO price</text>
+  <text x="56" y="460" fill="#fde047" font-size="10.5" font-weight="600">• Catalyst: Dec '27 MPS Block &amp; Index Inflow</text>
+
+  <line x1="335" y1="425" x2="372" y2="425" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrowG)"/>
+
+  <!-- Phase 2 -->
+  <rect x="378" y="364" width="295" height="122" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.8"/>
+  <text x="394" y="388" fill="#93c5fd" font-size="13" font-weight="800">PHASE 2: 2028 – 2031</text>
+  <text x="394" y="408" fill="#ffffff" font-size="14" font-weight="800">Target: ₹900 – ₹1,200</text>
+  <text x="394" y="428" fill="#cbd5e1" font-size="10.5">• Blackstone Full Exit &#8594; 100% Inst. Float</text>
+  <text x="394" y="444" fill="#cbd5e1" font-size="10.5">• AI "SwiftCert" expands margins &gt;62%</text>
+  <text x="394" y="460" fill="#fde047" font-size="10.5" font-weight="600">• 2029 Gate: Jewelry + AGL + ND &gt; 50% Rev</text>
+
+  <line x1="673" y1="425" x2="710" y2="425" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrowG)"/>
+
+  <!-- Phase 3 -->
+  <rect x="716" y="364" width="294" height="122" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="2"/>
+  <text x="732" y="388" fill="#6ee7b7" font-size="13" font-weight="800">PHASE 3: 2031 – 2036</text>
+  <text x="732" y="408" fill="#ffffff" font-size="14" font-weight="800">Target: ₹1,820 – ₹2,900</text>
+  <text x="732" y="428" fill="#ecfdf5" font-size="10.5">• Global "CRISIL of Gems" Cash Machine</text>
+  <text x="732" y="444" fill="#ecfdf5" font-size="10.5">• Projected 2036 EPS: ₹65 (Base) – ₹88 (Bull)</text>
+  <text x="732" y="460" fill="#fde047" font-size="10.5" font-weight="700">• +₹185–₹245/sh Cumulative Dividends!</text>
+</svg>

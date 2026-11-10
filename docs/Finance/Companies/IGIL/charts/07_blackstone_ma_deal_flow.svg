@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 470" width="100%" height="100%" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad7" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+  </defs>
+
+  <rect width="1050" height="470" rx="14" fill="url(#bgGrad7)" stroke="#334155" stroke-width="1.5"/>
+
+  <text x="36" y="40" fill="#f8fafc" font-size="20" font-weight="700">Forensic M&amp;A &amp; Capital Flow Timeline: From Blackstone's 2023 Buyout to 2026 Global Expansion</text>
+  <text x="36" y="62" fill="#94a3b8" font-size="13">How IGIL unified 100% of Global IGI under the Indian listed entity (Dec 2024) and bolted on AGL New York, Botswana, Italy &amp; Saudi Arabia in 2026.</text>
+
+  <!-- Step 1: May 2023 Buyout -->
+  <rect x="40" y="90" width="460" height="82" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.8"/>
+  <text x="58" y="114" fill="#93c5fd" font-size="13" font-weight="800">1. May 2023: Blackstone (BCP Asia II) Global Buyout</text>
+  <text x="58" y="134" fill="#f8fafc" font-size="11.5">Acquired 100% of Global IGI (India + Belgium + Netherlands + USA)</text>
+  <text x="58" y="152" fill="#cbd5e1" font-size="11">From Fosun Intl (80% distressed seller) &amp; Lorie Family (20%) for <tspan fill="#fde047" font-weight="700">~$570M (~₹4,700 Cr)</tspan></text>
+
+  <!-- Arrow 1 -> 2 -->
+  <line x1="500" y1="131" x2="545" y2="131" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 2: Dec 2024 IPO -->
+  <rect x="550" y="90" width="460" height="82" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.8"/>
+  <text x="568" y="114" fill="#fde047" font-size="13" font-weight="800">2. Dec 13–20, 2024: ₹4,225 Crore India IPO (@ ₹417/Share)</text>
+  <text x="568" y="134" fill="#f8fafc" font-size="11.5">Listed on NSE/BSE at ~₹18,000 Cr Market Cap (~4x Mark-up in 18 Months)</text>
+  <text x="568" y="152" fill="#cbd5e1" font-size="11">• <tspan fill="#fca5a5" font-weight="700">OFS: ₹2,750 Cr</tspan> (6.59 Cr sh to Blackstone) &#160;|&#160; • <tspan fill="#6ee7b7" font-weight="700">Fresh Issue: ₹1,475 Cr</tspan> (3.54 Cr sh)</text>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 780,172 L 780,198 L 270,198 L 270,218" fill="none" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 3: Dec 20-31, 2024 Global Consolidation -->
+  <rect x="40" y="222" width="460" height="90" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.8"/>
+  <text x="58" y="246" fill="#c4b5fd" font-size="12.5" font-weight="800">3. Dec 20–31, 2024: Global Unification Under IGIL India</text>
+  <text x="58" y="266" fill="#f8fafc" font-size="10.5">Paid <tspan fill="#fde047" font-weight="700">~$158.2M (~₹1,300 Cr)</tspan> from Fresh Issue to Blackstone affiliates for:</text>
+  <text x="58" y="284" fill="#cbd5e1" font-size="10.5">• <tspan fill="#e2e8f0" font-weight="700">100% IGI Netherlands ($88.44M)</tspan> + <tspan fill="#e2e8f0" font-weight="700">100% IGI Belgium ($69.76M)</tspan></text>
+  <text x="58" y="301" fill="#6ee7b7" font-size="9.8" font-weight="600">✓ Zero offshore royalties; 1st Full Consolidated Year: CY25 (₹1,229 Cr Rev)</text>
+
+  <!-- Arrow 3 -> 4 -->
+  <line x1="500" y1="267" x2="545" y2="267" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 4: Feb 2026 & Sep 2026 Third-Party M&A & Hub Expansion -->
+  <rect x="550" y="222" width="460" height="90" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+  <text x="568" y="246" fill="#6ee7b7" font-size="12.5" font-weight="800">4. CY26 / FY27: Colored Stones M&amp;A &amp; Global Hub Scale-Up</text>
+  <text x="568" y="266" fill="#ecfdf5" font-size="10.2">• <tspan fill="#fde047" font-weight="700">Feb 2026 — AGL (New York):</tspan> Acquired 100% for <tspan fill="#fde047" font-weight="700">$13.2M (~₹121 Cr)</tspan> ($9M upfront</text>
+  <text x="568" y="283" fill="#ecfdf5" font-size="10.2">  + $4.2M deferred) &#8594; Multi-fold Colored Gemstone growth in Q1 &amp; Q2 FY27!</text>
+  <text x="568" y="301" fill="#a7f3d0" font-size="9.8" font-weight="700">• Sep 2026: Consolidated IGI Botswana (100%), launched Italy &amp; Saudi (+31% YoY Intl)</text>
+
+  <!-- Bottom Forensic Verdict Strip: Two-Sided Narrative -->
+  <rect x="40" y="330" width="470" height="120" rx="10" fill="#1e1b2e" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="58" y="353" fill="#fca5a5" font-size="12" font-weight="800">SIDE A (Bear / Cynical View): The 19-Month 4.5x PE Flip</text>
+  <text x="58" y="373" fill="#e2e8f0" font-size="10">• Bought for <tspan fill="#fde047" font-weight="700">₹4,700 Cr (May '23)</tspan> &#8594; Listed at <tspan fill="#fca5a5" font-weight="700">₹18,000–22,000 Cr (Dec '24)</tspan>.</text>
+  <text x="58" y="391" fill="#e2e8f0" font-size="10">• Pocketed <tspan fill="#fca5a5" font-weight="700">₹4,050 Cr cash on Day 1</tspan> (₹2,750 Cr OFS + ₹1,300 Cr Fresh Issue</text>
+  <text x="58" y="406" fill="#e2e8f0" font-size="10">  for Belgium/NL = 86% of cost back!) while still keeping <tspan fill="#fde047" font-weight="700">76.55% stake</tspan>.</text>
+  <text x="58" y="424" fill="#fca5a5" font-size="10" font-weight="600">• Retail chasers at ₹520–550 (52x P/E) suffered a -45% crash to ₹287.</text>
+
+  <rect x="525" y="330" width="485" height="120" rx="10" fill="#062e26" stroke="#10b981" stroke-width="1.5"/>
+  <text x="543" y="353" fill="#6ee7b7" font-size="12" font-weight="800">SIDE B (Institutional Counter-View): Why the Asset Is Real</text>
+  <text x="543" y="373" fill="#ecfdf5" font-size="10">• <tspan fill="#fde047" font-weight="700">Distressed Buy:</tspan> Fosun's $30B China debt crisis forced a 10x EBITDA fire-sale.</text>
+  <text x="543" y="391" fill="#ecfdf5" font-size="10">• <tspan fill="#6ee7b7" font-weight="700">69% ROCE + IP Alignment:</tspan> Putting Belgium/NL under India stopped offshore</text>
+  <text x="543" y="406" fill="#ecfdf5" font-size="10">  royalties; keeping ₹4,000 Cr idle cash in FDs would have crashed ROE to 14%.</text>
+  <text x="543" y="424" fill="#6ee7b7" font-size="10" font-weight="700">• PAT More Than Doubled: ₹331 Cr (CY23) &#8594; ₹532 Cr (CY25) &#8594; ~₹725 Cr (FY27E)!</text>
+</svg>

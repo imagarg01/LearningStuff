@@ -5,11 +5,19 @@
 
 > [!IMPORTANT]
 > **Executive Verdict (Updated November 2026 — Post-Q2 & H1 FY27 Results):**  
-> **IGIL (`NSE: IGIL` | `BSE: 544311`)** is a debt-free, capital-light "Gatekeeper of Trust" commanding a **~65% global share in Lab-Grown Diamond (LGD) certification** and **~33% overall share**. After de-rating from a post-IPO bubble of **50x+ P/E (₹550+)** down to **~22.5x P/E (~₹320)**, the stock has inflected upward into **~₹407–₹425 (52W High: ₹440)** on the back of **record Q2 FY27 results (+31% YoY Revenue, +38.8% YoY EBITDA at 61.4% margin, +43.2% YoY PAT)**. Trading at **~24.5x FY27E EPS (₹16.80)** and **~20.8x FY28E EPS (₹19.80)**, IGIL remains on a high-conviction trajectory toward **₹500–₹580 in 2027**.
+
+> **IGIL (`NSE: IGIL` | `BSE: 544311`)** is a debt-free, capital-light "Gatekeeper of Trust" commanding
+
+- **~65% global share in Lab-Grown Diamond (LGD) certification**
+- **~33% overall share**
+
+After de-rating from a post-IPO bubble of **50x+ P/E (₹550+)** down to **~22.5x P/E (~₹320)**, the stock has inflected upward into **~₹407–₹425 (52W High: ₹440)** on the back of **record Q2 FY27 results (+31% YoY Revenue, +38.8% YoY EBITDA at 61.4% margin, +43.2% YoY PAT)**.
+
+Trading at **~24.5x FY27E EPS (₹16.80)** and **~20.8x FY28E EPS (₹19.80)**, IGIL remains on a high-conviction trajectory toward **₹500–₹580 in 2027**.
 
 ---
 
-## 1. Master Snapshot: Single Source of Truth (Cross-Validated)
+## 1. Master Snapshot: Single Source of Truth
 
 ### A. Market & Valuation Snapshot (As of November 2026)
 
@@ -40,18 +48,30 @@
 | **PAT Margin (%)** | 40.57% | **43.25%** | **44.7%** | **46.7%** *(+396 bps YoY)* | **45.7%** | **~45.9%** | **~45.5%** |
 | **EPS (₹ / Share)** | ₹10.77 | **₹12.30** | **₹3.83** | **₹4.30** *(+43.3% YoY)* | **₹8.14** *(6 Months)* | **~₹16.80** | **~₹19.80** |
 
-> 🔗 **Deep Dive Links:** See **[Section 3 of Financial Analysis Framework](./Financial%20Analysis%20Framework%20For%20IGIL.md#3-the-growth-algorithm-deconstructing-the-revenue-equation)** for the revenue equation and **[Section 1 of Forensic Upgrade](./Forensic-Valuation-And-Timing-Upgrade.md#1-the-real-world-lesson-how-igil-de-rated-from-50x-to-23x-pe-then-inflected-on-record-q1--q2-fy27-results)** for the post-IPO valuation arc.
+> 🔗 **Deep Dive Links:** See **[Section 3 of Financial Analysis Framework](./Financial%20Analysis%20Framework%20For%20IGIL.md#3-the-growth-algorithm-deconstructing-the-revenue-equation)** for the revenue equation and **[Section 1 of Forensic Upgrade](./Forensic-Valuation-And-Timing-Upgrade.md#1-the-real-world-lesson-how-igil-de-rated-from-50x-to-225x-pe-then-inflected-on-record-q1--q2-fy27-results)** for the post-IPO valuation arc.
+
+![IGIL Valuation Arc & Stage 2 Breakout](./charts/01_valuation_de_rating_vs_earnings_inflection.png)
+*📊 [Click to Open Crisp Vector SVG](./charts/01_valuation_de_rating_vs_earnings_inflection.svg)*
+
+![IGIL Quarterly Revenue, EBITDA Margin & Volume Progression](./charts/02_quarterly_revenue_ebitda_volume_progression.png)
+*📊 [Click to Open Crisp Vector SVG](./charts/02_quarterly_revenue_ebitda_volume_progression.svg)*
 
 ---
 
-## 2. Business Model, Unit Economics & Three-Layer Moat (Module 1)
+## 2. Business Model, Unit Economics & Three-Layer Moat
 
 ### A. Why Midstream Manufacturers Are "Hostage Payers"
+
 Unlike miners (16–20% EBITDA margins) or Surat diamond polishers (2–5% EBITDA margins), IGIL takes **zero inventory risk** and levies a mandatory toll on trade:
+
 1. **Retailers ("The Kingmakers")** mandate third-party certificates (IGI/GIA) for consumer trust and legal liability protection.
+
 2. **Manufacturers ("The Hostage Payers")** must pay IGIL ₹900–₹1,000 per stone to make their polished inventory liquid.
 
-### B. Atomic Unit P&L of a Single Grading Report (Cross-Validated)
+### B. Atomic Unit P&L of a Single Grading Report
+
+![IGIL Atomic Unit Economics Waterfall](./charts/04_atomic_unit_economics_waterfall.png)
+*📊 [Click to Open Crisp Vector SVG](./charts/04_atomic_unit_economics_waterfall.svg)*
 
 | Unit P&L Line Item | CY24 | CY25 | Q1 FY27 (Jun '26) | Q2 FY27 (Sep '26) | H1 FY27 Blended | Underlying Mechanism |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
@@ -61,20 +81,24 @@ Unlike miners (16–20% EBITDA margins) or Surat diamond polishers (2–5% EBITD
 | **(=) Unit EBITDA** | **₹542** | **₹555** | **₹610** | **₹562** | **₹592** | **61.4% EBITDA margin in Q2 FY27** (~75% incremental margin on new volume). |
 
 > [!NOTE]
-> **Currency & Geography Reality Check (Does IGIL Protect Against a Falling Rupee?):**  
-> * **75%–76% of consolidated revenue is billed in India (in INR)** in Surat/Mumbai, where 90%+ of global diamonds are cut and certified.  
-> * **24%–25% of revenue is Outside India** (Belgium, Netherlands, USA, Dubai/Botswana, Italy in USD/EUR—which grew **+31% YoY ex-AGL in Q2 FY27**), carrying local USD/EUR staff costs (~20–25% EBITDA margin overseas vs. ~65–70% in India).  
-> * **Takeaway:** Direct currency translation gain is modest (**+1% to +1.5% EBITDA per 5% INR depreciation**), *but* indirect competitive protection is massive because IGIL's INR-paid workforce continually gets cheaper in USD terms than US-based rival **GIA**.  
+> **Currency & Geography Reality Check (Does IGIL Protect Against a Falling Rupee?):**
+
+> - **75%–76% of consolidated revenue is billed in India (in INR)** in Surat/Mumbai, where 90%+ of global diamonds are cut and certified.  
+
+> - **24%–25% of revenue is Outside India** (Belgium, Netherlands, USA, Dubai/Botswana, Italy in USD/EUR—which grew **+31% YoY ex-AGL in Q2 FY27**), carrying local USD/EUR staff costs (~20–25% EBITDA margin overseas vs. ~65–70% in India).  
+
+> - **Takeaway:** Direct currency translation gain is modest (**+1% to +1.5% EBITDA per 5% INR depreciation**), *but* indirect competitive protection is massive because IGIL's INR-paid workforce continually gets cheaper in USD terms than US-based rival **GIA**.  
 > 🔗 *See **[Value Chain Analysis — Section 4 & 5](./Gemmological%20Institute%20Value%20Chain%20Analysis.md#4-operational-models-and-value-creation)** and **[Strategy Report — Section 1](./Gemmological%20Institute%20Strategy%20Report%20Creation.md#1-unit-economics-today-vs-5-year-target)**.*
 
 ### C. The Three-Layer Moat
+
 1. **In-Factory Lock-In:** Co-locating IGI labs inside client factories in Surat cuts Turnaround Time (TAT) from 2–3 weeks to **24–48 hours**, creating high operational switching costs.
 2. **Retailer Mandate Network Effect:** Serving 9 of the top 10 global jewelry chains locks midstream suppliers into the IGI standard (**LGD Jewelry certification grew +47% YoY and Loose LGD grew +37% YoY in Q2 FY27**).
 3. **Data Flywheel & AI ("SwiftCert"):** Grading **~16M annualized stones** trains proprietary AI grading algorithms faster than hardware startups.
 
 ---
 
-## 3. Forensic Audit: M&A Timeline, Cash Flows & Shareholding Lock-Up (Modules 2, 3 & 6)
+## 3. Forensic Audit: M&A Timeline, Cash Flows & Shareholding Lock-Up
 
 ### A. Exact M&A Timeline & Cash Flow Audit
 
@@ -86,7 +110,19 @@ Unlike miners (16–20% EBITDA margins) or Surat diamond polishers (2–5% EBITD
 | **Jan 31 / Feb 2026** | **Acquisition of AGL (New York Colored Stones Lab)** | **$13.2M (~₹121 Cr)**<br>*($9.0M upfront + $4.2M deferred)* | Genuine third-party bolt-on M&A (from Chris & Helene Smith). Consolidated from **Q1 FY27 (June 2026)**; drove multi-fold colored gemstone growth in Q2 FY27. |
 | **Sep 2026 (Q2 FY27)** | **Global Hub Expansion: Botswana, Italy & Saudi** | Internal Accruals | Consolidated **IGI Botswana** (100% via IGI Dubai), launched **Italy** lab ops, and preparing **Saudi Arabia** entry. |
 
+> [!WARNING]
+> **Two-Sided Forensic Audit: The "₹4,700 Cr Buyout $\rightarrow$ ₹22,000 Cr IPO Flip" Debate (Both Sides of the Narrative)**  
+> * 🔴 **The Cynical / Bear Side (Where Retail Got Burned at Listing):** In May 2023, Blackstone (*BCP Asia II*) bought 100% of Global IGI for **~$570M (~₹4,700 Cr)**. Just 19 months later (Dec 2024), it listed IGIL at **~₹18,020 Cr** (which hit **₹22,000+ Cr / ₹550+ in listing euphoria**—a **4.5x flip**). By taking **₹2,750 Cr via OFS** plus **~₹1,300 Cr ($158.2M) out of the ₹1,475 Cr Fresh Issue** (to sell IGI Belgium & Netherlands to IGIL India), Blackstone recovered **~₹4,050 Cr (86% of its buyout cost!) on Day 1** while still keeping **76.55% ownership**. Retail investors who chased the 52x P/E IPO hype at ₹500–₹550 suffered a **-45% drawdown to ₹287**.  
+> * 🟢 **The Institutional Counter-Side (Why the Asset Is Real & Why Timing Flipped the Math):**  
+>   1. *Distressed Entry:* Blackstone got IGI cheap in 2023 only because previous 80% owner **Fosun International (China)** faced a **$30B+ debt crisis** and was forced into a ~10x EBITDA fire-sale.  
+>   2. *Governance Alignment:* Putting Belgium (1975 IP owner) and Netherlands 100% under IGIL India prevented permanent offshore brand-royalty siphoning, while taking cash out preserved IGIL's **55.8% ROE / 69.2% ROCE** (since H1 FY27 CFO alone is **₹415.7 Cr = 88.8% of EBITDA**).  
+>   3. *Post-IPO Earnings Doubled:* Unlike "window-dressed PE lemons" whose profits collapse post-IPO, IGIL's annual PAT has more than doubled since the buyout (**~₹331 Cr CY23 $\rightarrow$ ₹427 Cr CY24 $\rightarrow$ ₹532 Cr CY25 $\rightarrow$ ~₹725 Cr FY27E / ₹855 Cr FY28E**). Buying after the de-rating (~20.8x FY28E P/E) lets you ride *with* Blackstone's incentive to drive the stock to **₹500–₹580** ahead of its mandatory **Dec 2027 SEBI 75% MPS institutional block deal**.  
+> 🔗 *See **[Section 2C of Forensic Upgrade](./Forensic-Valuation-And-Timing-Upgrade.md#c-the-two-sided-narrative-did-blackstone-make-retail-the-fool-by-flipping-a-4700-cr-buyout-into-a-22000-cr-ipo)** for the full side-by-side comparison.*
+
 ### B. Shareholding Structure (Q2 FY27 / Sep 30, 2026) & The 90.82% Institutional Lock-Up
+
+![IGIL 90.82% Institutional Lock-Up & SEBI MPS Catalyst](./charts/05_shareholding_lockup_and_mps_catalyst.png)
+*📊 [Click to Open Crisp Vector SVG](./charts/05_shareholding_lockup_and_mps_catalyst.svg)*
 
 | Shareholder Category | Shares (Cr) | % Holding (Sep '26) | Key Named Holders & Game-Theory Alignment |
 | :--- | :---: | :---: | :--- |
@@ -103,11 +139,16 @@ Unlike miners (16–20% EBITDA margins) or Surat diamond polishers (2–5% EBITD
 ## 4. Valuation Scenarios, P/E Re-Rating Probability & 2027–2036 Roadmap (Module 5)
 
 ### A. Why ₹500–₹580 in 2027 Is Mathematically Supported (Even After the Rally to ~₹415)
+
 At **₹500/share** (Market Cap: ₹21,605 Cr), against upgraded **FY27E EPS of ₹16.80** and **FY28E EPS of ₹19.80**:
-* **Implied FY27E Trailing P/E at ₹500:** **29.8x**
-* **Implied FY28E Forward P/E at ₹500:** **25.2x** *(slightly below today's ~26.5x–27.6x TTM P/E—meaning **earnings growth alone now carries the stock to ₹500+ with zero additional multiple expansion!**)*
+
+- **Implied FY27E Trailing P/E at ₹500:** **29.8x**
+- **Implied FY28E Forward P/E at ₹500:** **25.2x** *(slightly below today's ~26.5x–27.6x TTM P/E—meaning **earnings growth alone now carries the stock to ₹500+ with zero additional multiple expansion!**)*
 
 ### B. P/E Re-Rating Regimes & 2027–2028 Price Targets
+
+![IGIL P/E Re-Rating Probability Tree & 10-Year Roadmap](./charts/08_pe_rerating_regimes_and_10yr_roadmap.png)
+*📊 [Click to Open Crisp Vector SVG](./charts/08_pe_rerating_regimes_and_10yr_roadmap.svg)*
 
 | Valuation Regime | Target Trailing P/E (Forward P/E) | **Probability** | Key Catalyst / Driver | **2027–28 Target Price (vs. ₹415 CMP / ₹320 Base)** |
 | :--- | :---: | :---: | :--- | :---: |
@@ -125,6 +166,7 @@ At **₹500/share** (Market Cap: ₹21,605 Cr), against upgraded **FY27E EPS of 
 
 > [!TIP]
 > **Actionable Portfolio Triggers & The 2029 Checkpoint:**  
+>
 > - [x] **Trigger 1 (Fundamental Inflection — ACHIEVED):** Q1 (+23% Rev) & Q2 FY27 (+31% Rev, 61.4% EBITDA margin, +4% YoY ARP).  
 > - [x] **Trigger 2 (Stage 2 Breakout — ACHIEVED):** Stock rallied from ₹287–₹320 base past the ₹417 IPO price to a ₹440 52-week high.  
 > - [ ] **Trigger 3 (MPS Block Deal Watch at ₹450–₹500):** Watch for Blackstone's 10%–15% block deal ahead of the **Dec 19, 2027** SEBI MPS deadline.  
@@ -134,7 +176,10 @@ At **₹500/share** (Market Cap: ₹21,605 Cr), against upgraded **FY27E EPS of 
 
 ## 5. Anti-Thesis Matrix: Probabilities, P&L Impact & Kill-Switches
 
-Because **~75% of IGIL's operating costs are fixed/semi-fixed**, a pure pricing (ARP) shock flows ~100% to EBITDA, while a volume shock carries a ~75% incremental margin impact. Track these **6 Kill-Switches** every quarter (detailed in **[Section 7 of Forensic Upgrade](./Forensic-Valuation-And-Timing-Upgrade.md#7-the-anti-thesis-scenarios-what-can-break-the-compounder--what-to-watch-going-ahead)**):
+![IGIL Anti-Thesis Risk Probability Matrix](./charts/06_anti_thesis_risk_probability_matrix.png)
+*📊 [Click to Open Crisp Vector SVG](./charts/06_anti_thesis_risk_probability_matrix.svg)*
+
+Because **~75% of IGIL's operating costs are fixed/semi-fixed**, a pure pricing (ARP) shock flows ~100% to EBITDA, while a volume shock carries a ~75% incremental margin impact. Track these **6 Kill-Switches** every quarter (detailed in **[Section 7 of Forensic Upgrade](./Forensic-Valuation-And-Timing-Upgrade.md#7-the-anti-thesis-scenarios-probabilities-pl-impact--kill-switches)**):
 
 | # | Anti-Thesis Scenario | Probability (1–2Y / 3–5Y) | **Revenue Impact** | **EBITDA Margin & PAT Impact** | Current Status (Q2 / H1 FY27) | **Kill-Switch Threshold (Exit Trigger)** |
 | :-: | :--- | :---: | :---: | :---: | :---: | :--- |

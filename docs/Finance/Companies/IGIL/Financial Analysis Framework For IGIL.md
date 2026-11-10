@@ -49,6 +49,9 @@ The consolidated revenue growth of IGIL is the output of a multi-variable equati
 
 $$\text{Growth} = (\text{Natural Diamond Volume} + \text{Lab Grown Volume}) \times \text{ARP} \times \text{Mix}_{\text{Jewelry/AGL}} \times \text{Geo\_Arb}$$
 
+![IGIL Quarterly Revenue, EBITDA Margin & Volume Progression](./charts/02_quarterly_revenue_ebitda_volume_progression.png)
+*📊 [Click to Open Crisp Vector SVG](./charts/02_quarterly_revenue_ebitda_volume_progression.svg)*
+
 ### **3.1 Volume Dynamics: The Asymmetry of LGD (Updated to Q2 & H1 FY27 Results)**
 
 The most powerful lever in the current cycle is volume, specifically within the LGD and studded jewelry segments:
@@ -152,6 +155,9 @@ To assess the long-term viability, we construct a theoretical Unit Economic mode
 
 ### **6.1 Unit P\&L (Updated to Q2 & H1 FY27 / September 2026 Run-Rate)**
 
+![IGIL Atomic Unit Economics Waterfall](./charts/04_atomic_unit_economics_waterfall.png)
+*📊 [Click to Open Crisp Vector SVG](./charts/04_atomic_unit_economics_waterfall.svg)*
+
 * **Unit Revenue (ARP):** **INR 915 Total / INR 891 Pure Certification in Q2 FY27 (+4% YoY)** and **INR 1,010 in Q1 FY27 (+5% YoY)**, giving an **H1 FY27 blended realization of INR 972** (up from INR 927 in full-year CY25).
 * **Unit Direct Labor:** Estimated at **INR 195–220** (~21–22.7% of revenue, further optimized in Q2 FY27 as quarterly throughput hit 4.35M reports).
 * **Unit Overhead (Tech/Rent/Other Opex):** Estimated at **INR 155–175**.
@@ -178,10 +184,18 @@ IGIL operates in a sector defined by the "Bullwhip Effect" or "Whip Effect," whe
 2. **The "Lipstick Effect" (LGD Buffer):** Historically, luxury sales drop in recessions. However, the LGD emergence offers a "trade-down" option. A consumer who can't afford a $5,000 natural ring might buy a $800 LGD ring. Since IGIL certifies *both*, the volume loss in ND is buffered by volume gain in LGD. This makes IGIL more resilient than a pure-play miner.  
 3. **Geopolitical Sanctions (Supply Shock):** The G7 ban on Russian diamonds forces the supply chain to segregate goods. This increases the complexity of trade and the need for "origin certification," effectively creating a new revenue stream for IGIL out of a geopolitical constraint.11
 
-### **7.2 Seasonality**
+### **7.2 Seasonality & The 2026 Indian Festive "Gold-to-Studded" Substitution Tailwind**
 
-* **Q3/Q4 Dominance:** Revenue typically peaks in the second half of the calendar year (Q3/Q4), driven by inventory build-up for the Indian wedding season (Diwali) and the Western holiday season (Christmas/Valentine’s).  
-* **Smoothing:** Management has indicated that seasonality is becoming less pronounced, likely due to the global nature of the business and the steady baseline of LGD production which is less seasonal than mining.20
+* **Q2/Q3 Festive & Holiday Dominance:** Revenue and certification volumes typically accelerate in the July–December window, driven by wholesale inventory build-up for the **Indian festive/wedding season (Dussehra, Dhanteras, Diwali in Oct–Nov)** and the **Western holiday season (Thanksgiving, Christmas, Valentine’s)**.  
+* **The 2026 "₹1.45 Lakh Gold" Substitution Effect (Real-Time Catalyst):** During the **Oct–Nov 2026 Indian festive season**, 24K gold prices hovered near **₹1.43–₹1.46 Lakh per 10 grams**. While total Dhanteras gold sales value rose +15%–20% YoY to ~₹60,000 Cr, physical plain-gold volume fell -10% to -15% YoY—pushing both consumers and jewelers aggressively into **14K/18K Diamond-Studded and Lab-Grown Diamond (LGD) Jewelry**:
+  * **Titan:** Studded diamond jewelry surged **~32% YoY** (outpacing overall jewelry growth of +24% YoY and lifting margins +60 bps).
+  * **Kalyan Jewellers:** India revenue rose **+27% YoY**, while its lightweight/studded platform **Candere jumped +64% YoY**.
+  * **Senco Gold:** Diamond jewelry rose **+31% YoY**, lifting its stud ratio from 11.0% to **12.2%**.
+  * **LGD Retail Chains (*Limelight, Aukera*):** Reported **2x–3x festive sales surges** in 14K/18K gold + LGD solitaires.
+  * **Direct Impact on IGIL:** High gold prices act as a **structural tailwind for IGIL**—because every time a buyer shifts from uncertified 22K plain gold bangles to 14K/18K diamond-studded or LGD jewelry, it creates a new stone/piece that requires an **IGI Certificate**!20
+* **The Nov–Feb Indian Wedding Season Wave (The "ARP Multiplier" Following Festive Volume):**
+  * **Macro Scale (CAIT Data):** India's peak winter wedding season (45–48 lakh weddings generating ₹5.5–₹6.5 Lakh Crore of spend, with **~15% or ₹85,000–₹95,000 Cr spent on jewelry**) immediately follows Diwali.
+  * **Why Wedding Season Lifts IGIL's ARP (Carat-Slab Pricing Physics):** While Diwali festive buying is dominated by lightweight gifting (0.15ct–0.50ct studs/pendants $\rightarrow$ high volume, ~₹891 ARP in Q2 FY27), **Wedding Season buying shifts to 1.5ct–3.0ct Engagement Solitaires, Diamond *Mangalsutras*, Tennis Bracelets, and Multi-Stone Bridal Chokers** for Engagement, Sangeet, and Reception ceremonies. Because IGIL prices reports on a **per-carat tiered slab** while grading labor per stone remains virtually flat, larger-carat bridal solitaires and full-piece bridal jewelry certificates carry **2x–3x higher ARP and >85% incremental EBITDA margins** into Q3/Q4 FY27!
 
 ## ---
 

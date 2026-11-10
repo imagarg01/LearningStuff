@@ -11,6 +11,9 @@
 
 ## 1. The Real-World Lesson: How IGIL De-Rated from 50x to 22.5x P/E, Then Inflected on Record Q1 & Q2 FY27 Results
 
+![IGIL Valuation Arc & Stage 2 Breakout](./charts/01_valuation_de_rating_vs_earnings_inflection.png)
+*📊 [Click to Open Crisp Vector SVG](./charts/01_valuation_de_rating_vs_earnings_inflection.svg)*
+
 ### A. Complete Post-IPO Performance & Valuation Arc (Dec 2024 $\rightarrow$ Nov 2026)
 
 *Note: IGIL transitioned from a Calendar Year (Jan–Dec) to a Financial Year (Apr–Mar) reporting cycle in 2026.*
@@ -39,16 +42,8 @@
 
 ### A. Visual Deal Flow: From Blackstone's 2023 Buyout to 2026 Global Expansion
 
-```mermaid
-flowchart TD
-    BM["May 2023: Blackstone (BCP Asia II) Buys 100% of Global IGI\nFrom Fosun Intl (80%) & Lorie Family (20%) for ~$570M (~Rs. 4,700 Cr)"]
-    BM --> IPO["Dec 13-17, 2024: Launches Rs. 4,225 Cr IPO (Listed Dec 20, 2024 @ Rs. 417)\nValuation: Rs. 18,000+ Cr (~4x Mark-up in 18 Months)"]
-    IPO --> OFS["1. Offer for Sale (OFS): Rs. 2,750 Cr (6.59 Cr Shares)\n100% Proceeds to Blackstone"]
-    IPO --> FI["2. Fresh Issue: Rs. 1,475 Cr (3.54 Cr Shares)\nDec 20-24, 2024: Paid ~$158.2M (~Rs. 1,300 Cr) to Blackstone\n($88.44M for IGI Netherlands + $69.76M for IGI Belgium)"]
-    OFS & FI --> BOOKS["Consolidated on Balance Sheet: Dec 31, 2024 (Q4 CY24)\nFirst Full Year Consolidated P&L: CY25 (Rs. 1,229.1 Cr Rev)"]
-    BOOKS --> AGL["Jan 31 / Feb 2026 Third-Party Bolt-On M&A:\nAcquired 100% of AGL (New York Colored Gemstones Lab) for $13.2M (~Rs. 121 Cr)\n($9.0M Upfront + $4.2M Deferred) — Consolidated from Q1 FY27"]
-    AGL --> EXP["Q2 FY27 (Sep 2026) Global Hub Expansion:\nConsolidated IGI Botswana (100% via IGI Dubai), Launched Italy Ops & Preparing Saudi Arabia\nInternational Lab Revenue Up +31% YoY (ex-AGL) in Q2 FY27"]
-```
+![IGIL Forensic M&A & Capital Flow Timeline](./charts/07_blackstone_ma_deal_flow.png)
+*📊 [Click to Open Crisp Vector SVG](./charts/07_blackstone_ma_deal_flow.svg)*
 
 ### B. Four Critical Forensic Realities to Keep in Mind
 
@@ -61,16 +56,23 @@ flowchart TD
 
 ---
 
-### C. 3-Lens Expert Verdict: Was IGIL's IPO a "Blackstone Dump on Retail"?
+### C. The Two-Sided Narrative: Did Blackstone Make "Retail the Fool" by Flipping a ₹4,700 Cr Buyout into a ₹22,000 Cr IPO?
 
-> [!TIP]
-> **Why Institutional Investors View the IPO Structure as Valuation Arbitrage—Not a "Lemon Dump":**
-> 1. **Lens 1 — The 69%-ROCE Capital-Light Math (Why an OFS Was Mandatory):**  
->    IGIL operates at **61.4% EBITDA margin, 69.2% ROCE, 55.8% ROE**, zero debt, and needs barely ₹30–50 Cr of annual capex while generating **₹415.7 Cr of Operating Cash Flow in H1 FY27 alone (~₹800+ Cr annualized)**. Had IGIL kept ₹4,000 Cr of Fresh Issue cash sitting in 6% bank FDs, **its ROE would have crashed from 55.8% down to 14% overnight!** Asset-light monopolies (like BSE, CDSL, or CAMS) *should* only do an OFS because they never need external equity to fund organic growth.
-> 2. **Lens 2 — Eliminating Offshore Governance Conflicts:**  
->    Had Blackstone listed *only* IGI India while keeping IGI Belgium (the 1975 brand owner) and IGI USA privately owned offshore, Indian public shareholders would have faced permanent **related-party brand royalty leakage and transfer-pricing conflicts**. Making IGIL India the **100% Global Parent** aligned all global cash flows and IP under the Indian listed company.
-> 3. **Lens 3 — Post-IPO Execution Proves Asset Quality:**  
->    Blackstone bought IGI in May 2023 for $570M (~10–11x EBITDA) during Chinese conglomerate **Fosun International's** debt-crisis fire sale, unified the global structure, and listed it in India at ~50x P/E. When a PE firm dumps a "window-dressed lemon," earnings collapse post-IPO. Instead, IGIL grew volumes **+21.1% in CY25**, accelerated in **Q1 FY27 (+23.2% revenue)**, and delivered an **all-time record Q2 FY27 (+31.0% revenue, +38.8% EBITDA, +43.2% PAT)**.
+*(Note: Often misquoted on social media as "BlackRock," the promoter is **Blackstone — BCP Asia II TopCo Pte. Ltd.**)*
+
+To avoid blindly trusting either the **Bear Cynicism** or the **Bull Hype**, an institutional investor must weigh **both sides of the narrative** side-by-side:
+
+| Dimension | 🔴 Side A: The Cynical / Bear Narrative ("How Blackstone Extracted ₹4,050 Cr & Burned IPO Chasers") | 🟢 Side B: The Fundamental / Institutional Counter-Narrative ("Why It Was Distressed Arbitrage, Not a Lemon Dump") |
+| :--- | :--- | :--- |
+| **1. The 4.5x Valuation Mark-Up in 19 Months** | • In **May 2023**, Blackstone bought 100% of Global IGI for **~$570M (~₹4,700 Cr)**.<br>• Just **19 months later (Dec 20, 2024)**, Blackstone listed IGIL in India at **₹417/sh (~₹18,020 Cr M-Cap)**, and listing euphoria pushed it to **₹510–₹550+ (~₹22,000–23,700 Cr M-Cap)**—a **4.5x flip** that left zero margin of safety for retail buyers at listing. | • **Why Blackstone Got It So Cheap in May 2023:** Previous 80% owner **Fosun International** (China) was hit by a **$30B+ Chinese real-estate & debt liquidity crisis** (downgraded to junk by Moody's) and forced into a distressed fire-sale at **~10x EBITDA**.<br>• Blackstone bought a ₹12,000+ Cr monopoly at a fire-sale price and re-domiciled it to India, where 75%+ of revenue is earned and where 60%-ROCE monopolies (*CRISIL, CDSL*) trade at 35x–50x P/E. |
+| **2. Cash Extraction & "Disguised OFS" (96% to PE)** | • Out of the **₹4,225 Cr IPO**, Blackstone took **₹2,750 Cr directly via OFS**.<br>• Even worse, out of the **₹1,475 Cr "Fresh Issue,"** IGIL immediately wired **~$158.2M (~₹1,300 Cr)** *back to Blackstone's offshore entities* to buy IGI Netherlands & Belgium.<br>• **Result:** Blackstone pocketed **~₹4,050 Cr (~86% of its ₹4,700 Cr purchase price!) on Day 1** while still keeping **76.55% ownership**. | • **1. The 69%-ROCE Math:** IGIL generates **₹415.7 Cr CFO in H1 FY27 alone (~₹800+ Cr/yr)** against ₹30–50 Cr annual capex. Keeping ₹4,000 Cr of idle IPO cash in 6% bank FDs would have crashed ROE from **55.8% down to 14%**.<br>• **2. Eliminating Offshore Royalty Siphoning:** Buying 100% of IGI Belgium (1975 IP owner) and Netherlands made **IGIL India the 100% Global Parent**, preventing permanent offshore brand-royalty leakage. |
+| **3. Who Actually Got Fooled? (Post-IPO Stock vs. P&L)** | • **Retail Chasers at ₹500–₹550 (52x P/E) Got Crushed:** Anyone who bought the listing-week hype suffered a **-45% drawdown down to ₹287** over the next 14 months.<br>• Furthermore, Blackstone still holds **33.08 Cr shares (76.55%)**—a massive **₹14,000+ Cr supply overhang** that must be sold over 2027–2030. | • **Post-IPO Earnings Doubled (Proving It's Not a Window-Dressed Lemon):** When PE dumps a bad asset, profits collapse post-IPO. Instead, IGIL's PAT surged from **~₹331 Cr (CY23 buyout)** $\rightarrow$ **₹427 Cr (CY24)** $\rightarrow$ **₹532 Cr (CY25, +24%)** $\rightarrow$ **~₹725 Cr (FY27E, +37% YoY in H1 FY27; 61.4% Q2 EBITDA margin)**! |
+
+> [!IMPORTANT]
+> **The Investor Playbook: How Not to Be the "Patsy" at Blackstone's Poker Table**  
+> 1. **Rule 1 — Never Buy a PE Flip in Stage 3 IPO Euphoria (50x+ P/E):** In Jan 2025 at ₹520–₹550 (52x P/E on ₹427 Cr PAT), retail investors *were* the patsy providing exit liquidity.  
+> 2. **Rule 2 — Buy After Earnings Catch Up to the IPO Valuation:** Today at **~₹415 (~₹18,000 Cr Market Cap)**, IGIL's market cap is the **exact same as on IPO day in Dec 2024**, *except* annual net profit has surged **+70% higher** (from ₹427 Cr in CY24 to **~₹725 Cr in FY27E** and **~₹855 Cr in FY28E**), compressing forward P/E to **~20.8x FY28E EPS**!  
+> 3. **Rule 3 — Ride *With* Blackstone's 76.55% Incentive, Then Watch the Exit Door:** Because Blackstone still owns **76.55%** and *must* place a 10%–15% institutional block deal before **Dec 19, 2027** (SEBI MPS deadline), their #1 financial incentive over the next 12–18 months is to maximize EBITDA, pay high dividends, and drive the stock into the **₹480–₹580 zone** so Sovereign/Mutual Funds buy their block. Ride that alignment—and monitor **Kill-Switch #4 (Retail Float spiking >18%–20%)** to ensure Blackstone sells to sticky institutions, not retail.
 
 ---
 
@@ -96,6 +98,9 @@ flowchart TD
 ## 4. Module 5 & 6 Deep-Dive: Shareholding Lock-Up, SEBI 75% MPS Rule & Upgraded "₹500–₹580" Target Math
 
 ### A. Exact Shareholding Split (Q2 FY27 / Sep 30, 2026) & The 90.82% Institutional Lock-Up
+
+![IGIL 90.82% Institutional Lock-Up & SEBI MPS Catalyst](./charts/05_shareholding_lockup_and_mps_catalyst.png)
+*📊 [Click to Open Crisp Vector SVG](./charts/05_shareholding_lockup_and_mps_catalyst.svg)*
 
 * **Pre-IPO vs. Post-IPO Shares:** Pre-IPO, Blackstone owned **100.00%** (39.68 Cr shares). At the Dec 2024 IPO, Blackstone sold 6.59 Cr shares (OFS) and IGIL issued 3.54 Cr new shares (Fresh Issue), bringing total post-IPO equity to **43.21 Crore shares**.
 
@@ -150,6 +155,14 @@ When we initially modeled the **"₹500 in 2027"** hypothesis at **~₹320/share
 - [x] **Trigger 2 (Technical Stage 2 Breakout — ACHIEVED):** Stock broke out of its ₹287–₹320 Stage 1 base, reclaimed its 200-DMA, and crossed the **₹417 IPO price** (hitting a ₹440 52W high).
 - [ ] **Trigger 3 (MPS Block Deal Supply Zone at ₹450–₹500):** Monitor Blackstone's 10%–15% MPS-compliance block deal ahead of the **Dec 19, 2027** deadline; institutional absorption + passive index inclusion will fuel the next leg.
 
+> [!NOTE]
+> **Quick Primer: What Are "Stage 1 Base" & "Stage 2 Breakout"? (Stan Weinstein's 4-Stage Institutional Cycle)**  
+> Institutional investors use the **200-Day Moving Average (200-DMA / 30-Week MA)** and volume action to divide a stock's life cycle into **4 Stages** so they don't catch falling knives or sit in "dead money":  
+> 1. **Stage 4 (Declining / De-Rating Phase):** Stock trades *below* a downward-sloping 200-DMA, making lower lows as overvaluation washes out. *(IGIL from Feb 2025 to early 2026: falling from ₹550+ peak [50x+ P/E] down to ₹287 [~20x P/E]).*  
+> 2. **Stage 1 (Basing / Institutional Accumulation Phase):** The crash stops. Weak retail hands have finished capitulating, and smart institutions quietly accumulate shares inside a tight, sideways price range while the 200-DMA flattens out. *(IGIL moving sideways between **₹287 and ₹340** in mid-2026 around ~22x–23x P/E).*  
+> 3. **Stage 2 (Advancing / Markup Phase — The Ideal Buy Zone):** Triggered by an earnings catalyst, the stock **breaks out above the top of its Stage 1 base and reclaims a rising 200-DMA on heavy institutional volume**, making higher highs and higher lows. *(IGIL breaking out from ₹320–₹350 to **₹407–₹440** following its Q1 & Q2 FY27 earnings beats).*  
+> 4. **Stage 3 (Topping / Distribution Phase):** After a big run, P/E gets stretched again and smart money/PE promoters distribute shares into retail euphoria while price churns sideways at high valuations.
+
 ---
 
 ## 6. The 10-Year Horizon (2026 $\rightarrow$ 2036): Three Structural Bridges & Wealth Projections
@@ -174,13 +187,8 @@ When we initially modeled the **"₹500 in 2027"** hypothesis at **~₹320/share
 
 ### C. The 3-Phase Checkpoint Roadmap ("Buy & Verify")
 
-```mermaid
-flowchart LR
-    P1["PHASE 1 (2026 - 2028)\nTarget: Rs. 500 - Rs. 650\nDriver: H1 FY27 Earnings Surge (+37% PAT) +\nStage 2 Breakout + Dec '27 MPS Float Catalyst"]
-    P2["PHASE 2 (2028 - 2031)\nTarget: Rs. 900 - Rs. 1,200\n2029 Checkpoint: Blackstone Full Exit &\nStudded Jewelry + AGL + ND > 50% of Revenue"]
-    P3["PHASE 3 (2031 - 2036)\nTarget: Rs. 1,820 - Rs. 2,900\nDriver: Global CRISIL-like Cash Machine +\n8%-10% Annual Dividend Yield on Cost!"]
-    P1 --> P2 --> P3
-```
+![IGIL P/E Re-Rating Probability Tree & 10-Year Roadmap](./charts/08_pe_rerating_regimes_and_10yr_roadmap.png)
+*📊 [Click to Open Crisp Vector SVG](./charts/08_pe_rerating_regimes_and_10yr_roadmap.svg)*
 
 ---
 
@@ -188,16 +196,8 @@ flowchart LR
 
 To avoid confirmation bias after the rally from ₹320 to ~₹415, we track **Six Anti-Thesis Scenarios** that could break the thesis.
 
-```mermaid
-flowchart TD
-    AT["6 Anti-Thesis Threats & Kill-Switch Thresholds"]
-    AT --> AT1["1. Loose LGD Commoditization Cliff\n(15% Near / 45-50% Long Prob | Kill: ARP < Rs. 830)"]
-    AT --> AT2["2. GIA / GSI Non-Profit Price War\n(10-15% Near / 20% Long Prob | Kill: Margin < 55%)"]
-    AT --> AT3["3. 'In-Factory' Grade-Inflation Scandal\n(5-8% Tail Risk | Kill: Top-10 Retailer Delisting)"]
-    AT --> AT4["4. Blackstone Predatory Supply Wall\n(55-60% Prob of Price Cap | Kill: Retail Float > 18%)"]
-    AT --> AT5["5. Retailer In-House AI Self-Certification\n(<5% Near / 25-30% Long Prob | Kill: Jewelry Vol < 15%)"]
-    AT --> AT6["6. US Tariffs & Surat Credit Freeze\n(25-30% Prob | Kill: CFO/EBITDA < 65% or Debtors > 95d)"]
-```
+![IGIL Anti-Thesis Risk Probability Matrix](./charts/06_anti_thesis_risk_probability_matrix.png)
+*📊 [Click to Open Crisp Vector SVG](./charts/06_anti_thesis_risk_probability_matrix.svg)*
 
 ### A. Detailed Mechanism of Each Anti-Thesis
 
@@ -211,7 +211,8 @@ flowchart TD
 4. **Anti-Thesis 4 — Blackstone's 76.55% Overhang Turns Into a Multi-Year Supply Wall (2027–2029):**
    * *Mechanism:* Clearing Blackstone's 33.08 Cr shares requires absorbing **~₹14,000–17,000 Cr of stock** over 3–4 years. If Blackstone sells 10%–12% blocks every time the stock reaches ₹450–₹500, or if FIIs/DIIs fail to absorb the supply and dump shares onto retail, the P/E multiple could stay capped at 20x–23x for years despite strong EPS growth.
 5. **Anti-Thesis 5 — Retailer In-House AI Self-Certification ("Certified by Brand"):**
-   * *Mechanism:* On <$300 LGD fashion rings, mega-brands (*Pandora, Swarovski, Tanishq, Signet*) could eventually use desktop AI grading boxes to issue in-house store guarantees rather than paying IGIL $10–$12 per piece. *(Low near-term risk since LGD Jewelry certification just grew **+47% YoY in Q2 FY27**).*
+   * *Mechanism:* On <$300 LGD fashion rings, mega-brands (*Pandora, Swarovski, Tanishq, Signet*) could eventually use desktop AI grading boxes to issue in-house store guarantees rather than paying IGIL $10–$12 per piece.
+   * *Real-World Proof From Titan vs. Rest of Industry:* Today, **Titan (Tanishq, CaratLane, Mia, beYon)** uses a **hybrid model**—relying on its 150-year **Tata Group trust halo** to self-certify small (<0.30ct) daily-wear studded jewelry in-house, while still using **3rd-party IGI/GIA certificates for solitaires ($\ge 0.30$ ct)**. Crucially, every competitor trying to fight Titan—**Kalyan Jewellers, Malabar Gold, Joyalukkas, Senco, and LGD chains like Limelight & Aukera**—cannot rely on a Tata halo and therefore uses **"100% IGI Certified" as their primary competitive weapon against Tanishq**, which is why IGIL's LGD Jewelry certification surged **+47% YoY in Q2 FY27**! *(See **[Value Chain Analysis — Section 6.3](./Gemmological%20Institute%20Value%20Chain%20Analysis.md#63-the-retailer-the-kingmaker--case-study-titan-tanishqcaratlane-vs-rest-of-industry)**).*
 6. **Anti-Thesis 6 — US Tariff Shock & Surat Midstream Credit Freeze:**
    * *Mechanism:* With ~45% of Indian polished exports going to the US and ~75% of IGIL's revenue billed in Surat/Mumbai, steep US reciprocal tariffs or a midstream inventory default could trigger factory shutdowns and trap IGIL's profits in overdue receivables.
 
@@ -256,14 +257,8 @@ Because **~75% of IGIL's operating costs (~₹615 Cr/yr) are fixed or semi-fixed
 
 ### C. Probability Breakdown of the 3 P/E Re-Rating Regimes (2026 $\rightarrow$ 2028)
 
-```mermaid
-flowchart LR
-    NOW["Today at ~Rs. 415\n~27x TTM P/E\n~24.5x FY27E P/E\n~20.8x FY28E P/E"]
-    S1["1. Base Re-Rating (65-70% Prob)\n28x - 32x Trailing P/E (25x-29x Fwd)\nDriven by: Q1/Q2 ARP Rebound (+4-5% YoY)\n& 61.4% Margin -> Stock: Rs. 500 - Rs. 580"]
-    S2["2. Bull Re-Rating (20-25% Prob)\n35x - 40x P/E ('CRISIL Multiple')\nDriven by: Post-MPS Block Deal Index\nInclusion + Jewelry >50% -> Stock: Rs. 680 - Rs. 780"]
-    S3["3. Capped Multiple (15% Prob)\n20x - 24x P/E (No Re-Rating)\nDriven by: Heavy PE Block Supply\nEPS Growth Still Takes Stock to Rs. 450 - Rs. 480"]
-    NOW --> S1 & S2 & S3
-```
+![IGIL P/E Re-Rating Probability Tree & 10-Year Roadmap](./charts/08_pe_rerating_regimes_and_10yr_roadmap.png)
+*📊 [Click to Open Crisp Vector SVG](./charts/08_pe_rerating_regimes_and_10yr_roadmap.svg)*
 
 | P/E Scenario (2026–2028) | Target Trailing P/E (Forward P/E) | **Probability** | Exact Catalysts Required to Trigger This Regime | **Implied Stock Price in 2027–28 (on ₹16.80 FY27E / ₹19.80 FY28E EPS)** |
 | :--- | :---: | :---: | :--- | :---: |

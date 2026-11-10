@@ -139,6 +139,9 @@ For clients who do not have the volume for a permanent in-factory setup but have
 
 The diamond industry is often described by the "Smile Curve," where value is captured at the ends (mining, branding/retail) and lost in the middle (manufacturing). IGIL, despite sitting in the middle, defies this curve, capturing higher margins than any other player.
 
+![The Inverted Smile Curve of the Diamond Value Chain](./charts/03_diamond_value_chain_inverted_smile_curve.png)
+*📊 [Click to Open Crisp Vector SVG](./charts/03_diamond_value_chain_inverted_smile_curve.svg)*
+
 ### **5.1 Comparative Margin Analysis**
 
 | Value Chain Stage | Key Player Examples | EBITDA Margin Profile | Primary Driver of Margin |
@@ -175,11 +178,21 @@ To understand the power dynamics, we must profile the archetypes interacting wit
 * **Incentive:** Legitimacy and Market Creation. They are fighting for the consumer to view their product as "real."  
 * **Relationship with IGIL:** IGI is their partner in legitimacy. By providing identical reports to natural diamonds (using the same terminology), IGI validated their industry. They are fiercely loyal to IGI and skeptical of GIA, which they perceive as protecting the natural diamond establishment.
 
-### **6.3 The Retailer (The Kingmaker)**
+### **6.3 The Retailer (The Kingmaker) — Case Study: Titan (Tanishq/CaratLane) vs. Rest of Industry**
 
-* **Archetype:** Corporate jewelry chains (e.g., Tanishq, Kay Jewelers) and luxury brands (Swarovski).  
+* **Archetype:** Corporate jewelry chains (e.g., Titan/Tanishq, Kalyan Jewellers, Malabar Gold, Joyalukkas, Signet Jewelers) and luxury/LGD brands (Swarovski, Pandora, Limelight, Aukera).  
 * **Incentive:** Risk Mitigation and Consumer Trust. They need to sell a story.  
-* **Relationship with IGIL:** They hold the ultimate power. If a retailer decides to stop accepting IGI reports (perhaps due to a scandal), IGIL’s volume from all manufacturers supplying that retailer evaporates. Conversely, partnerships like the one with Swarovski for its "Galaxy" collection 25 act as a seal of approval, signaling to the market that IGI is the standard for branded LGDs.
+* **Relationship with IGIL:** They hold the ultimate power. Partnerships like the one with Swarovski for its "Galaxy" collection 25 act as a seal of approval, signaling to the market that IGI is the standard for branded LGDs.
+
+> [!IMPORTANT]
+> **Forensic Case Study: Does Titan (Tanishq / CaratLane / Mia / beYon) Use IGIL or In-House Certification?**  
+> Comparing **Titan** against the rest of the jewelry industry reveals why **Anti-Thesis #5 (Retailer In-House Self-Certification)** is limited to one or two mega-conglomerates and why the rest of the market *drives* IGIL's +47% YoY studded jewelry growth:
+>
+> | Retailer Archetype | Small / Daily-Wear Studded Jewelry (<0.30 ct) | Solitaires & High-Value Stones ($\ge 0.30$ ct – 2ct+) | Why This Happens (Game Theory) |
+> | :--- | :--- | :--- | :--- |
+> | **1. Titan Group** *(Tanishq, CaratLane, Mia, Zoya, beYon LGD)* | **Mostly In-House** (*Tanishq / CaratLane / House of Titan Assurance* using internal De Beers *SynthDetect* & spectroscopy labs in Hosur) | **3rd-Party IGI & GIA Certificates** (with laser girdle inscription numbers) | Titan is the **only jeweler in India backed by the 150-year Tata Group trust halo**, allowing it to self-certify small daily-wear melee stones. Yet even Titan *must* use **IGI/GIA on solitaires** because buyers demand globally portable 4C verification. |
+> | **2. National Big-Box Chains** *(Kalyan / Candere, Malabar Gold, Joyalukkas, Senco, Reliance)* | **Heavily 3rd-Party IGI Certified** (alongside internal quality checks) | **100% 3rd-Party IGI / GIA Certified** | **The Anti-Titan Weapon:** How do Kalyan, Malabar, or Joyalukkas convince a buyer that their diamond is identical to Tanishq's at a lower making charge? **By advertising "100% IGI Certified Diamonds"!** They *need* IGI to neutralize Tata's brand advantage. |
+> | **3. Dedicated LGD & Global Fashion Brands** *(Limelight, Aukera, Swarovski, Signet)* | **3rd-Party IGI Certified** (Studded Jewelry credit-card certificates) | **100% IGI Certified** (~65% global LGD share) | New-age LGD chains (*Limelight, Aukera*) lack a 100-year parent brand, making an **IGI Certificate mandatory at the retail counter**—driving IGIL's **+47% YoY LGD Jewelry certification surge in Q2 FY27**. |
 
 ### **6.4 The Trader/Dealer (The Arbitrageur)**
 
