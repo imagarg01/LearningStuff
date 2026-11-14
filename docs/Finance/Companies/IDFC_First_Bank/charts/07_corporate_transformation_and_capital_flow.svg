@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 510" width="100%" height="100%" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad7" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arrow7" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrow7G" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <rect width="1050" height="510" rx="14" fill="url(#bgGrad7)" stroke="#334155" stroke-width="1.5"/>
+
+  <text x="36" y="40" fill="#f8fafc" font-size="19.5" font-weight="700">8-Year Structural Metamorphosis (2018 &#8594; 2026): From Wholesale Infra DFI to Granular Retail Bank</text>
+  <text x="36" y="62" fill="#94a3b8" font-size="12.5">Tracing the 5 defining corporate, capital, and balance-sheet milestones that forged IDFC First Bank's H1 FY27 earnings breakout.</text>
+
+  <!-- TOP ROW: Milestones 1, 2, 3 -->
+  <!-- Milestone 1: Dec 2018 Merger -->
+  <rect x="34" y="88" width="305" height="126" rx="8" fill="#1e1b2e" stroke="#ef4444" stroke-width="1.6"/>
+  <text x="48" y="110" fill="#fca5a5" font-size="12" font-weight="800">1. DEC 2018: IDFC Bank + Capital First</text>
+  <text x="48" y="129" fill="#f8fafc" font-size="10.2">• V. Vaidyanathan takes helm as MD &amp; CEO</text>
+  <text x="48" y="146" fill="#cbd5e1" font-size="10">• <tspan fill="#fca5a5" font-weight="700">Starting Handicap:</tspan> CASA just <tspan fill="#fca5a5" font-weight="700">8.68%</tspan>;</text>
+  <text x="48" y="161" fill="#cbd5e1" font-size="10">  206 branches; Infra &amp; Corp loans ~65%</text>
+  <text x="48" y="178" fill="#cbd5e1" font-size="10">• Burdened by <tspan fill="#fca5a5" font-weight="700">₹28,000+ Cr of 8.8% Infra Bonds</tspan></text>
+  <text x="48" y="196" fill="#fde047" font-size="9.6" font-weight="600">→ Launched "Guidance 1.0" Retail Pivot</text>
+
+  <line x1="339" y1="151" x2="368" y2="151" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow7)"/>
+
+  <!-- Milestone 2: Oct 1, 2024 Reverse Merger -->
+  <rect x="373" y="88" width="304" height="126" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.6"/>
+  <text x="387" y="110" fill="#93c5fd" font-size="12" font-weight="800">2. OCT 1, 2024: IDFC Ltd Reverse Merger</text>
+  <text x="387" y="129" fill="#f8fafc" font-size="10.2">• Collapsed legacy Holdco structure (155:100 swap)</text>
+  <text x="387" y="146" fill="#cbd5e1" font-size="10">• <tspan fill="#6ee7b7" font-weight="700">Cancelled ~16.64 Cr net shares</tspan> (264.6 Cr held</text>
+  <text x="387" y="161" fill="#cbd5e1" font-size="10">  by IDFC Ltd extinguished vs 248.0 Cr issued)</text>
+  <text x="387" y="178" fill="#cbd5e1" font-size="10">• Absorbed ~₹600 Cr Holdco cash into Bank</text>
+  <text x="387" y="196" fill="#6ee7b7" font-size="9.6" font-weight="700">✓ Transitioned to 0.00% Promoter Institutional Bank</text>
+
+  <line x1="677" y1="151" x2="706" y2="151" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow7)"/>
+
+  <!-- Milestone 3: Apr-Jul 2025 Rs 7,500 Cr Capital Raise -->
+  <rect x="711" y="88" width="305" height="126" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.8"/>
+  <text x="725" y="110" fill="#c4b5fd" font-size="12" font-weight="800">3. APR–JUL 2025: ₹7,500 Cr PE &amp; Sovereign</text>
+  <text x="725" y="129" fill="#f8fafc" font-size="10.2">• Raised <tspan fill="#fde047" font-weight="700">₹7,500 Cr via CCPS @ ₹60/share</tspan>:</text>
+  <text x="725" y="146" fill="#cbd5e1" font-size="10">  – <tspan fill="#6ee7b7" font-weight="700">Warburg Pincus:</tspan> ₹4,876 Cr (~9.48% stake)</text>
+  <text x="725" y="161" fill="#cbd5e1" font-size="10">  – <tspan fill="#6ee7b7" font-weight="700">ADIA (Abu Dhabi):</tspan> ₹2,624 Cr (~5.10% stake)</text>
+  <text x="725" y="178" fill="#cbd5e1" font-size="10">• CCPS converted to equity in Apr 2026</text>
+  <text x="725" y="196" fill="#fde047" font-size="9.6" font-weight="700">✓ Fortified Tier-1 Capital &amp; Set Hard ₹60 Floor</text>
+
+  <!-- Connector from Milestone 3 down to Milestone 4 -->
+  <path d="M 863,214 L 863,238 L 265,238 L 265,258" fill="none" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow7)"/>
+
+  <!-- BOTTOM ROW: Milestones 4 & 5 -->
+  <!-- Milestone 4: FY25-FY26 Dual Stress Test Cleared -->
+  <rect x="34" y="262" width="465" height="142" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.8"/>
+  <text x="52" y="285" fill="#fde047" font-size="12.5" font-weight="800">4. FY25 – FY26: Dual Stress Test Cleared &amp; Legacy Bonds Retired</text>
+  <text x="52" y="305" fill="#f8fafc" font-size="10.3">• <tspan fill="#fde047" font-weight="700">Industry MFI Crisis Contained:</tspan> Proactively shrunk Microfinance book from &gt;6%</text>
+  <text x="52" y="320" fill="#cbd5e1" font-size="9.8">  to <tspan fill="#6ee7b7" font-weight="700">&lt;2.5% of Funded Assets</tspan>; peak credit cost (2.69% in Q1'26) fully absorbed.</text>
+  <text x="52" y="339" fill="#f8fafc" font-size="10.3">• <tspan fill="#fca5a5" font-weight="700">Q4 FY26 Chandigarh Branch Fraud Cleared:</tspan> Took 100% upfront P&amp;L hit of</text>
+  <text x="52" y="354" fill="#cbd5e1" font-size="9.8">  <tspan fill="#fde047" font-weight="700">₹646 Cr pre-tax (₹483 Cr post-tax)</tspan> in Q4 FY26 with zero carry-forward drag.</text>
+  <text x="52" y="373" fill="#6ee7b7" font-size="10.3" font-weight="700">• Final ₹28,000+ Cr of 8.8% Legacy Infra Bonds matured completely by FY26!</text>
+  <text x="52" y="391" fill="#93c5fd" font-size="9.5">  (Reported FY26 PAT: ₹1,636 Cr | Normalized FY26 PAT ex-fraud: ₹2,119 Cr)</text>
+
+  <line x1="499" y1="333" x2="540" y2="333" stroke="#10b981" stroke-width="3" marker-end="url(#arrow7G)"/>
+
+  <!-- Milestone 5: H1 FY27 Inflection -->
+  <rect x="545" y="262" width="471" height="142" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+  <text x="563" y="285" fill="#6ee7b7" font-size="12.5" font-weight="800">5. H1 FY27 (SEP 2026): Earnings Breakout &amp; $3.6B FCNR Surge</text>
+  <text x="563" y="305" fill="#ffffff" font-size="10.5" font-weight="700">• Back-to-Back ₹1,000+ Cr Quarterly PAT:</text>
+  <text x="563" y="321" fill="#ecfdf5" font-size="9.8">  – <tspan fill="#fde047" font-weight="700">Q1 FY27 PAT: ₹1,075 Cr</tspan> (+132% YoY) | <tspan fill="#fde047" font-weight="700">Q2 FY27 PAT: ₹1,045 Cr</tspan> (+197% YoY)</text>
+  <text x="563" y="336" fill="#a7f3d0" font-size="9.8" font-weight="700">  – H1 FY27 PAT = ₹2,120 Cr (Surpassing Full-Year FY25 &amp; FY26 in 6 months!)</text>
+  <text x="563" y="355" fill="#ecfdf5" font-size="10.2">• <tspan fill="#38bdf8" font-weight="700">$3.6 Billion (₹34,390 Cr) NRI FCNR(B) Mobilized:</tspan> #2 across all Indian banks</text>
+  <text x="563" y="370" fill="#cbd5e1" font-size="9.6">  behind only Axis ($4B), driving Total Deposits to ₹3,48,583 Cr (+26% YoY).</text>
+  <text x="563" y="390" fill="#fde047" font-size="10.2" font-weight="800">✓ All-Time Best Asset Quality: GNPA 1.32% | NNPA 0.40% | Net Worth ₹49,575 Cr</text>
+
+  <!-- Bottom 2018 vs 2026 Scoreboard Strip -->
+  <rect x="34" y="420" width="982" height="72" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <text x="52" y="441" fill="#38bdf8" font-size="11.5" font-weight="800">The 8-Year Metamorphosis Scoreboard (Dec 2018 Merger Day vs. Sep 2026 / Q2 FY27):</text>
+
+  <rect x="52" y="450" width="225" height="32" rx="4" fill="#1e293b" stroke="#475569"/>
+  <text x="164" y="470" fill="#f8fafc" font-size="10.2" font-weight="700" text-anchor="middle">CASA: <tspan fill="#fca5a5">8.7%</tspan> &#8594; <tspan fill="#6ee7b7">~50% Dom.</tspan></text>
+
+  <rect x="290" y="450" width="235" height="32" rx="4" fill="#1e293b" stroke="#475569"/>
+  <text x="407" y="470" fill="#f8fafc" font-size="10.2" font-weight="700" text-anchor="middle">Branches: <tspan fill="#fca5a5">206</tspan> &#8594; <tspan fill="#6ee7b7">1,000+ Nationwide</tspan></text>
+
+  <rect x="538" y="450" width="225" height="32" rx="4" fill="#1e293b" stroke="#475569"/>
+  <text x="650" y="470" fill="#f8fafc" font-size="10.2" font-weight="700" text-anchor="middle">NIM: <tspan fill="#fca5a5">1.84%</tspan> &#8594; <tspan fill="#fde047">5.65%–6.00%</tspan></text>
+
+  <rect x="776" y="450" width="224" height="32" rx="4" fill="#1e293b" stroke="#475569"/>
+  <text x="888" y="470" fill="#f8fafc" font-size="10.2" font-weight="700" text-anchor="middle">PAT: <tspan fill="#fca5a5">-₹1,944 Cr</tspan> &#8594; <tspan fill="#6ee7b7">~₹4,350 Cr/yr</tspan></text>
+</svg>

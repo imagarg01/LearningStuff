@@ -111,12 +111,19 @@ Unlike miners (16–20% EBITDA margins) or Surat diamond polishers (2–5% EBITD
 | **Sep 2026 (Q2 FY27)** | **Global Hub Expansion: Botswana, Italy & Saudi** | Internal Accruals | Consolidated **IGI Botswana** (100% via IGI Dubai), launched **Italy** lab ops, and preparing **Saudi Arabia** entry. |
 
 > [!WARNING]
+
 > **Two-Sided Forensic Audit: The "₹4,700 Cr Buyout $\rightarrow$ ₹22,000 Cr IPO Flip" Debate (Both Sides of the Narrative)**  
-> * 🔴 **The Cynical / Bear Side (Where Retail Got Burned at Listing):** In May 2023, Blackstone (*BCP Asia II*) bought 100% of Global IGI for **~$570M (~₹4,700 Cr)**. Just 19 months later (Dec 2024), it listed IGIL at **~₹18,020 Cr** (which hit **₹22,000+ Cr / ₹550+ in listing euphoria**—a **4.5x flip**). By taking **₹2,750 Cr via OFS** plus **~₹1,300 Cr ($158.2M) out of the ₹1,475 Cr Fresh Issue** (to sell IGI Belgium & Netherlands to IGIL India), Blackstone recovered **~₹4,050 Cr (86% of its buyout cost!) on Day 1** while still keeping **76.55% ownership**. Retail investors who chased the 52x P/E IPO hype at ₹500–₹550 suffered a **-45% drawdown to ₹287**.  
-> * 🟢 **The Institutional Counter-Side (Why the Asset Is Real & Why Timing Flipped the Math):**  
->   1. *Distressed Entry:* Blackstone got IGI cheap in 2023 only because previous 80% owner **Fosun International (China)** faced a **$30B+ debt crisis** and was forced into a ~10x EBITDA fire-sale.  
->   2. *Governance Alignment:* Putting Belgium (1975 IP owner) and Netherlands 100% under IGIL India prevented permanent offshore brand-royalty siphoning, while taking cash out preserved IGIL's **55.8% ROE / 69.2% ROCE** (since H1 FY27 CFO alone is **₹415.7 Cr = 88.8% of EBITDA**).  
->   3. *Post-IPO Earnings Doubled:* Unlike "window-dressed PE lemons" whose profits collapse post-IPO, IGIL's annual PAT has more than doubled since the buyout (**~₹331 Cr CY23 $\rightarrow$ ₹427 Cr CY24 $\rightarrow$ ₹532 Cr CY25 $\rightarrow$ ~₹725 Cr FY27E / ₹855 Cr FY28E**). Buying after the de-rating (~20.8x FY28E P/E) lets you ride *with* Blackstone's incentive to drive the stock to **₹500–₹580** ahead of its mandatory **Dec 2027 SEBI 75% MPS institutional block deal**.  
+
+> - 🔴 **The Cynical / Bear Side (Where Retail Got Burned at Listing):** In May 2023, Blackstone (*BCP Asia II*) bought 100% of Global IGI for **~$570M (~₹4,700 Cr)**. Just 19 months later (Dec 2024), it listed IGIL at **~₹18,020 Cr** (which hit **₹22,000+ Cr / ₹550+ in listing euphoria**—a **4.5x flip**). By taking **₹2,750 Cr via OFS** plus **~₹1,300 Cr ($158.2M) out of the ₹1,475 Cr Fresh Issue** (to sell IGI Belgium & Netherlands to IGIL India), Blackstone recovered **~₹4,050 Cr (86% of its buyout cost!) on Day 1** while still keeping **76.55% ownership**. Retail investors who chased the 52x P/E IPO hype at ₹500–₹550 suffered a **-45% drawdown to ₹287**.  
+
+> - 🟢 **The Institutional Counter-Side (Why the Asset Is Real & Why Timing Flipped the Math):**
+
+> 1. *Distressed Entry:* Blackstone got IGI cheap in 2023 only because previous 80% owner **Fosun International (China)** faced a **$30B+ debt crisis** and was forced into a ~10x EBITDA fire-sale.  
+
+> 1. *Governance Alignment:* Putting Belgium (1975 IP owner) and Netherlands 100% under IGIL India prevented permanent offshore brand-royalty siphoning, while taking cash out preserved IGIL's **55.8% ROE / 69.2% ROCE** (since H1 FY27 CFO alone is **₹415.7 Cr = 88.8% of EBITDA**).  
+
+> 1. *Post-IPO Earnings Doubled:* Unlike "window-dressed PE lemons" whose profits collapse post-IPO, IGIL's annual PAT has more than doubled since the buyout (**~₹331 Cr CY23 $\rightarrow$ ₹427 Cr CY24 $\rightarrow$ ₹532 Cr CY25 $\rightarrow$ ~₹725 Cr FY27E / ₹855 Cr FY28E**). Buying after the de-rating (~20.8x FY28E P/E) lets you ride *with* Blackstone's incentive to drive the stock to **₹500–₹580** ahead of its mandatory **Dec 2027 SEBI 75% MPS institutional block deal**.  
+
 > 🔗 *See **[Section 2C of Forensic Upgrade](./Forensic-Valuation-And-Timing-Upgrade.md#c-the-two-sided-narrative-did-blackstone-make-retail-the-fool-by-flipping-a-4700-cr-buyout-into-a-22000-cr-ipo)** for the full side-by-side comparison.*
 
 ### B. Shareholding Structure (Q2 FY27 / Sep 30, 2026) & The 90.82% Institutional Lock-Up

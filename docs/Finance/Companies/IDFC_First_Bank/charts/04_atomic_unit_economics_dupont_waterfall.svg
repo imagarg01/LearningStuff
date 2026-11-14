@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 530" width="100%" height="100%" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1050" height="530" rx="14" fill="url(#bgGrad4)" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Header -->
+  <text x="36" y="40" fill="#f8fafc" font-size="19.5" font-weight="700">Atomic Unit Economics: ROA-to-ROE DuPont Waterfall Per ₹100 of Average Assets</text>
+  <text x="36" y="62" fill="#94a3b8" font-size="12.5">Tracing ₹100 of Average Assets from Asset Yield (₹11.90) to Net ROA across FY26 (0.44% Rep / 0.58% Norm) &#8594; H1 FY27 (0.99%) &#8594; FY29E Target (1.60%–1.90%).</text>
+
+  <!-- Grid (Y=380 is ₹0.00, Y=110 is ₹13.50 -> 20px per ₹1.00 of Average Assets) -->
+  <g stroke="#334155" stroke-width="1">
+    <line x1="75" y1="380" x2="995" y2="380"/>
+    <line x1="75" y1="320" x2="995" y2="320" stroke-dasharray="3,3"/>
+    <line x1="75" y1="260" x2="995" y2="260" stroke-dasharray="3,3"/>
+    <line x1="75" y1="200" x2="995" y2="200" stroke-dasharray="3,3"/>
+    <line x1="75" y1="140" x2="995" y2="140" stroke-dasharray="3,3"/>
+  </g>
+  <text x="67" y="384" fill="#94a3b8" font-size="10.5" text-anchor="end">₹0.0%</text>
+  <text x="67" y="324" fill="#94a3b8" font-size="10.5" text-anchor="end">₹3.0%</text>
+  <text x="67" y="264" fill="#94a3b8" font-size="10.5" text-anchor="end">₹6.0%</text>
+  <text x="67" y="204" fill="#94a3b8" font-size="10.5" text-anchor="end">₹9.0%</text>
+  <text x="67" y="144" fill="#94a3b8" font-size="10.5" text-anchor="end">₹12.0%</text>
+
+  <!-- Step 1: Yield on Assets = ~11.2% of Total Avg Assets (~11.9% on IEA) -> Y=156, H=224 -->
+  <rect x="88" y="156" width="84" height="224" rx="4" fill="#3b82f6" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="130" y="145" fill="#93c5fd" font-size="12.5" font-weight="800" text-anchor="middle">₹11.20</text>
+  <text x="130" y="255" fill="#eff6ff" font-size="9.5" font-weight="600" text-anchor="middle">~11.9% IEA</text>
+  <text x="130" y="270" fill="#dbeafe" font-size="9" text-anchor="middle">Retail Yield</text>
+  <text x="130" y="398" fill="#f8fafc" font-size="10.5" font-weight="700" text-anchor="middle">1. Interest</text>
+  <text x="130" y="411" fill="#94a3b8" font-size="9.5" text-anchor="middle">Earned</text>
+
+  <line x1="172" y1="156" x2="190" y2="156" stroke="#94a3b8" stroke-dasharray="3,2"/>
+
+  <!-- Step 2: (-) Cost of Funds = -₹6.00 (120px) -> Y=156 to 276 -->
+  <rect x="190" y="156" width="84" height="120" rx="4" fill="#ef4444" stroke="#f87171" stroke-width="1.5"/>
+  <text x="232" y="145" fill="#fca5a5" font-size="12.5" font-weight="800" text-anchor="middle">-₹6.00</text>
+  <text x="232" y="210" fill="#fef2f2" font-size="9.5" font-weight="600" text-anchor="middle">~50% CASA</text>
+  <text x="232" y="225" fill="#fee2e2" font-size="9" text-anchor="middle">Bonds Retired</text>
+  <text x="232" y="398" fill="#f8fafc" font-size="10.5" font-weight="700" text-anchor="middle">2. Cost of</text>
+  <text x="232" y="411" fill="#94a3b8" font-size="9.5" text-anchor="middle">Funds (CoF)</text>
+
+  <line x1="274" y1="276" x2="292" y2="276" stroke="#94a3b8" stroke-dasharray="3,2"/>
+
+  <!-- Step 3: (=) Net Interest Income (NII) = ₹5.20 (104px) -> Y=276 to 380 -->
+  <rect x="292" y="276" width="84" height="104" rx="4" fill="#0ea5e9" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="334" y="265" fill="#7dd3fc" font-size="12.5" font-weight="800" text-anchor="middle">₹5.20</text>
+  <text x="334" y="324" fill="#f0f9ff" font-size="9.5" font-weight="700" text-anchor="middle">5.6%–6.0%</text>
+  <text x="334" y="338" fill="#bae6fd" font-size="9" text-anchor="middle">NIM on AUM</text>
+  <text x="334" y="398" fill="#7dd3fc" font-size="10.5" font-weight="700" text-anchor="middle">3. Net Int.</text>
+  <text x="334" y="411" fill="#38bdf8" font-size="9.5" text-anchor="middle">Income (NII)</text>
+
+  <line x1="376" y1="276" x2="394" y2="276" stroke="#94a3b8" stroke-dasharray="3,2"/>
+
+  <!-- Step 4: (+) Fee & Other Income = +₹2.05 (41px) -> Y=235 to 276 -->
+  <rect x="394" y="235" width="84" height="41" rx="4" fill="#10b981" stroke="#34d399" stroke-width="1.5"/>
+  <text x="436" y="224" fill="#6ee7b7" font-size="12.5" font-weight="800" text-anchor="middle">+₹2.05</text>
+  <text x="436" y="259" fill="#ecfdf5" font-size="9.2" font-weight="600" text-anchor="middle">92% Retail Fee</text>
+  <text x="436" y="398" fill="#f8fafc" font-size="10.5" font-weight="700" text-anchor="middle">4. Fee &amp;</text>
+  <text x="436" y="411" fill="#94a3b8" font-size="9.5" text-anchor="middle">Other Inc.</text>
+
+  <line x1="478" y1="235" x2="496" y2="235" stroke="#94a3b8" stroke-dasharray="3,2"/>
+
+  <!-- Step 5: (=) Total Operating Income = ₹7.25 (145px) -> Y=235 to 380 -->
+  <rect x="496" y="235" width="84" height="145" rx="4" fill="#6366f1" stroke="#818cf8" stroke-width="1.5"/>
+  <text x="538" y="224" fill="#a5b4fc" font-size="12.5" font-weight="800" text-anchor="middle">₹7.25</text>
+  <text x="538" y="304" fill="#eef2ff" font-size="9.5" font-weight="700" text-anchor="middle">Top-Quartile</text>
+  <text x="538" y="318" fill="#e0e7ff" font-size="9" text-anchor="middle">Rev / Assets</text>
+  <text x="538" y="398" fill="#a5b4fc" font-size="10.5" font-weight="700" text-anchor="middle">5. Total Op.</text>
+  <text x="538" y="411" fill="#818cf8" font-size="9.5" text-anchor="middle">Income</text>
+
+  <line x1="580" y1="235" x2="598" y2="235" stroke="#94a3b8" stroke-dasharray="3,2"/>
+
+  <!-- Step 6: (-) Operating Expenses = -₹5.10 in H1'27 (102px) -> Y=235 to 337 (Compressing to -₹4.30 in FY29E) -->
+  <rect x="598" y="235" width="88" height="102" rx="4" fill="#f97316" stroke="#fb923c" stroke-width="1.5"/>
+  <text x="642" y="224" fill="#fdba74" font-size="12" font-weight="800" text-anchor="middle">-₹5.10 &#8594; -₹4.30</text>
+  <text x="642" y="278" fill="#fff7ed" font-size="9.2" font-weight="700" text-anchor="middle">70.2% C/I Today</text>
+  <text x="642" y="292" fill="#ffedd5" font-size="8.8" text-anchor="middle">&#8594; ~58% FY29E</text>
+  <text x="642" y="306" fill="#fde047" font-size="8.8" font-weight="700" text-anchor="middle">(55% Incr. C/I)</text>
+  <text x="642" y="398" fill="#f8fafc" font-size="10.5" font-weight="700" text-anchor="middle">6. Opex</text>
+  <text x="642" y="411" fill="#fdba74" font-size="9.5" text-anchor="middle">(J-Curve Lever)</text>
+
+  <line x1="686" y1="337" x2="704" y2="337" stroke="#94a3b8" stroke-dasharray="3,2"/>
+
+  <!-- Step 7: (=) Core PPOP = ₹2.15 in H1'27 (43px) -> Y=337 to 380 (Rising to ₹2.95 in FY29E -> Y=321) -->
+  <rect x="704" y="321" width="84" height="16" rx="2" fill="#8b5cf6" fill-opacity="0.3" stroke="#a78bfa" stroke-dasharray="3,2"/>
+  <rect x="704" y="337" width="84" height="43" rx="4" fill="#8b5cf6" stroke="#c4b5fd" stroke-width="1.5"/>
+  <text x="746" y="312" fill="#ddd6fe" font-size="11.5" font-weight="800" text-anchor="middle">₹2.15 &#8594; ₹2.95</text>
+  <text x="746" y="362" fill="#f5f3ff" font-size="9.2" font-weight="700" text-anchor="middle">Core PPOP</text>
+  <text x="746" y="398" fill="#c4b5fd" font-size="10.5" font-weight="700" text-anchor="middle">7. Core PPOP</text>
+  <text x="746" y="411" fill="#a78bfa" font-size="9.5" text-anchor="middle">(+38.5% YoY)</text>
+
+  <line x1="788" y1="337" x2="806" y2="337" stroke="#94a3b8" stroke-dasharray="3,2"/>
+
+  <!-- Step 8: (-) Credit Cost & Tax = -₹1.01 Prov & -₹0.33 Tax -> Y=337 to 360 -->
+  <rect x="806" y="337" width="76" height="23" rx="3" fill="#64748b" stroke="#94a3b8"/>
+  <text x="844" y="314" fill="#fca5a5" font-size="10" font-weight="700" text-anchor="middle">-₹1.01 Prov</text>
+  <text x="844" y="327" fill="#cbd5e1" font-size="9.5" font-weight="600" text-anchor="middle">-₹0.33 Tax</text>
+  <text x="844" y="352" fill="#f8fafc" font-size="8.5" text-anchor="middle">(1.52% FY26)</text>
+  <text x="844" y="398" fill="#f8fafc" font-size="10.5" font-weight="700" text-anchor="middle">8. Credit Cost</text>
+  <text x="844" y="411" fill="#94a3b8" font-size="9.5" text-anchor="middle">&amp; Tax (~25%)</text>
+
+  <line x1="882" y1="360" x2="900" y2="360" stroke="#94a3b8" stroke-dasharray="3,2"/>
+
+  <!-- Step 9: (=) Post-Tax Net ROA = ₹0.99 Today -> ₹1.60–₹1.90 FY29E -->
+  <rect x="900" y="342" width="96" height="18" rx="3" fill="#10b981" fill-opacity="0.3" stroke="#34d399" stroke-dasharray="3,2"/>
+  <rect x="900" y="360" width="96" height="20" rx="3" fill="#10b981" stroke="#34d399" stroke-width="2"/>
+  <text x="948" y="318" fill="#fde047" font-size="11" font-weight="800" text-anchor="middle">FY29E: ₹1.60–1.90</text>
+  <text x="948" y="334" fill="#6ee7b7" font-size="12" font-weight="800" text-anchor="middle">H1'27: ₹0.99</text>
+  <text x="948" y="374" fill="#ecfdf5" font-size="9" font-weight="700" text-anchor="middle">0.44% FY26</text>
+  <text x="948" y="398" fill="#6ee7b7" font-size="10.5" font-weight="800" text-anchor="middle">9. Net ROA</text>
+  <text x="948" y="411" fill="#34d399" font-size="9.5" font-weight="700" text-anchor="middle">(x9.2x = ROE)</text>
+
+  <!-- Bottom Comparison Strip: 3 Regime DuPont Table -->
+  <rect x="36" y="428" width="978" height="84" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <text x="54" y="449" fill="#fde047" font-size="11.5" font-weight="800">DuPont ROA-to-ROE Progression Across 3 Structural Regimes (Per ₹100 of Average Assets):</text>
+
+  <!-- Regime 1 Pill -->
+  <rect x="54" y="458" width="295" height="44" rx="5" fill="#1e1b2e" stroke="#f59e0b"/>
+  <text x="66" y="475" fill="#fde047" font-size="10.5" font-weight="700">1. FY26 Trough (MFI + Chandigarh Fraud):</text>
+  <text x="66" y="492" fill="#cbd5e1" font-size="9.5">ROA <tspan fill="#fca5a5" font-weight="700">0.44% Rep</tspan> (0.58% Norm) | Cr. Cost 1.52% | ROE <tspan fill="#fca5a5" font-weight="700">~4.3%</tspan></text>
+
+  <!-- Regime 2 Pill -->
+  <rect x="365" y="458" width="305" height="44" rx="5" fill="#062e26" stroke="#10b981"/>
+  <text x="377" y="475" fill="#6ee7b7" font-size="10.5" font-weight="700">2. H1 FY27 Run-Rate (Current Inflection):</text>
+  <text x="377" y="492" fill="#ecfdf5" font-size="9.5">ROA <tspan fill="#6ee7b7" font-weight="700">0.99%</tspan> | C/I 70.16% | Cr. Cost 1.01% | ROE <tspan fill="#6ee7b7" font-weight="700">~8.8%–9.0%</tspan></text>
+
+  <!-- Regime 3 Pill -->
+  <rect x="686" y="458" width="312" height="44" rx="5" fill="#1e293b" stroke="#38bdf8"/>
+  <text x="698" y="475" fill="#7dd3fc" font-size="10.5" font-weight="700">3. FY28E &#8594; FY29E Guidance 2.0 Target:</text>
+  <text x="698" y="492" fill="#e2e8f0" font-size="9.5">ROA <tspan fill="#fde047" font-weight="700">1.28% (FY28E) &#8594; 1.60%–1.90%</tspan> | ROE <tspan fill="#fde047" font-weight="700">15%–17%+</tspan></text>
+</svg>

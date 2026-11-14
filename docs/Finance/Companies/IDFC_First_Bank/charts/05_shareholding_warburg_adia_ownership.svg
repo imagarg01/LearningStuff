@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 510" width="100%" height="100%" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad5" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1050" height="510" rx="14" fill="url(#bgGrad5)" stroke="#334155" stroke-width="1.5"/>
+
+  <text x="36" y="40" fill="#f8fafc" font-size="19.5" font-weight="700">100% Public Institutional Ownership (0% Promoter) &amp; The ₹7,500 Cr Warburg Pincus + ADIA Anchor</text>
+  <text x="36" y="63" fill="#94a3b8" font-size="12.5">Following the Oct 2024 IDFC Ltd reverse merger, IDFC First operates as a 0% promoter institutionally governed bank (~862.3 Cr Shares | Net Worth ₹49,575 Cr).</text>
+
+  <!-- Horizontal Stacked Bar of 100% Ownership (Total width = 950px at X=50 to 1000) -->
+  <text x="50" y="98" fill="#e2e8f0" font-size="13" font-weight="700">1. Shareholding Breakdown as of Sep 30, 2026 (~862.3 Crore Equity Shares | 0.00% Promoter Group)</text>
+
+  <!-- FII + Global Strategic PE: ~32.5% -> 309px (X=50 to 359) -->
+  <rect x="50" y="110" width="309" height="56" rx="5" fill="#10b981" stroke="#34d399" stroke-width="1.5"/>
+  <text x="204" y="134" fill="#ffffff" font-size="13" font-weight="800" text-anchor="middle">FIIs / FPIs &amp; Strategic PE: ~32.5%</text>
+  <text x="204" y="152" fill="#d1fae5" font-size="10.2" font-weight="600" text-anchor="middle">Warburg Pincus (9.48%) + ADIA (5.10%) + Global Funds</text>
+
+  <!-- DIIs (MFs, Insurance, Govt): ~29.5% -> 280px (X=363 to 643) -->
+  <rect x="363" y="110" width="280" height="56" rx="5" fill="#3b82f6" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="503" y="134" fill="#ffffff" font-size="13" font-weight="800" text-anchor="middle">DIIs (MFs, Insurers, Govt): ~29.5%</text>
+  <text x="503" y="152" fill="#dbeafe" font-size="10.2" font-weight="600" text-anchor="middle">LIC, HDFC Life, ICICI Pru, SBI MF, Govt of India (~3%)</text>
+
+  <!-- Retail, HNI & Corporate Public Float: ~38.0% -> 353px (X=647 to 1000) -->
+  <rect x="647" y="110" width="353" height="56" rx="5" fill="#8b5cf6" stroke="#c4b5fd" stroke-width="1.5"/>
+  <text x="823" y="134" fill="#ffffff" font-size="13" font-weight="800" text-anchor="middle">Retail, HNI &amp; Public Float: ~38.0%</text>
+  <text x="823" y="152" fill="#ede9fe" font-size="10.2" font-weight="600" text-anchor="middle">Gradually consolidating into sticky FII/DII hands since ₹60 floor</text>
+
+  <!-- Bracket showing ~62% Institutional Anchor -->
+  <path d="M 50,174 L 50,185 L 643,185 L 643,174" fill="none" stroke="#34d399" stroke-width="2"/>
+  <rect x="195" y="175" width="305" height="22" rx="4" fill="#064e3b" stroke="#10b981"/>
+  <text x="347" y="190" fill="#6ee7b7" font-size="11" font-weight="800" text-anchor="middle">~62% Held by Sovereign, PE &amp; Institutional Anchors</text>
+
+  <!-- Bracket showing 0% Promoter Badge -->
+  <rect x="670" y="175" width="315" height="22" rx="4" fill="#1e293b" stroke="#fde047"/>
+  <text x="827" y="190" fill="#fde047" font-size="10.5" font-weight="800" text-anchor="middle">0.00% Promoter = Zero Pledge &amp; Zero Holdco Overhang</text>
+
+  <!-- Bottom Two Cards: Left = Marquee Institutional Register | Right = Governance & ₹7,500 Cr Capital Mechanics -->
+  <rect x="50" y="212" width="468" height="252" rx="10" fill="#0f172a" fill-opacity="0.75" stroke="#334155"/>
+  <text x="68" y="238" fill="#6ee7b7" font-size="13.5" font-weight="700">2. Marquee Global PE, Sovereign &amp; Domestic Anchors</text>
+  <text x="68" y="256" fill="#94a3b8" font-size="10.5">Smart-money institutional investors who anchored the balance sheet at ₹60/sh:</text>
+
+  <!-- Pill 1: Warburg Pincus -->
+  <rect x="68" y="270" width="432" height="38" rx="6" fill="#062e26" stroke="#10b981" stroke-width="1.5"/>
+  <text x="80" y="287" fill="#ffffff" font-size="11" font-weight="800">Warburg Pincus (Currant Sea Investments B.V.)</text>
+  <text x="80" y="301" fill="#a7f3d0" font-size="9.5">Invested ₹4,876 Cr @ ₹60/sh (Apr–Jul 2025); multi-decade backer of Vaidyanathan</text>
+  <text x="488" y="293" fill="#fde047" font-size="11.5" font-weight="800" text-anchor="end">~9.48%</text>
+
+  <!-- Pill 2: ADIA -->
+  <rect x="68" y="316" width="432" height="38" rx="6" fill="#062e26" stroke="#10b981" stroke-width="1.5"/>
+  <text x="80" y="333" fill="#ffffff" font-size="11" font-weight="800">Abu Dhabi Investment Authority (Platinum Invictus)</text>
+  <text x="80" y="347" fill="#a7f3d0" font-size="9.5">Invested ₹2,624 Cr @ ₹60/sh via CCPS (Converted to equity in Apr 2026)</text>
+  <text x="488" y="339" fill="#fde047" font-size="11.5" font-weight="800" text-anchor="end">~5.10%</text>
+
+  <!-- Pill 3: Domestic Insurance & MFs -->
+  <rect x="68" y="362" width="432" height="38" rx="6" fill="#1e293b" stroke="#3b82f6"/>
+  <text x="80" y="379" fill="#f8fafc" font-size="11" font-weight="700">LIC + HDFC Life + ICICI Pru + Mutual Funds</text>
+  <text x="80" y="393" fill="#cbd5e1" font-size="9.5">Long-horizon domestic institutional compounding capital</text>
+  <text x="488" y="385" fill="#93c5fd" font-size="11" font-weight="800" text-anchor="end">~26.5%</text>
+
+  <!-- Pill 4: Govt of India & Global Passive -->
+  <rect x="68" y="408" width="432" height="38" rx="6" fill="#1e293b" stroke="#38bdf8"/>
+  <text x="80" y="425" fill="#f8fafc" font-size="11" font-weight="700">President of India (~3.0%) + Vanguard / BlackRock / Odyssey 44</text>
+  <text x="80" y="439" fill="#cbd5e1" font-size="9.5">Sovereign residual stake + global passive index &amp; fundamental FPIs</text>
+  <text x="488" y="431" fill="#7dd3fc" font-size="11" font-weight="800" text-anchor="end">~21.0%</text>
+
+  <!-- Right Card: Structural Governance & Valuation Floor -->
+  <rect x="532" y="212" width="468" height="252" rx="10" fill="#0f172a" fill-opacity="0.75" stroke="#334155"/>
+  <text x="550" y="238" fill="#fde047" font-size="13.5" font-weight="700">3. Why This Ownership Structure Is a Re-Rating Catalyst</text>
+
+  <rect x="550" y="256" width="432" height="58" rx="6" fill="#1e293b" stroke="#3b82f6"/>
+  <text x="564" y="275" fill="#93c5fd" font-size="11.5" font-weight="700">A. Oct 2024 Reverse Merger Eliminated Holdco Supply Overhang</text>
+  <text x="564" y="291" fill="#cbd5e1" font-size="9.8">• 155:100 swap ratio collapsed IDFC Ltd into the Bank, <tspan fill="#6ee7b7" font-weight="700">cancelling ~16.6 Cr</tspan></text>
+  <text x="564" y="305" fill="#cbd5e1" font-size="9.8">  <tspan fill="#6ee7b7" font-weight="700">net shares</tspan> (accretive to BVPS) and adopting the HDFC/ICICI 0% promoter model.</text>
+
+  <rect x="550" y="324" width="432" height="60" rx="6" fill="#1e293b" stroke="#f59e0b"/>
+  <text x="564" y="343" fill="#fde047" font-size="11.5" font-weight="700">B. The ₹60/Share Forensic Due-Diligence Floor</text>
+  <text x="564" y="359" fill="#cbd5e1" font-size="9.8">• Warburg Pincus &amp; ADIA committed <tspan fill="#fde047" font-weight="700">₹7,500 Cr at ₹60/sh</tspan> right in the middle</text>
+  <text x="564" y="373" fill="#cbd5e1" font-size="9.8">  of the MFI stress cycle—verifying asset quality and removing dilution risk through FY28.</text>
+
+  <rect x="550" y="394" width="432" height="54" rx="6" fill="#064e3b" stroke="#10b981"/>
+  <text x="564" y="413" fill="#6ee7b7" font-size="11.5" font-weight="700">C. Retail-to-Institution Float Transfer Underway</text>
+  <text x="564" y="429" fill="#ecfdf5" font-size="9.8">• As ROA crosses 1.0% &#8594; 1.3%, DIIs &amp; FIIs are absorbing the 38% retail float,</text>
+  <text x="564" y="442" fill="#ecfdf5" font-size="9.8">  driving higher F&amp;O/index weightage and compressing volatility.</text>
+
+  <!-- Footer Strip -->
+  <rect x="50" y="472" width="950" height="26" rx="5" fill="#0f172a" stroke="#334155"/>
+  <text x="525" y="489" fill="#cbd5e1" font-size="10.5" text-anchor="middle">
+    <tspan fill="#38bdf8" font-weight="700">Alignment Note:</tspan> MD &amp; CEO V. Vaidyanathan (re-appointed through Dec 2027) is famous for gifting personal shares to employees &amp; social trusts—pure skin-in-the-game culture.
+  </text>
+</svg>
